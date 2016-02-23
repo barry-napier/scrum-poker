@@ -36,8 +36,6 @@ router.route('/users/:id')
 
     var id = request.params.id;
 
-    console.log(id)
-
     usersController.getUserById(id, function (result) {
       if (result) {
         response.status(200).json(result);

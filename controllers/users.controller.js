@@ -58,8 +58,11 @@ UserController = function () {
     user.email      = request.body.email;
     user.password   = request.body.password;
 
+    console.log(user);
+
     user.save( function (error) {
       if (error) {
+        console.log('Error: ' + error);
         console.log('Error: occurred when trying to save newly created user.');
       }
     });

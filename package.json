@@ -2,7 +2,7 @@
   "name": "scrum-poker",
   "version": "1.0.0",
   "description": "A story estimation application for agile development teams.",
-  "main": "src/server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

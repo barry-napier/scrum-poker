@@ -7,11 +7,10 @@ var express  = require('express'),
 
     config   = require('./config/'),
     router   = require('./router/')(app);
-               require('./database/');
+    require('./database/');
+
+app.use(express.static(__dirname + '/public'));
 
 server.listen(config.port, config.ip, function () {
   logger.info('Server listening at port %d', config.port);
 });
-
-// Routing
-app.use(express.static(__dirname + '/public'));

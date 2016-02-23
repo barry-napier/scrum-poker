@@ -26,6 +26,11 @@ UserSchema = new Schema({
     default : '',
     trim : true,
     select: false
+  },
+  created : {
+    type : Date,
+    default : Date.now,
+    select: false
   }
 
 });
