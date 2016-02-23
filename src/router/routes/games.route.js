@@ -4,7 +4,7 @@ var express            = require('express'),
     urlencode          = bodyParser.urlencoded({ extended: false }),
     router             = express.Router();
 
-router.route('/users')
+router.route('/users/:id/games')
 
   .get( function (request, response) {
 
@@ -27,24 +27,6 @@ router.route('/users')
     } else {
       response.sendStatus(400);
     }
-
-  });
-
-router.route('/users/:id')
-
-  .get( function (request, response) {
-
-    var id = request.params.id;
-
-    console.log(id)
-
-    usersController.getUserById(id, function (result) {
-      if (result) {
-        response.status(200).json(result);
-      } else {
-        response.sendStatus(400);
-      }
-    });
 
   });
 

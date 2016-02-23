@@ -27,6 +27,25 @@ UserController = function () {
   };
 
   /**
+   * Retrieves a user by id.
+   * @param  {Function} callback the callback function to hand data to.
+   */
+  self.getUserById = function (id, callback) {
+
+    User.getById(id, function (error, users) {
+
+      var result;
+
+      if (!error) {
+        result = users;
+      }
+
+      callback(result);
+    });
+
+  };
+
+  /**
    * Creates a new user.
    * @param  {Function} callback the callback function to hand data to.
    */
@@ -34,7 +53,10 @@ UserController = function () {
 
     var user = new User();
 
-    user.name = request.body.name;
+    user.fullName   = request.body.fullName;
+    user.playerName = request.body.playerName;
+    user.email      = request.body.email;
+    user.password   = request.body.password;
 
     user.save( function (error) {
       if (error) {

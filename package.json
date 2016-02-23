@@ -18,6 +18,7 @@
   "author": "Barry Napier - barry.a.napier@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "0.8.5",
     "express": "4.13.4",
     "mongoose": "4.4.4",
     "socket.io": "1.4.5",

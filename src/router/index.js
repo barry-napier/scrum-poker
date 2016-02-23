@@ -5,6 +5,7 @@
 module.exports = function (app) {
 
   app.use('/api', require('./routes/users.route'));
+  app.use('/api', require('./routes/games.route'));
 
 };
 
