@@ -26,6 +26,7 @@ var scrumPoker = angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
     function() {
 
       var game = {};
+
       game.users = [];
       game.voteRevealed = false;
       game.subjectIsSet = false;
@@ -37,7 +38,7 @@ var scrumPoker = angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
     }
   )
 
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
 
     $routeProvider
 
@@ -69,5 +70,7 @@ var scrumPoker = angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
       .otherwise({
         redirectTo  : '/'
       });
+
+    $locationProvider.html5Mode(true);
 
     });

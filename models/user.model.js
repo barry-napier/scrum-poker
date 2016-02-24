@@ -1,7 +1,8 @@
-var mongoose         = require('mongoose'),
-    Schema           = mongoose.Schema,
-    bcrypt           = require('bcrypt'),
-    SALT_WORK_FACTOR = 10;
+var mongoose = require('mongoose'),
+    bcrypt   = require('bcrypt'),
+    Schema   = mongoose.Schema,
+
+    salt     = bcrypt.genSaltSync(10)
 
 UserSchema = new Schema({
 
@@ -25,7 +26,9 @@ UserSchema = new Schema({
     type : String,
     default : '',
     trim : true,
-    select: false
+    select: false,
+    required: true,
+    bcrypt: true
   },
   created : {
     type : Date,
@@ -35,47 +38,34 @@ UserSchema = new Schema({
 
 });
 
+
+// hash the password before the user is saved
 UserSchema.pre('save', function(next) {
   var user = this;
 
-  // only hash the password if it has been modified (or is new)
+  // hash the password only if the password has been changed or user is new
   if (!user.isModified('password')) return next();
 
-  // generate a salt
-  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+  // generate the hash
+  bcrypt.hash(user.password, bcrypt.genSaltSync(10), function(err, hash) {
+
     if (err) return next(err);
 
-    // hash the password using our new salt
-    bcrypt.hash(user.password, salt, function(err, hash) {
-      if (err) return next(err);
-
-      // override the cleartext password with the hashed one
-      user.password = hash;
-      next();
-    });
+    // change the password to the hashed version
+    user.password = hash;
+    next();
   });
-
 });
 
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
+// method to compare a given password with the database hash
+UserSchema.methods.comparePassword = function(password) {
+  var user = this;
+
+  return bcrypt.compareSync(password, user.password);
 };
 
 /* Statics */
 UserSchema.statics = {
-
-  /**
-   * Get all.
-   * @param  {Function} callback function executed after execution.
-   */
-  getAll: function (callback) {
-    this.find({}, function (error, docs) {
-      callback(error, docs);
-    });
-  },
 
   getById: function (id, callback) {
     this.findById(id, function (error, doc) {

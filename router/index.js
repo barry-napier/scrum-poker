@@ -1,3 +1,5 @@
+var path = require('path');
+
 /**
  * The routes for the express application.
  * @param {Object} app the express application.

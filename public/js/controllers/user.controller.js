@@ -29,23 +29,41 @@ angular.module('scrumPoker')
           password   : $scope.password
         };
 
-        console.log(data);
+        $http({
+          url: URL + '/signup',
+          method: 'POST',
+          data: $httpParamSerializer(data),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }).success(function(response) {
 
-        //$http.post(URL, data,{headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-        //  .success(function(response) {
-        //    console.log('Created User');
-        //  });
+          var userId = response._id;
+          $location.path('/users/'+ userId +'/dashboard');
+
+        });
+
+      };
+
+      $scope.loginUser = function() {
+
+        var data = {
+          email      : $scope.email,
+          password   : $scope.password
+        };
 
         $http({
-          url: URL,
+          url: URL + '/login',
           method: 'POST',
           data: $httpParamSerializer(data), // Make sure to inject the service you choose to the controller
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded' // Note the appropriate header
           }
         }).success(function(response) {
-          console.log(response);
-          $location()
+
+          var userId = response._id;
+          $location.path('/users/'+ userId +'/dashboard');
+
         });
 
       };
