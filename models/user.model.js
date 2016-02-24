@@ -1,8 +1,6 @@
-var mongoose = require('mongoose'),
-    bcrypt   = require('bcrypt'),
-    Schema   = mongoose.Schema,
-
-    salt     = bcrypt.genSaltSync(10)
+var mongoose = require('mongoose');
+var bcrypt   = require('bcrypt');
+var Schema   = mongoose.Schema;
 
 UserSchema = new Schema({
 
@@ -24,11 +22,9 @@ UserSchema = new Schema({
   },
   password : {
     type : String,
-    default : '',
     trim : true,
     select: false,
-    required: true,
-    bcrypt: true
+    required: true
   },
   created : {
     type : Date,
@@ -38,40 +34,36 @@ UserSchema = new Schema({
 
 });
 
-
-// hash the password before the user is saved
 UserSchema.pre('save', function(next) {
+
   var user = this;
 
-  // hash the password only if the password has been changed or user is new
-  if (!user.isModified('password')) return next();
+  if (!user.isModified('password')) {
 
-  // generate the hash
-  bcrypt.hash(user.password, bcrypt.genSaltSync(10), function(err, hash) {
+    return next();
 
-    if (err) return next(err);
+  } else {
 
-    // change the password to the hashed version
-    user.password = hash;
-    next();
-  });
+    // generate the hash
+    bcrypt.hash(user.password, bcrypt.genSaltSync(10), function (err, hash) {
+
+      if (err) return next(err);
+
+      // change the password to the hashed version
+      user.password = hash;
+      next();
+    });
+
+  }
+
 });
 
 // method to compare a given password with the database hash
 UserSchema.methods.comparePassword = function(password) {
+
   var user = this;
 
   return bcrypt.compareSync(password, user.password);
-};
-
-/* Statics */
-UserSchema.statics = {
-
-  getById: function (id, callback) {
-    this.findById(id, function (error, doc) {
-      callback(error, doc);
-    });
-  }
 
 };
 
