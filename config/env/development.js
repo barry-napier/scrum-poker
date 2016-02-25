@@ -5,7 +5,7 @@ module.exports = {
   db: {
     uri: process.env.MONGOHQ_URL ||
          process.env.MONGOLAB_URI ||
-         'mongodb://user:pass@ds015878.mongolab.com:15878/scrum-poker',
+         'localhost:27017/scrum-poker',
     options: {
       user: '',
       pass: ''

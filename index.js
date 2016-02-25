@@ -12,13 +12,6 @@ var express  = require('express'),
 
 app.use(express.static(__dirname + '/public'));
 
-// MAIN CATCHALL ROUTE ---------------
-// SEND USERS TO FRONTEND ------------
-// has to be registered after API ROUTES
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname + '/public/index.html'));
-});
-
 server.listen(config.port, config.ip, function () {
   logger.info('Server listening at port %d', config.port);
 });

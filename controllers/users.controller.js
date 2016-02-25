@@ -57,6 +57,7 @@ UserController = function () {
           result.success = true;
           result.code    = 'u10005';
           result.message = 'User created!';
+          result.userId = user._id;
 
         }
 
@@ -324,6 +325,6 @@ UserController = function () {
 
   };
 
-}
+};
 
 module.exports = new UserController();

@@ -16,7 +16,7 @@ router.route('/users')
    ********************************************************************************************************************/
   .post(urlEncode, function (request, response) {
 
-    usersController.createNewUser(request, function (result) {
+    usersController.createUser(request, function (result) {
       response.json(result);
     });
 
@@ -29,6 +29,8 @@ router.route('/users/:userId')
    *
    * @param  {object} request  - The request containing user information.
    * @param  {object} response - The response returned to the user.
+   *
+   * Secured Route - User needs to authenticated before use.
    *
    ********************************************************************************************************************/
   .get(auth, function (request, response) {
@@ -45,6 +47,8 @@ router.route('/users/:userId')
    * @param  {object} request  - The request containing user information.
    * @param  {object} response - The response returned to the user.
    *
+   * Secured Route - User needs to authenticated before use.
+   *
    ********************************************************************************************************************/
   .put(auth, urlEncode, function (request, response) {
 
@@ -59,6 +63,8 @@ router.route('/users/:userId')
    *
    * @param  {object} request  - The request containing user information.
    * @param  {object} response - The response returned to the user.
+   *
+   * Secured Route - User needs to authenticated before use.
    *
    ********************************************************************************************************************/
   .delete(auth, function (request, response) {

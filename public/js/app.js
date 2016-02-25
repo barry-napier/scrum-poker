@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var scrumPoker = angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
+angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
 
   .factory(
 
@@ -19,26 +19,7 @@ var scrumPoker = angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
     }
   )
 
-  .factory(
-
-    'game',
-
-    function() {
-
-      var game = {};
-
-      game.users = [];
-      game.voteRevealed = false;
-      game.subjectIsSet = false;
-      game.voteCount = null;
-      game.roomName = null;
-
-      return game
-
-    }
-  )
-
-  .config(function ($routeProvider, $locationProvider) {
+    .config(function ($routeProvider) {
 
     $routeProvider
 
@@ -70,10 +51,5 @@ var scrumPoker = angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
       .otherwise({
         redirectTo  : '/'
       });
-
-    $locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
-    });
 
     });

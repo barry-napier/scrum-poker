@@ -15,54 +15,28 @@ angular.module('scrumPoker')
     '$http',
     '$location',
     '$httpParamSerializer',
+    'UserService',
 
-    function($scope, $http, $location, $httpParamSerializer) {
+    function ($scope, $http, $location, $httpParamSerializer, UserService) {
 
-      var URL = '/api/users';
+      var self = this;
 
-      $scope.createUser = function() {
+      self.createUser = function () {
 
-        var data = {
+        var userData = {
           fullName   : $scope.fullName,
           playerName : $scope.playerName,
           email      : $scope.email,
           password   : $scope.password
         };
 
-        $http({
-          url: URL + '/signup',
-          method: 'POST',
-          data: $httpParamSerializer(data),
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+        UserService.create(userData).success(function (data) {
+
+          userData = {};
+
+          if (data.success) {
+            $location.path('/users/' + data.userId + '/dashboard')
           }
-        }).success(function(response) {
-
-          var userId = response._id;
-          $location.path('/users/'+ userId +'/dashboard');
-
-        });
-
-      };
-
-      $scope.loginUser = function() {
-
-        var data = {
-          email      : $scope.email,
-          password   : $scope.password
-        };
-
-        $http({
-          url: URL + '/login',
-          method: 'POST',
-          data: $httpParamSerializer(data), // Make sure to inject the service you choose to the controller
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded' // Note the appropriate header
-          }
-        }).success(function(response) {
-
-          var userId = response._id;
-          $location.path('/users/'+ userId +'/dashboard');
 
         });
 
