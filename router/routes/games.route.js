@@ -1,34 +1,38 @@
-var express            = require('express'),
-    bodyParser         = require('body-parser'),
-    gameController     = require('../../controllers/games.controller'),
-    urlencode          = bodyParser.urlencoded({ extended: false }),
-    router             = express.Router();
+var express        = require('express');
+var bodyParser     = require('body-parser');
+var gameController = require('../../controllers/games.controller');
+var urlencode      = bodyParser.urlencoded({ extended: false });
+var router         = express.Router();
 
 router.route('/users/:userId/games')
+  /*********************************************************************************************************************
+   *
+   * GET '/users/:userId/games' - Get all games associated with user.
+   *
+   * @param  {object} request  - The request containing game information.
+   * @param  {object} response - The response returned to the user.
+   *
+   ********************************************************************************************************************/
+  .get(function (request, response) {
 
-  .get( function (request, response) {
-
-    var userId = request.params.userId;
-
-    gameController.getGamesByUser(userId, function (result) {
-      if (result) {
-        response.status(200).json(result);
-      } else {
-        response.sendStatus(400);
-      }
+    gameController.getAllGames(request, function (result) {
+      response.json(result);
     });
 
   })
-
+  /*********************************************************************************************************************
+   *
+   * POST '/users/:userId/games' - Create a new game associated with user.
+   *
+   * @param  {object} request  - The request containing game information.
+   * @param  {object} response - The response returned to the user.
+   *
+   ********************************************************************************************************************/
   .post(urlencode, function (request, response) {
 
-    var result = gameController.createNewGame(request);
-
-    if (result) {
-      response.status(201).json(result);
-    } else {
-      response.sendStatus(400);
-    }
+    gameController.createGame(request, function (result) {
+      response.json(result);
+    });
 
   });
 

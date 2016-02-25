@@ -16,7 +16,7 @@ UserController = function () {
 
   /*********************************************************************************************************************
    *
-   * Creates a new user.
+   * Creates a user.
    *
    * @param  {object}   request  - The request containing user information.
    * @param  {function} callback - The callback function to execute when done processing.
@@ -24,7 +24,7 @@ UserController = function () {
    * @return {object}   result   - The result of execution.
    *
    ********************************************************************************************************************/
-  self.createNewUser = function (request, callback) {
+  self.createUser = function (request, callback) {
 
     var result = { success: false, code: '', message: '' },
         user   = new UserModel();
