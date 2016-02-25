@@ -71,6 +71,9 @@ var scrumPoker = angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
         redirectTo  : '/'
       });
 
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
 
     });

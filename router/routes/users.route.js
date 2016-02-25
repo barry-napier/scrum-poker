@@ -1,6 +1,7 @@
 var express         = require('express');
 var bodyParser      = require('body-parser');
 var usersController = require('../../controllers/users.controller');
+var auth            = require('../auth');
 var urlEncode       = bodyParser.urlencoded({ extended: false });
 var router          = express.Router();
 
@@ -30,7 +31,7 @@ router.route('/users/:userId')
    * @param  {object} response - The response returned to the user.
    *
    ********************************************************************************************************************/
-  .get(function (request, response) {
+  .get(auth, function (request, response) {
 
     usersController.getUser(request, function (result) {
       response.json(result);
@@ -45,7 +46,7 @@ router.route('/users/:userId')
    * @param  {object} response - The response returned to the user.
    *
    ********************************************************************************************************************/
-  .put(urlEncode, function (request, response) {
+  .put(auth, urlEncode, function (request, response) {
 
     usersController.updateUser(request, function (result) {
       response.json(result);
@@ -60,7 +61,7 @@ router.route('/users/:userId')
    * @param  {object} response - The response returned to the user.
    *
    ********************************************************************************************************************/
-  .delete(function (request, response) {
+  .delete(auth, function (request, response) {
 
     usersController.deleteUser(request, function (result) {
       response.json(result);
