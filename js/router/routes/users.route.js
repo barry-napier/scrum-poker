@@ -2,8 +2,8 @@ var express         = require('express');
 var bodyParser      = require('body-parser');
 var usersController = require('../../controllers/users.controller');
 var auth            = require('../auth');
-var urlEncode       = bodyParser.urlencoded({ extended: false });
 var router          = express.Router();
+var makeJSON = bodyParser.json();
 
 router.route('/users')
   /*********************************************************************************************************************
@@ -14,7 +14,7 @@ router.route('/users')
    * @param  {object} response - The response returned to the user.
    *
    ********************************************************************************************************************/
-  .post(urlEncode, function (request, response) {
+    .post(makeJSON, function (request, response) {
 
     usersController.createUser(request, function (result) {
       response.json(result);
@@ -50,7 +50,7 @@ router.route('/users/:userId')
    * Secured Route - User needs to authenticated before use.
    *
    ********************************************************************************************************************/
-  .put(auth, urlEncode, function (request, response) {
+    .put(makeJSON, auth, function (request, response) {
 
     usersController.updateUser(request, function (result) {
       response.json(result);
@@ -84,7 +84,7 @@ router.route('/users/authenticate')
    * @param  {object} response - The response returned to the user.
    *
    ********************************************************************************************************************/
-  .post(urlEncode, function (request, response) {
+    .post(makeJSON, function (request, response) {
 
     usersController.authenticate(request, function (result) {
       response.json(result);

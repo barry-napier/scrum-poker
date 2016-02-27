@@ -6,17 +6,17 @@ UserSchema = new Schema({
 
   fullName : {
     type : String,
-    default : '',
+    required: true,
     trim : true
   },
   playerName : {
     type : String,
-    default : '',
+    required: true,
     trim : true
   },
   email : {
     type : String,
-    default : '',
+    required: true,
     trim : true,
     index: { unique: true }
   },

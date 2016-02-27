@@ -1,7 +1,7 @@
 var express        = require('express');
 var bodyParser     = require('body-parser');
 var gameController = require('../../controllers/games.controller');
-var urlencode      = bodyParser.urlencoded({ extended: false });
+var makeJSON = bodyParser.json();
 var router         = express.Router();
 
 router.route('/users/:userId/games')
@@ -28,7 +28,7 @@ router.route('/users/:userId/games')
    * @param  {object} response - The response returned to the user.
    *
    ********************************************************************************************************************/
-  .post(urlencode, function (request, response) {
+    .post(makeJSON, function (request, response) {
 
     gameController.createGame(request, function (result) {
       response.json(result);

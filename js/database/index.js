@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
       if (err) {
         throw err;
       } else {
-        console.log('Connected to db: ' + config.db.uri);
+        //console.log('Connected to db: ' + config.db.uri);
       }
 
     });
