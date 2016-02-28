@@ -42,20 +42,18 @@ UserController = function () {
 
           if (error.code == 11000) {
 
-            result.code    = 'u10002';
             result.message = 'A user with that email already exists.';
 
           } else {
 
-            result.code    = 'u10003';
             result.message = 'An error occurred while trying to create new user.';
+            result.error = error.message;
 
           }
 
         } else {
 
           result.success = true;
-          result.code    = 'u10005';
           result.message = 'User created!';
           result.userId = user._id;
 
@@ -67,7 +65,6 @@ UserController = function () {
 
     } else {
 
-      result.code    = 'u10001';
       result.message = 'User information is incomplete.';
 
       return callback(result);
@@ -97,14 +94,13 @@ UserController = function () {
 
         if (error) {
 
-          result.code    = 'u10006';
           result.message = 'An error occurred while trying to update user information.';
+          result.error = error.message;
 
           return callback(result);
 
         } else if (!user) {
 
-          result.code    = 'u10007';
           result.message = 'User to update not found.';
 
           return callback(result);
@@ -119,13 +115,14 @@ UserController = function () {
 
               if (error) {
 
-                result.code    = 'u10008';
                 result.message = 'An error occurred while trying to save the updated user.';
+                result.error = error.message;
+
+                console.log(error.message);
 
               } else {
 
                 result.success = true;
-                result.code    = 'u10009';
                 result.message = 'User updated!';
 
               }
@@ -137,13 +134,6 @@ UserController = function () {
         }
 
       });
-
-    } else {
-
-      result.code    = 'u100010';
-      result.message = 'User id not provided during update.';
-
-      return callback(result);
 
     }
 
@@ -170,13 +160,12 @@ UserController = function () {
 
         if (error) {
 
-          result.code    = 'u10012';
           result.message = 'An error occurred while trying to delete a user.';
+          result.error = error.message;
 
         } else {
 
           result.success = true;
-          result.code    = 'u10013';
           result.message = 'User successfully deleted!';
 
         }
@@ -184,13 +173,6 @@ UserController = function () {
         return callback(result);
 
       });
-
-    } else {
-
-      result.code    = 'u10011';
-      result.message = 'User id not provided during delete.';
-
-      return callback(result);
 
     }
 
@@ -223,14 +205,13 @@ UserController = function () {
 
             if (error) {
 
-              result.code    = 'u10015';
               result.message = 'An error occurred while trying to authenticate a user.';
+              result.error = error.message;
 
             } else {
 
               if (!user) {
 
-                result.code    = 'u10016';
                 result.message = 'Authentication failed. User not found.';
 
               } else {
@@ -239,7 +220,6 @@ UserController = function () {
 
                 if (!validPassword) {
 
-                  result.code    = 'u10017';
                   result.message = 'Authentication failed. Password incorrect.';
 
                 } else {
@@ -247,9 +227,9 @@ UserController = function () {
                   var token = jwt.sign({ email : user.email, fullName : user.fullName}, secret);
 
                   result.success = true;
-                  result.code    = 'u10018';
                   result.message = 'Authenticated!';
                   result.token   = token;
+                  result.userId = user._id;
 
                 }
 
@@ -260,13 +240,6 @@ UserController = function () {
             return callback(result);
 
           });
-
-    } else {
-
-      result.code    = 'u10014';
-      result.message = 'User authentication data not provided.';
-
-      return callback(result);
 
     }
 
@@ -293,18 +266,16 @@ UserController = function () {
 
         if (error) {
 
-          result.code    = 'u10020';
           result.message = 'An error occurred while trying to retrieve user information.';
+          result.error = error.message;
 
         } else if (!user) {
 
-          result.code    = 'u10021';
           result.message = 'User to retrieve not found.';
 
         } else {
 
           result.success = true;
-          result.code    = 'u10022';
           result.message = 'User retrieved!';
           result.user    = user;
 
@@ -313,13 +284,6 @@ UserController = function () {
         return callback(result);
 
       });
-
-    } else {
-
-      result.code    = 'u100019';
-      result.message = 'User id not provided during retrieval.';
-
-      return callback(result);
 
     }
 

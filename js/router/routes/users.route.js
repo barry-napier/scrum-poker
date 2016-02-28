@@ -17,6 +17,7 @@ router.route('/users')
     .post(makeJSON, function (request, response) {
 
     usersController.createUser(request, function (result) {
+
       response.json(result);
     });
 

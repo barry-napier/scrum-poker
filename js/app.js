@@ -1,15 +1,10 @@
-var express = require("express"),
-    logger = require('winston'),
-    mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-
+var express = require("express");
+var logger = require('winston');
 var app = require("express")();
-server = require('http').createServer(app),
-
-    config = require('./config/'),
-    path = require('path'),
-    router = require('./router/')(app);
-db = require('./database/');
+var server = require('http').createServer(app);
+var config = require('./config/');
+var router = require('./router/')(app);
+var db = require('./database/');
 
 app.use(express.static(__dirname + '/public'));
 
@@ -17,4 +12,4 @@ server.listen(config.port, config.ip, function () {
   logger.info('Server listening at port %d', config.port);
 });
 
-module.exports.getApp = app;
+module.exports = app;

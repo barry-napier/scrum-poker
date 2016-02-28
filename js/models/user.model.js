@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt');
+var validators = require('mongoose-validators');
+
 var Schema   = mongoose.Schema;
 
 UserSchema = new Schema({
@@ -14,11 +16,12 @@ UserSchema = new Schema({
     required: true,
     trim : true
   },
-  email : {
-    type : String,
-    required: true,
-    trim : true,
-    index: { unique: true }
+  email: {
+    type: String,
+    trim: true,
+    unique: true,
+    required: 'Email address is required',
+    validate: validators.isEmail()
   },
   password : {
     type : String,
