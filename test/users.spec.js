@@ -2,112 +2,114 @@ process.env.NODE_ENV = 'test';
 
 var request = require("supertest");
 var should = require("should");
-var utils = require("./utils");
 var app = require("../js/app");
-var UserModel = require("../js/models/user.model");
 
 var userId;
 var userToken;
 
 describe('Users', function () {
 
-  describe('POST     "/users" - Create New User', function () {
+  describe('POST "/users"', function () {
 
     it('should create new user.', function (done) {
       request(app)
-          .post("/api/users/")
-          .set('Content-Type', 'application/json')
-          .send({
-            fullName: 'Joseph Bloggs',
-            playerName: 'Joe',
-            email: 'joe.bloggs@gmail.com',
-            password: 'password1'
-          })
-          .end(function (error, response) {
+      .post("/api/users/")
+      .set('Content-Type', 'application/json')
+      .send({
+        fullName : 'Joseph Bloggs',
+        playerName : 'Joe',
+        email : 'joe.bloggs@gmail.com',
+        password : 'password1'
+      })
+      .end(function (error, response) {
 
-            response.status.should.equal(200);
-            response.body.message.should.equal('User created!');
-            response.body.should.have.property("userId");
-            response.body.success.should.equal(true);
+        response.status.should.equal(200);
+        response.body.message.should.equal('User created!');
+        response.body.should.have.property("userId");
+        response.body.success.should.equal(true);
 
-            done();
-          });
+        done();
+
+      });
 
     });
 
     it('should not create user when information is missing.', function (done) {
 
       request(app)
-          .post("/api/users/")
-          .set('Content-Type', 'application/json')
-          .send({
-            playerName: 'Joe',
-            email: 'joe.bloggs@gmail.com',
-            password: 'password1'
-          })
-          .end(function (error, response) {
+      .post("/api/users/")
+      .set('Content-Type', 'application/json')
+      .send({
+        playerName : 'Joe',
+        email : 'joe.bloggs@gmail.com',
+        password : 'password1'
+      })
+      .end(function (error, response) {
 
-            response.status.should.equal(200);
-            response.body.message.should.equal('User information is incomplete.');
-            response.body.success.should.equal(false);
+        response.status.should.equal(200);
+        response.body.message.should.equal('User information is incomplete.');
+        response.body.success.should.equal(false);
 
-            done();
-          });
+        done();
+
+      });
 
     });
 
     it('should not allow creation of user with previously saved email."', function (done) {
 
       request(app)
-          .post("/api/users/")
-          .set('Content-Type', 'application/json')
-          .send({
-            fullName: 'Joseph Bloggs',
-            playerName: 'Joe',
-            email: 'joe.bloggs@gmail.com',
-            password: 'password1'
-          })
-          .expect("Content-type", /json/)
-          .expect(200)
-          .end(function (error, response) {
+      .post("/api/users/")
+      .set('Content-Type', 'application/json')
+      .send({
+        fullName : 'Joseph Bloggs',
+        playerName : 'Joe',
+        email : 'joe.bloggs@gmail.com',
+        password : 'password1'
+      })
+      .expect("Content-type", /json/)
+      .expect(200)
+      .end(function (error, response) {
 
-            response.status.should.equal(200);
-            response.body.message.should.equal('A user with that email already exists.');
-            response.body.success.should.equal(false);
+        response.status.should.equal(200);
+        response.body.message.should.equal('A user with that email already exists.');
+        response.body.success.should.equal(false);
 
-            done();
-          });
+        done();
+
+      });
 
     });
 
     it('should not allow creation of user with invalid data."', function (done) {
 
       request(app)
-          .post("/api/users/")
-          .set('Content-Type', 'application/json')
-          .send({
-            fullName: 'Joseph Bloggs',
-            playerName: 'Joe',
-            email: 'invalid',
-            password: 'password1'
-          })
-          .expect("Content-type", /json/)
-          .expect(200)
-          .end(function (error, response) {
+      .post("/api/users/")
+      .set('Content-Type', 'application/json')
+      .send({
+        fullName : 'Joseph Bloggs',
+        playerName : 'Joe',
+        email : 'invalid',
+        password : 'password1'
+      })
+      .expect("Content-type", /json/)
+      .expect(200)
+      .end(function (error, response) {
 
-            response.status.should.equal(200);
-            response.body.success.should.equal(false);
-            response.body.message.should.equal('An error occurred while trying to create new user.');
-            response.body.should.have.property("error");
+        response.status.should.equal(200);
+        response.body.success.should.equal(false);
+        response.body.message.should.equal('An error occurred while trying to create new user.');
+        response.body.should.have.property("error");
 
-            done();
-          });
+        done();
+
+      });
 
     });
 
   });
 
-  describe('POST      "/users/authenticate" - Login & Authenicate User', function () {
+  describe('POST "/users/authenticate"', function () {
 
     it('should authenticate user login.', function (done) {
 
@@ -136,7 +138,7 @@ describe('Users', function () {
 
   });
 
-  describe('GET        "/users/:id" - Get User By Id.', function () {
+  describe('GET "/users/:id"', function () {
 
     it('should get user information.', function (done) {
 
@@ -158,7 +160,7 @@ describe('Users', function () {
 
     });
 
-    it('should get user information.', function (done) {
+    it('should not get user information.', function (done) {
 
       var url = "/api/users/" + "invalid";
 
@@ -179,7 +181,7 @@ describe('Users', function () {
 
   });
 
-  describe('PUT        "/users/:id" - Update User Information.', function () {
+  describe('PUT "/users/:id"', function () {
 
     it('should update user information.', function (done) {
 
@@ -233,7 +235,7 @@ describe('Users', function () {
 
   });
 
-  describe('DELETE   "/users/:id"', function () {
+  describe('DELETE "/users/:id"', function () {
 
     it('should delete existing user.', function (done) {
 

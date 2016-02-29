@@ -1,5 +1,6 @@
 var UserModel = require('../models/user.model');
 var config    = require('../config/');
+var logger = config.logger;
 var jwt       = require('jsonwebtoken');
 
 /***********************************************************************************************************************
@@ -26,7 +27,7 @@ UserController = function () {
    ********************************************************************************************************************/
   self.createUser = function (request, callback) {
 
-    var result = { success: false, code: '', message: '' },
+    var result = {success : false, message : ''},
         user   = new UserModel();
 
     if (request.body.fullName && request.body.playerName && request.body.email && request.body.password) {
@@ -48,6 +49,8 @@ UserController = function () {
 
             result.message = 'An error occurred while trying to create new user.';
             result.error = error.message;
+
+            logger.error(error.message);
 
           }
 
@@ -85,7 +88,7 @@ UserController = function () {
    ********************************************************************************************************************/
   self.updateUser = function (request, callback) {
 
-    var result = { success: false, code: '', message: '' };
+    var result = {success : false, message : ''};
     var userId = request.params.userId;
 
     if (userId) {
@@ -96,6 +99,8 @@ UserController = function () {
 
           result.message = 'An error occurred while trying to update user information.';
           result.error = error.message;
+
+          logger.error(error.message);
 
           return callback(result);
 
@@ -118,7 +123,7 @@ UserController = function () {
                 result.message = 'An error occurred while trying to save the updated user.';
                 result.error = error.message;
 
-                console.log(error.message);
+                logger.error(error.message);
 
               } else {
 
@@ -151,7 +156,7 @@ UserController = function () {
    ********************************************************************************************************************/
   self.deleteUser = function (request, callback) {
 
-    var result = { success: false, code: '', message: '' };
+    var result = {success : false, message : ''};
     var userId = request.params.userId;
 
     if (userId) {
@@ -162,6 +167,8 @@ UserController = function () {
 
           result.message = 'An error occurred while trying to delete a user.';
           result.error = error.message;
+
+          logger.error(error.message);
 
         } else {
 
@@ -190,7 +197,7 @@ UserController = function () {
    ********************************************************************************************************************/
   self.authenticate = function (request, callback) {
 
-    var result = { success: false, code: '', message: '' };
+    var result = {success : false, message : ''};
 
     var email    = request.body.email;
     var password = request.body.password;
@@ -207,6 +214,8 @@ UserController = function () {
 
               result.message = 'An error occurred while trying to authenticate a user.';
               result.error = error.message;
+
+              logger.error(error.message);
 
             } else {
 
@@ -257,7 +266,7 @@ UserController = function () {
    ********************************************************************************************************************/
   self.getUser = function (request, callback) {
 
-    var result = { success: false, code: '', message: '' };
+    var result = {success : false, message : ''};
     var userId = request.params.userId;
 
     if (userId) {
@@ -268,6 +277,8 @@ UserController = function () {
 
           result.message = 'An error occurred while trying to retrieve user information.';
           result.error = error.message;
+
+          logger.error(error.message);
 
         } else if (!user) {
 

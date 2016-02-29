@@ -1,6 +1,13 @@
-'use strict';
+var winston  = require('winston');
 
 module.exports = {
+
+  logger : new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.File)({ filename: 'foo.log' })
+    ]
+  }),
 
   db: {
     uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'localhost:27017/scrum-poker',

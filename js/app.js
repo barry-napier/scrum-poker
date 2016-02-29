@@ -1,12 +1,10 @@
 var express = require("express");
-var logger = require('winston');
-var app = require("express")();
+var app = express();
 var server = require('http').createServer(app);
 var config = require('./config/');
 var router = require('./router/')(app);
 var db = require('./database/');
-
-app.use(express.static(__dirname + '/public'));
+var logger = config.logger;
 
 server.listen(config.port, config.ip, function () {
   logger.info('Server listening at port %d', config.port);
