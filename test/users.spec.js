@@ -7,6 +7,7 @@ var UserModel = require('../js/models/user.model');
 var config    = require('../js/config/');
 var db        = require('../js/database/');
 var jwt       = require('jsonwebtoken');
+var mongoose  = require('mongoose');
 
 var secret = config.secret;
 
@@ -19,9 +20,9 @@ describe('Users', function () {
 
     var user = {
 
-      fullName   : 'Barry Napier',
-      playerName : 'Barry',
-      email      : 'barry.a.napier@gmail.com',
+      fullName   : 'John Smith',
+      playerName : 'John',
+      email      : 'john.smith@gmail.com',
       password   : 'password1'
 
     };
@@ -30,9 +31,9 @@ describe('Users', function () {
 
       should.not.exist(error);
 
-      createdUser.fullName.should.equal('Barry Napier');
-      createdUser.playerName.should.equal('Barry');
-      createdUser.email.should.equal('barry.a.napier@gmail.com');
+      createdUser.fullName.should.equal('John Smith');
+      createdUser.playerName.should.equal('John');
+      createdUser.email.should.equal('john.smith@gmail.com');
 
       userId    = createdUser._id;
       userToken = jwt.sign({ email : createdUser.email, fullName : createdUser.fullName}, secret);
@@ -43,10 +44,9 @@ describe('Users', function () {
 
   after(function (done) {
 
-    for (var i = 0; i < db.connection.collections.length; i++) {
-      db.connection.collections[i].remove(function () {});
+    for (var i in db.connection.collections) {
+      db.connection.collections[i].remove(function() {});
     }
-
     return done();
 
   });
@@ -179,7 +179,7 @@ describe('Users', function () {
       .post("/api/users/authenticate")
       .set('Content-Type', 'application/json')
       .send({
-        email    : 'barry.a.napier@gmail.com',
+        email    : 'john.smith@gmail.com',
         password : 'pass'
       })
       .end(function (error, response) {
@@ -199,7 +199,7 @@ describe('Users', function () {
       .post("/api/users/authenticate")
       .set('Content-Type', 'application/json')
       .send({
-        email    : 'barry.a.napier@gmail.com',
+        email    : 'john.smith@gmail.com',
         password : 'password1'
       })
       .end(function (error, response) {

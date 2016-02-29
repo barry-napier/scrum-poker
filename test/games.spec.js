@@ -8,6 +8,7 @@ var GameModel = require('../js/models/game.model');
 var config    = require('../js/config/');
 var db        = require('../js/database/');
 var jwt       = require('jsonwebtoken');
+var mongoose  = require('mongoose');
 
 var secret = config.secret;
 
@@ -69,8 +70,8 @@ describe('Games', function () {
 
   after(function (done) {
 
-    for (var i = 0; i < db.connection.collections.length; i++) {
-      db.connection.collections[i].remove(function () {});
+    for (var i in db.connection.collections) {
+      db.connection.collections[i].remove(function() {});
     }
     return done();
 
