@@ -3,33 +3,43 @@
     <div class="row">
       <div class="col-md-12 headings">
         <h1>
-          Sign Up
+          Sign Up or Log In
         </h1>
       </div>
     </div>
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label for="fullName">Full Name</label>
-          <input type="text" class="form-control" id="fullName" placeholder="Joesph Bloggs"
-                 ng-model="userData.fullName">
+          <label for="newFullName">Full Name</label>
+          <input type="text" class="form-control" id="newFullName" placeholder="Joseph Bloggs" ng-model="userData.newFullName">
         </div>
         <div class="form-group">
-          <label for="playerName">Player Name</label>
-          <input type="text" class="form-control" id="playerName" placeholder="Joe Bloggs"
-                 ng-model="userData.playerName">
+          <label for="newPlayerName">Player Name</label>
+          <input type="text" class="form-control" id="newPlayerName" placeholder="Joe Bloggs" ng-model="userData.newPlayerName">
         </div>
+        <div class="form-group">
+          <label for="newEmail">Email</label>
+          <input type="email" class="form-control" id="newEmail" placeholder="joe.bloggs@acme.com" ng-model="userData.newEmail">
+        </div>
+        <div class="form-group">
+          <label for="newPassword">Password</label>
+          <input type="password" class="form-control" id="newPassword" placeholder="" ng-model="userData.newPassword">
+        </div>
+        <button type="button" ng-click="UserCtrl.createUser()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
+          Sign Up
+        </button>
+      </div>
+      <div class="col-md-6">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="Joe.Bloggs@acme.com"
-                 ng-model="userData.email">
+          <input type="email" class="form-control" id="email" placeholder="joe.bloggs@acme.com" ng-model="userData.email">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" class="form-control" id="password" placeholder="" ng-model="userData.password">
         </div>
-        <button type="button" ng-click="createUser()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
-          Sign Up
+        <button type="button" ng-click="UserCtrl.loginUser()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
+          Log In
         </button>
       </div>
     </div>

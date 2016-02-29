@@ -23,14 +23,35 @@ angular.module('scrumPoker')
 
       self.createUser = function () {
 
+        console.log('Creating User.');
+
         var userData = {
-          fullName   : $scope.fullName,
-          playerName : $scope.playerName,
+          fullName   : $scope.newFullName,
+          playerName : $scope.newPlayerName,
+          email      : $scope.newEmail,
+          password   : $scope.newPassword
+        };
+
+        UserService.create(userData).success(function (data) {
+
+          userData = {};
+
+          if (data.success) {
+            $location.path('/users/' + data.userId + '/dashboard')
+          }
+
+        });
+
+      };
+
+      self.loginUser = function () {
+
+        var userData = {
           email      : $scope.email,
           password   : $scope.password
         };
 
-        UserService.create(userData).success(function (data) {
+        UserService.login(userData).success(function (data) {
 
           userData = {};
 

@@ -1,52 +1,48 @@
 angular.module('scrumPoker')
 
-    .factory('UserService', [
+  .factory('UserService', [
 
-      '$http',
-      '$httpParamSerializer',
+    '$http',
 
-      function ($http, $httpParamSerializer) {
+    function ($http) {
 
-        var URL = '/api/users/';
+      var URL = '/api/users/';
 
-        // create a new object
-        var userFactory = {};
+      // create a new object
+      var userFactory = {};
 
-        // get a single user
-        userFactory.get = function (id) {
-          return $http.get('/api/users/' + id);
-        };
+      // get a single user
+      userFactory.get = function (id) {
+        return $http.get(URL + id);
+      };
 
-        // get all users
-        userFactory.all = function () {
-          return $http.get('/api/users/');
-        };
+      // get all users
+      userFactory.all = function () {
+        return $http.get(URL);
+      };
 
-        // create a user
-        userFactory.create = function (userData) {
+      // create a user
+      userFactory.create = function (userData) {
+        return $http.post(URL, userData);
+      };
 
-          var config = {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          };
+      // update a user
+      userFactory.update = function (id, userData) {
+        return $http.put(URL + id, userData);
+      };
 
-          return $http.post(URL, $httpParamSerializer(userData), config);
+      // delete a user
+      userFactory.delete = function (id) {
+        return $http.delete(URL + id);
+      };
 
-        };
+      // login a user
+      userFactory.login = function (userData) {
+        return $http.post(URL + 'authenticate', userData);
+      };
 
-        // update a user
-        userFactory.update = function (id, userData) {
-          return $http.put('/api/users/' + id, userData);
-        };
+      // return our entire userFactory object
+      return userFactory;
 
-        // delete a user
-        userFactory.delete = function (id) {
-          return $http.delete('/api/users/' + id);
-        };
-
-        // return our entire userFactory object
-        return userFactory;
-
-      }]
-    );
+    }]
+  );

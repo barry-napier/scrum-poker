@@ -33,6 +33,11 @@ angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
         controller  : 'UserCtrl'
       })
 
+      .when('/users/login', {
+        templateUrl : 'views/signup.html',
+        controller  : 'UserCtrl'
+      })
+
       .when('/users/:id/dashboard', {
         templateUrl : 'views/dashboard.html',
         controller  : 'UserCtrl'
