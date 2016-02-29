@@ -1,6 +1,6 @@
 var UserModel = require('../models/user.model');
 var config    = require('../config/');
-var logger = config.logger;
+var logger    = config.logger;
 var jwt       = require('jsonwebtoken');
 
 /***********************************************************************************************************************
@@ -95,16 +95,7 @@ UserController = function () {
 
       UserModel.findById(userId, function (error, user) {
 
-        if (error) {
-
-          result.message = 'An error occurred while trying to update user information.';
-          result.error = error.message;
-
-          logger.error(error.message);
-
-          return callback(result);
-
-        } else if (!user) {
+        if (!user) {
 
           result.message = 'User to update not found.';
 
@@ -210,37 +201,26 @@ UserController = function () {
 
           .exec( function(error, user) {
 
-            if (error) {
+            if (!user) {
 
-              result.message = 'An error occurred while trying to authenticate a user.';
-              result.error = error.message;
-
-              logger.error(error.message);
+              result.message = 'Authentication failed. User not found.';
 
             } else {
 
-              if (!user) {
+              var validPassword = user.comparePassword(password);
 
-                result.message = 'Authentication failed. User not found.';
+              if (!validPassword) {
+
+                result.message = 'Authentication failed. Password incorrect.';
 
               } else {
 
-                var validPassword = user.comparePassword(password);
+                var token = jwt.sign({ email : user.email, fullName : user.fullName}, secret);
 
-                if (!validPassword) {
-
-                  result.message = 'Authentication failed. Password incorrect.';
-
-                } else {
-
-                  var token = jwt.sign({ email : user.email, fullName : user.fullName}, secret);
-
-                  result.success = true;
-                  result.message = 'Authenticated!';
-                  result.token   = token;
-                  result.userId = user._id;
-
-                }
+                result.success = true;
+                result.message = 'Authenticated!';
+                result.token   = token;
+                result.userId = user._id;
 
               }
 
@@ -273,14 +253,7 @@ UserController = function () {
 
       UserModel.findById(userId, function (error, user) {
 
-        if (error) {
-
-          result.message = 'An error occurred while trying to retrieve user information.';
-          result.error = error.message;
-
-          logger.error(error.message);
-
-        } else if (!user) {
+        if (!user) {
 
           result.message = 'User to retrieve not found.';
 

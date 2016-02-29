@@ -1,5 +1,7 @@
 var GameModel  = require('../models/game.model');
-var StoryModel = require('../models/story.model');
+//var StoryModel = require('../models/story.model');
+var config    = require('../config/');
+var logger    = config.logger;
 
 
 /***********************************************************************************************************************
@@ -25,39 +27,27 @@ GameController = function () {
    ********************************************************************************************************************/
   self.getAllGames = function (request, callback) {
 
-    var result = { success: false, code: '', message: '' };
+    var result = { success: false, message: '' };
     var userId = request.params.userId;
 
-    if (userId) {
+    GameModel.find({creator:userId}, function (error, games) {
 
-      GameModel.find({creator:userId}, function (error, games) {
+      if (error) {
 
-        if (error) {
+        result.message = 'An error occurred while trying to retrieve games.';
 
-          result.code    = 'g10002';
-          result.message = 'An error occurred while trying to retrieve games.';
+      }  else {
 
-        }  else {
+        result.success = true;
+        result.message = 'Games retrieved!';
+        result.games    = games;
 
-          result.success = true;
-          result.code    = 'g10003';
-          result.message = 'Games retrieved!';
-          result.games    = games;
-
-        }
-
-        return callback(result);
-
-      });
-
-    } else {
-
-      result.code    = 'g10001';
-      result.message = 'User id not provided during game retrieval.';
+      }
 
       return callback(result);
 
-    }
+    });
+
 
   };
 
@@ -73,7 +63,7 @@ GameController = function () {
    ********************************************************************************************************************/
   self.createGame = function (request, callback) {
 
-    var result = { success: false, code: '', message: '' };
+    var result = { success: false, message: '' };
     var game   = new GameModel();
 
     if (request.body.name && request.body.description && request.params.userId) {
@@ -86,13 +76,14 @@ GameController = function () {
 
         if (error) {
 
-            result.code    = 'g10005';
-            result.message = 'An error occurred while trying to create new game.';
+          result.message = 'An error occurred while trying to create new game.';
+          result.error = error.message;
+
+          logger.error(error.message);
 
         } else {
 
           result.success = true;
-          result.code    = 'g10006';
           result.message = 'Game created!';
 
         }
@@ -103,7 +94,6 @@ GameController = function () {
 
     } else {
 
-      result.code    = 'g10004';
       result.message = 'Game information is incomplete.';
 
       return callback(result);
@@ -111,51 +101,6 @@ GameController = function () {
     }
   };
 
-
-  self.getGameById = function (gameId, callback) {
-
-    Game.getById(gameId, function (error, game) {
-
-      var result;
-
-      if (!error) {
-        result = game;
-      }
-
-      callback(result);
-    });
-
-  };
-
-  self.createNewStory = function (gameId, request) {
-
-    var story = new Story();
-
-    story.name        = request.body.name;
-    story.description = request.body.description;
-
-    story.save( function(error) {
-
-      if (!error) {
-
-        Game.getById(gameId, function (error, game) {
-
-          game.stories.push(story);
-          game.save(function(error) {
-            if (!error) {
-              Game.find({})
-                  .populate('stories')
-                  .exec(function(error, game) {
-                    return game;
-                  })
-            }
-          });
-
-        });
-      }
-    });
-  }
-
-}
+};
 
 module.exports = new GameController();

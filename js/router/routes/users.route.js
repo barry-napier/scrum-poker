@@ -2,8 +2,8 @@ var express         = require('express');
 var bodyParser      = require('body-parser');
 var usersController = require('../../controllers/users.controller');
 var auth            = require('../auth');
+var makeJSON        = bodyParser.json();
 var router          = express.Router();
-var makeJSON = bodyParser.json();
 
 router.route('/users')
   /*********************************************************************************************************************

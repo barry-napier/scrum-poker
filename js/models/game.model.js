@@ -1,13 +1,15 @@
-var mongoose = require('mongoose'),
-    Schema   = mongoose.Schema,
+var mongoose   = require('mongoose');
+var validators = require('mongoose-validators');
+var Schema     = mongoose.Schema;
 
 GameSchema = new Schema({
 
   name : {
     type : String,
     default : '',
-    trim : true
-  },
+    trim : true,
+    validate : validators.isLength(3, 250)
+},
   description : {
     type : String,
     default : '',
@@ -28,27 +30,5 @@ GameSchema = new Schema({
   }
 
 });
-
-/* Statics */
-GameSchema.statics = {
-
-  getByUserId: function (userId, callback) {
-
-    this.find({creator:userId})
-        .populate('stories')
-        .exec(function(error, docs) {
-          callback(error, docs);
-        });
-  },
-
-  getById: function (gameId, callback) {
-    this.findById(gameId)
-        .populate('stories')
-        .exec(function(error, docs) {
-          callback(error, docs);
-        });
-  }
-
-};
 
 module.exports = mongoose.model('Game', GameSchema);

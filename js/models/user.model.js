@@ -27,7 +27,8 @@ UserSchema = new Schema({
     type : String,
     trim : true,
     select: false,
-    required: true
+    required: true,
+    validate: validators.isLength(6, 25)
   },
   created : {
     type : Date,
@@ -41,23 +42,13 @@ UserSchema.pre('save', function(next) {
 
   var user = this;
 
-  if (!user.isModified('password')) {
+  // generate the hash
+  bcrypt.hash(user.password, bcrypt.genSaltSync(10), function (err, hash) {
 
-    return next();
+    user.password = hash;
+    next();
 
-  } else {
-
-    // generate the hash
-    bcrypt.hash(user.password, bcrypt.genSaltSync(10), function (err, hash) {
-
-      if (err) return next(err);
-
-      // change the password to the hashed version
-      user.password = hash;
-      next();
-    });
-
-  }
+  });
 
 });
 
