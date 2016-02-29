@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/barry-napier/scrum-poker/badge.svg?branch=master)](https://coveralls.io/github/barry-napier/scrum-poker?branch=master)
+
 Project title and description
 Software requirement
 Dependencies
