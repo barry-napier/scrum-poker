@@ -5,5 +5,4 @@ node_js:
  - "4.2"
 script: "npm run-script test-travis"
 # Send coverage data to Coveralls
-after_success:
-- istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
