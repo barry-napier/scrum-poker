@@ -4,7 +4,8 @@
   "description": "A story estimation application for agile development teams.",
   "main": "index.js",
   "scripts": {
-    "test": "find ./tests -name '*.spec.js' | xargs mocha -- -R spec"
+    "test": "./node_modules/mocha/bin/mocha ./test/*",
+    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
+    "istanbul": "0.4.2",
     "mocha": "2.4.5",
     "nodemon": "1.8.1",
     "should": "8.2.2",
