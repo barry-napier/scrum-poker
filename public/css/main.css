@@ -135,11 +135,22 @@ header ul {
 
 header ul li {}
 
-header ul li a {
+header a {
   color: #AEBFCE;
+  text-decoration: none;
 }
 
-header ul li a:hover {
+header a:hover {
+  color: #C8DCED;
+  text-decoration: none;
+}
+
+header a:visited {
+   color: #C8DCED;
+   text-decoration: none;
+ }
+
+header a:focus {
   color: #C8DCED;
   text-decoration: none;
 }

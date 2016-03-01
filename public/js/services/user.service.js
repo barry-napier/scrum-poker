@@ -23,7 +23,22 @@ angular.module('scrumPoker')
 
       // create a user
       userFactory.create = function (userData) {
-        return $http.post(URL, userData);
+
+        var data = JSON.stringify(userData);
+
+        console.log(data);
+
+        var req = {
+          method: 'POST',
+          url: URL,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: data
+        }
+
+        return $http(req);
+
       };
 
       // update a user

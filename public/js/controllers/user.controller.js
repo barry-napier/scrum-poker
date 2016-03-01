@@ -12,18 +12,12 @@ angular.module('scrumPoker')
   .controller('UserCtrl', [
 
     '$scope',
-    '$http',
     '$location',
-    '$httpParamSerializer',
     'UserService',
 
-    function ($scope, $http, $location, $httpParamSerializer, UserService) {
+    function ($scope, $location, UserService) {
 
-      var self = this;
-
-      self.createUser = function () {
-
-        console.log('Creating User.');
+      $scope.createUser = function () {
 
         var userData = {
           fullName   : $scope.newFullName,
@@ -32,26 +26,9 @@ angular.module('scrumPoker')
           password   : $scope.newPassword
         };
 
+        console
+
         UserService.create(userData).success(function (data) {
-
-          userData = {};
-
-          if (data.success) {
-            $location.path('/users/' + data.userId + '/dashboard')
-          }
-
-        });
-
-      };
-
-      self.loginUser = function () {
-
-        var userData = {
-          email      : $scope.email,
-          password   : $scope.password
-        };
-
-        UserService.login(userData).success(function (data) {
 
           userData = {};
 
