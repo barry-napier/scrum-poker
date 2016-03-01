@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en" ng-app="scrumPoker">
 
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Scrum Poker | A story estimation application for agile development teams</title>
+  <title>Scrum Poker | A story estimation application for agile development teams.</title>
 
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,51 +20,11 @@
   <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
-<body ng-app="scrumPoker">
+<body>
 
-<!--[if lt IE 8]>  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
+  <!--[if lt IE 8]>  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
-  <header id="header" class="">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <a href="#/">
-            <img alt="logo" src="img/logo.png" class="logo" />
-            <img alt="logo" src="img/logo-text.png" class="logo-text" />
-          </a>
-        </div>
-        <div class="col-md-4">
-          <ul class="list-inline pull-right">
-            <li>
-              <a href="#/users/signup">
-                Sign Up
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Login
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main ng-view=""></main>
-
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <iframe src="https://ghbtns.com/github-btn.html?user=barry-napier&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
-          <div class="copyright pull-right">
-            <p>Copyright (c) 2015 Barry Napier</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <div ng-view=""></div>
 
   <script src="js/vendor/angular.min.js"></script>
   <script src="js/vendor/angular-route.min.js"></script>

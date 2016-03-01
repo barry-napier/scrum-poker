@@ -43,16 +43,6 @@ angular.module('scrumPoker', ['ngRoute', 'btford.socket-io', 'authService'])
         controller  : 'UserCtrl'
       })
 
-      .when('/games/create', {
-        templateUrl : 'views/create-game.html',
-        controller  : 'CreateGameCtrl'
-      })
-
-      .when('/games/:gameId', {
-        templateUrl : 'views/game.html',
-        controller  : 'GameCtrl'
-      })
-
       .otherwise({
         redirectTo  : '/'
       });

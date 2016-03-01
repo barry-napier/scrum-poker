@@ -109,6 +109,92 @@ body {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
+div.main {
+  background: url(../img/bg.jpg) no-repeat top center fixed;
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+div.main div.overlay {
+  background: rgba(106, 140, 167, 0.5);
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+div.main div.overlay img.main-logo {
+  height: 50px;
+  margin-top: 20px;
+  margin-left: 40px;
+}
+div.main div.overlay a {
+  color: #D1E0F7;
+  font-size: 17px;
+  margin-top: 30px;
+  padding-right: 40px;
+}
+
+div.main div.overlay h1.meet {
+  color: #fff;
+  font-size: 60px;
+  font-weight: 900;
+  letter-spacing: -4px;
+  margin-top:130px;
+}
+
+div.main div.overlay h3.tagline {
+  color: #D1E0F7;
+  font-size: 30px;
+  letter-spacing: -2px;
+  margin-top:50px;
+}
+
+div.main div.overlay a.btn-xlg {
+  background-color: #CC325A;
+  border-color: #CC325A;
+  padding:20px 30px;
+  font-size: 25px;
+  color:#FFF;
+  font-weight: 900;
+  margin-top:120px;
+}
+
+div.main div.overlay footer {
+  background-color: transparent;
+  padding-left: 20px;
+}
+
+div.main div.overlay footer div.copyright {
+  color: #D1E0F7;
+  padding-right: 20px;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  div.main {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}
+
 header {
   background-color: #5E809E;
   color: #AEBFCE;
