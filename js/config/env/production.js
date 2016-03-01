@@ -9,7 +9,7 @@ module.exports = {
   }),
 
   db: {
-    uri: process.env.MONGOHQ_URL,
+    uri: process.env.MONGOLAB_URI,
     // Enable mongoose debug mode
     debug: false
   },
