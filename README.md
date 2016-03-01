@@ -1,5 +1,5 @@
 # Scrum-Poker
-[![Build Status](https://travis-ci.org/barry-napier/scrum-poker.svg?branch=master)](https://travis-ci.org/barry-napier/scrum-poker) [![Coverage Status](https://coveralls.io/repos/github/barry-napier/scrum-poker/badge.svg?branch=master)](https://coveralls.io/github/barry-napier/scrum-poker?branch=master)
+[![Build Status](https://travis-ci.org/barry-napier/scrum-poker.svg?branch=master)](https://travis-ci.org/barry-napier/scrum-poker) [![Coverage Status](https://coveralls.io/repos/github/barry-napier/scrum-poker/badge.svg?branch=master)](https://coveralls.io/github/barry-napier/scrum-poker?branch=master) [![Heroku](http://heroku-badge.herokuapp.com/?app=scrum-poker-123&root=index.html)]
 ### A story estimation application for agile development teams.
 
 #### Software requirement
