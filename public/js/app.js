@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
+angular.module('scrumPoker', ['ngRoute', 'btford.socket-io', 'authService'])
 
   .factory(
 
@@ -19,7 +19,7 @@ angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
     }
   )
 
-    .config(function ($routeProvider) {
+  .config(function ($routeProvider, $httpProvider) {
 
     $routeProvider
 
@@ -56,5 +56,8 @@ angular.module('scrumPoker', ['ngRoute', 'btford.socket-io'])
       .otherwise({
         redirectTo  : '/'
       });
+
+      // attach our auth interceptor to the http requests
+      $httpProvider.interceptors.push('AuthInterceptor');
 
     });
