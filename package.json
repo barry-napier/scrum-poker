@@ -37,5 +37,8 @@
     "should": "8.2.2",
     "sinon": "1.17.3",
     "supertest": "1.2.0"
+  },
+  "engines": {
+    "node": "4.2"
   }
 }
