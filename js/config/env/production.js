@@ -10,10 +10,6 @@ module.exports = {
 
   db: {
     uri: process.env.MONGOHQ_URL,
-    options: {
-      user: process.env.MONGOHQ_USER,
-      pass: process.env.MONGOHQ_PASSWORD
-    },
     // Enable mongoose debug mode
     debug: false
   },
