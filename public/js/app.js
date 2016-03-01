@@ -8,46 +8,18 @@
  *
  * Main module of the application.
  */
-angular.module('scrumPoker', ['ngRoute', 'btford.socket-io', 'authService'])
+angular.module('scrumPoker',
 
-  .factory(
+  [
+    'scrumPoker.routes',
+    'authService',
+    'mainCtrl',
+    'userCtrl',
+    'userService'
+  ])
 
-    'mySocket', 
+  .config(function($httpProvider) {
 
-    function (socketFactory) {
-      return socketFactory();
-    }
-  )
+    $httpProvider.interceptors.push('AuthInterceptor');
 
-  .config(function ($routeProvider, $httpProvider) {
-
-    $routeProvider
-
-      .when('/', {
-        templateUrl : 'views/main.html',
-        controller  : 'MainCtrl'
-      })
-
-      .when('/users/signup', {
-        templateUrl : 'views/signup.html',
-        controller  : 'UserCtrl'
-      })
-
-      .when('/users/login', {
-        templateUrl : 'views/signup.html',
-        controller  : 'UserCtrl'
-      })
-
-      .when('/users/:id/dashboard', {
-        templateUrl : 'views/dashboard.html',
-        controller  : 'UserCtrl'
-      })
-
-      .otherwise({
-        redirectTo  : '/'
-      });
-
-      // attach our auth interceptor to the http requests
-      $httpProvider.interceptors.push('AuthInterceptor');
-
-    });
+  });

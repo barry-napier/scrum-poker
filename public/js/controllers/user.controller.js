@@ -1,43 +1,32 @@
-'use strict';
+angular.module('userCtrl', ['userService'])
 
-/**
- * @ngdoc function
- * @name scrumPoker.controller:CreateGameCtrl
- * @description
- * # CreateGameCtrl
- * Controller of the scrumPoker app
- */
-angular.module('scrumPoker')
+.controller('userController', function(User) {
 
-  .controller('UserCtrl', [
+  var self = this;
 
-    '$scope',
-    '$location',
-    'UserService',
+  self.error;
 
-    function ($scope, $location, UserService) {
+  self.createUser = function () {
+    console.log("Creating User : " + self.userData.playerName);
 
-      $scope.createUser = function () {
+    User.create(self.userData)
+    .success(function(data) {
 
-        var userData = {
-          fullName   : $scope.newFullName,
-          playerName : $scope.newPlayerName,
-          email      : $scope.newEmail,
-          password   : $scope.newPassword
-        };
+      self.userData = {};
 
-        console
+      if (data.success) {
 
-        UserService.create(userData).success(function (data) {
+        var userId = data.userId;
 
-          userData = {};
+        $location.path('/users/' + userId + '');
 
-          if (data.success) {
-            $location.path('/users/' + data.userId + '/dashboard')
-          }
+      } else {
 
-        });
+        self.error = data.message;
 
-      };
+      }
 
-    }]);
+    });
+  };
+
+});
