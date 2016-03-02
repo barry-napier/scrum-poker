@@ -1,24 +1,24 @@
-angular.module('userCtrl', ['userService'])
+angular.module('userCtrl', ['userService', 'authService'])
 
-.controller('userController', function(User) {
+.controller('userController', function(User, Auth, $location) {
 
   var self = this;
 
   self.error;
 
   self.createUser = function () {
-    console.log("Creating User : " + self.userData.playerName);
 
     User.create(self.userData)
     .success(function(data) {
 
-      self.userData = {};
-
       if (data.success) {
 
-        var userId = data.userId;
+        self.userData = {};
 
-        $location.path('/users/' + userId + '');
+        var userId = data.userId;
+        var url    = '/users/' + userId + '/dashboard';
+
+        $location.path(url);
 
       } else {
 
@@ -27,6 +27,31 @@ angular.module('userCtrl', ['userService'])
       }
 
     });
+
+  };
+
+  self.loginUser = function () {
+
+    Auth.login(self.loginData.email, self.loginData.password)
+    .success(function(data) {
+
+      if (data.success) {
+
+        self.userData = {};
+
+        var userId = data.userId;
+        var url    = '/users/' + userId + '/dashboard';
+
+        $location.path(url);
+
+      } else {
+
+        self.error = data.message;
+
+      }
+
+    });
+
   };
 
 });

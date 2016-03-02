@@ -1,24 +1,28 @@
-'use strict';
+angular.module('gameCtrl', [])
 
-/**
- * @ngdoc function
- * @name cloudPoker.controller:GameCtrl
- * @description
- * # GameCtrl
- * Controller of the cloudPoker app
- */
-angular.module('scrumPoker').controller(
+.controller('gameController', function($http, $routeParams) {
 
-  'GameCtrl',
+  var self = this;
 
-  [
-    '$scope',
-    '$location',
-    '$routeParams',
-    'game',
+  self.error;
 
-    function ($scope, $location, $routeParams) {
+  self.games;
 
-    }
-  ]
-);
+  self.getGames = function () {
+
+    var id = $routeParams.userId;
+
+    $http.get('/api/users/' + id + '/games')
+    .success(function(data) {
+
+      console.log(data);
+
+      self.games = data.games;
+
+    });
+
+  };
+
+  self.getGames();
+
+});
