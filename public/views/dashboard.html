@@ -10,13 +10,13 @@
       <div class="col-md-4">
         <ul class="list-inline pull-right">
           <li>
-            <a href="#/users/signup">
-              Sign Up
+            <a ng-href="#/users/{{dashboard.userId}}/dashboard">
+              Dashboard
             </a>
           </li>
           <li>
-            <a href="#">
-              Login
+            <a href="/" ng-click="dashboard.logoutUser()">
+              Logout
             </a>
           </li>
         </ul>
@@ -27,22 +27,93 @@
 
 <main>
   <div class="container">
-    <section>
-      <div class="row">
-        <div class="col-md-12 headings">
-          <h1>
-            Dashboard
-          </h1>
-        </div>
+    <div class="row">
+      <div class="col-md-12 headings">
+        <h1 style="font-weight: 900;">
+          Dashboard
+        </h1>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h3>
-            Games : {{games.games.length}}
-          </h3>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-9">
+        <section>
+          <div class="row">
+            <div class="col-md-10">
+              <h4 style="font-size:30px; font-weight: 900;">
+                Games
+              </h4>
+            </div>
+            <div class="col-md-2">
+              <a type="button" ng-href="#/users/{{dashboard.userId}}/games/create" class="btn btn-lg btn-primary  pull-right" style="background-color:#76AB8C; border-color:#76AB8C;">
+                Create Game
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <hr/>
+            </div>
+          </div>
+          <div class="row" ng-repeat="game in dashboard.games" ng-if="dashboard.games.length">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-8">
+                  <h3 style="margin-top: 0; margin-bottom: 0; color:#5E809E; font-weight: 900;">{{game.name}}</h3>
+                </div>
+                <div class="col-md-4" ng-if="game.stories.length">
+                  <button type="button" ng-click="" class="btn btn-primary  pull-right" style="background-color:#795E9E; border-color:#795E9E;">
+                    Load Game
+                  </button>
+                </div>
+                <div class="col-md-4" ng-if="!game.stories.length">
+                  <button type="button" ng-click="" class="btn btn-primary  pull-right" style="background-color:#795E9E; border-color:#795E9E;">
+                    Add Stories
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8">
+                  <span style="color:#999;">{{game.description}}</span>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" ng-click="user.createUser()" class="btn btn-primary  pull-right" style="background-color: #5E809E;border-color: #5E809E;margin-top: 10px; width:100px;">
+                    Edit
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8">
+                  <span>Stories : {{game.stories.length}}</span>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" ng-click="user.createUser()" class="btn btn-primary  pull-right" style="background-color: #CC325A;border-color: #CC325A;margin-top: 10px; width:100px;">
+                    Delete
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <hr style="border-top: 1px solid #eee;"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-if="!dashboard.games.length">
+            <div class="col-md-12">
+              You currently have no games created. Please add a game by clicking "Create Game" above.
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
+      <div class="col-md-3">
+        <section>
+          <h4>
+            Games : {{dashboard.games.length}}
+          </h4>
+          <hr/>
+        </section>
+      </div>
+    </div>
   </div>
 </main>
 

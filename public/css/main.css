@@ -153,6 +153,11 @@ div.main div.overlay a {
   padding-right: 40px;
 }
 
+div.main div.overlay a:hover {
+  color: #FFF;
+  text-decoration: none;
+}
+
 div.main div.overlay h1.meet {
   color: #fff;
   font-size: 60px;

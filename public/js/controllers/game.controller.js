@@ -1,6 +1,6 @@
-angular.module('gameCtrl', [])
+angular.module('gameCtrl', ['authService'])
 
-.controller('gameController', function($http, $routeParams) {
+.controller('gameController', function(Auth, $location, $http, $routeParams) {
 
   var self = this;
 
@@ -8,11 +8,28 @@ angular.module('gameCtrl', [])
 
   self.games;
 
+  self.userId = $routeParams.userId;
+
+  self.logoutUser = function () {
+
+    Auth.logout();
+
+    var url    = '/';
+    $location.hash(url);
+    return false;
+
+  };
+
+  self.createGame = function () {
+
+    $location.hash(url);
+    return false;
+
+  };
+
   self.getGames = function () {
 
-    var id = $routeParams.userId;
-
-    $http.get('/api/users/' + id + '/games')
+    $http.get('/api/users/' + self.userId + '/games')
     .success(function(data) {
 
       console.log(data);

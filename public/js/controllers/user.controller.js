@@ -15,8 +15,7 @@ angular.module('userCtrl', ['userService', 'authService'])
 
         self.userData = {};
 
-        var userId = data.userId;
-        var url    = '/users/' + userId + '/dashboard';
+        var url    = '/login';
 
         $location.path(url);
 

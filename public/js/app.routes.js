@@ -18,7 +18,7 @@ angular.module('scrumPoker.routes', ['ngRoute'])
 
     // signup page
     .when('/login', {
-      templateUrl : 'views/signup.html',
+      templateUrl : 'views/login.html',
       controller  : 'userController',
       controllerAs: 'user'
     })
@@ -26,6 +26,13 @@ angular.module('scrumPoker.routes', ['ngRoute'])
     // dashboard page
     .when('/users/:userId/dashboard', {
       templateUrl : 'views/dashboard.html',
+      controller  : 'gameController',
+      controllerAs: 'dashboard'
+    })
+
+    // game page
+    .when('/users/:userId/games/create', {
+      templateUrl : 'views/game.html',
       controller  : 'gameController',
       controllerAs: 'games'
     });
