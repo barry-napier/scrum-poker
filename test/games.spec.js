@@ -129,7 +129,17 @@ describe('Games', function () {
       .set('x-access-token', userToken)
       .send({
         name        : 'Game 4',
-        description : 'This is game 4.'
+        description : 'This is game 4.',
+        stories     : [
+          {
+            name        : 'Story 1',
+            description : 'This is story 1.'
+          },
+          {
+            name        : 'Story 2',
+            description : 'This is story 2.'
+          }
+        ]
       })
       .end(function (error, response) {
 
@@ -143,14 +153,24 @@ describe('Games', function () {
 
     });
 
-    it('should not create new game with name.', function (done) {
+    it('should not create new game without name.', function (done) {
 
       request(app)
       .post("/api/users/"+ userId + "/games")
       .set('Content-Type', 'application/json')
       .set('x-access-token', userToken)
       .send({
-        description : 'This is game 4.'
+        description : 'This is game 4.',
+        stories     : [
+          {
+            name        : 'Story 1',
+            description : 'This is story 1.'
+          },
+          {
+            name        : 'Story 2',
+            description : 'This is story 2.'
+          }
+        ]
       })
       .end(function (error, response) {
 
@@ -164,7 +184,7 @@ describe('Games', function () {
 
     });
 
-    it('should not create new game with name.', function (done) {
+    it('should not create new game with invalid name.', function (done) {
 
       request(app)
       .post("/api/users/"+ userId + "/games")
@@ -172,7 +192,17 @@ describe('Games', function () {
       .set('x-access-token', userToken)
       .send({
         name : '12',
-        description : '123'
+        description : '123',
+        stories     : [
+          {
+            name        : 'Story 1',
+            description : 'This is story 1.'
+          },
+          {
+            name        : 'Story 2',
+            description : 'This is story 2.'
+          }
+        ]
       })
       .end(function (error, response) {
 
