@@ -15,8 +15,9 @@ angular.module('scrumPoker',
     'authService',
     'mainCtrl',
     'userCtrl',
-    'userService',
-    'gameCtrl'
+    'dashboardCtrl',
+    'gameCtrl',
+    'userService'
   ])
 
   .config(function($httpProvider) {

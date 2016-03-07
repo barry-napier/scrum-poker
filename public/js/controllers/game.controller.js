@@ -5,8 +5,7 @@ angular.module('gameCtrl', ['authService'])
   var self = this;
 
   self.error;
-
-  self.games;
+  self.stories = [];
 
   self.userId = $routeParams.userId;
 
@@ -14,32 +13,43 @@ angular.module('gameCtrl', ['authService'])
 
     Auth.logout();
 
-    var url    = '/';
+    var url = '/';
     $location.hash(url);
+
     return false;
 
   };
 
   self.createGame = function () {
 
-    $location.hash(url);
+    $http.post('/api/users/' + self.userId + '/games', self)
+    .success(function(data) {
+
+      if (data.success) {
+
+        var url = '/users/' + self.userId + '/dashboard';
+        $location.path(url);
+
+      } else {
+
+        self.error = data.message;
+
+      }
+
+    });
+
     return false;
 
   };
 
-  self.getGames = function () {
+  self.addStory = function () {
 
-    $http.get('/api/users/' + self.userId + '/games')
-    .success(function(data) {
+    self.stories.push(self.storyData);
+    $('#myModal').modal('hide');
+    self.storyData = {};
 
-      console.log(data);
-
-      self.games = data.games;
-
-    });
+    return false;
 
   };
-
-  self.getGames();
 
 });

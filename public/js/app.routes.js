@@ -1,6 +1,6 @@
 angular.module('scrumPoker.routes', ['ngRoute'])
 
-.config(function($routeProvider, $locationProvider) {
+.config(function($routeProvider) {
 
   $routeProvider
 
@@ -26,7 +26,7 @@ angular.module('scrumPoker.routes', ['ngRoute'])
     // dashboard page
     .when('/users/:userId/dashboard', {
       templateUrl : 'views/dashboard.html',
-      controller  : 'gameController',
+      controller  : 'dashboardController',
       controllerAs: 'dashboard'
     })
 
@@ -34,12 +34,7 @@ angular.module('scrumPoker.routes', ['ngRoute'])
     .when('/users/:userId/games/create', {
       templateUrl : 'views/game.html',
       controller  : 'gameController',
-      controllerAs: 'games'
+      controllerAs: 'game'
     });
-
-  //$locationProvider.html5Mode({
-  //  enabled: true,
-  //  requireBase: false
-  //});
 
 });

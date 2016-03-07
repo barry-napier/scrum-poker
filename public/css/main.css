@@ -161,7 +161,7 @@ div.main div.overlay a:hover {
 
 div.main div.overlay img.cards {
   margin-top:50px;
-  height: 200px;
+  height: 125px;
 }
 
 div.main div.overlay h1.meet {
@@ -182,8 +182,8 @@ div.main div.overlay h3.tagline {
 div.main div.overlay a.btn-xlg {
   background-color: #CC325A;
   border-color: #CC325A;
-  padding:20px 30px;
-  font-size: 25px;
+  padding:15px 25px;
+  font-size: 22px;
   color:#FFF;
   font-weight: 900;
   margin-top:60px;
@@ -252,7 +252,9 @@ header a:focus {
   text-decoration: none;
 }
 
-main {}
+main {
+  padding-bottom:60px;
+}
 
 main div.container section {
   background-color: #FFF;

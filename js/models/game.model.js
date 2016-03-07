@@ -9,7 +9,7 @@ GameSchema = new Schema({
     default : '',
     trim : true,
     validate : validators.isLength(3, 250)
-},
+  },
   description : {
     type : String,
     default : '',

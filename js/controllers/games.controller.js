@@ -1,7 +1,7 @@
 var GameModel  = require('../models/game.model');
-//var StoryModel = require('../models/story.model');
-var config    = require('../config/');
-var logger    = config.logger;
+var StoryModel = require('../models/story.model');
+var config     = require('../config/');
+var logger     = config.logger;
 
 
 /***********************************************************************************************************************
@@ -71,8 +71,38 @@ GameController = function () {
       game.name        = request.body.name;
       game.description = request.body.description;
       game.creator     = request.params.userId;
+      game.stories     = [];
 
-      game.save( function(error) {
+      var stories = request.body.stories;
+
+      for (var i=0; i > stories.length; i++) {
+
+        var story = new StoryModel();
+
+        story.name        = stories[i].name;
+        story.description = stories[i].description;
+
+        story.save( function (error, story) {
+
+          if (error) {
+
+            result.message = 'An error occurred while trying to create new story.';
+            result.error = error.message;
+
+            logger.error(error.message);
+
+            return callback(result);
+
+          } else {
+
+            game.stories.push(story);
+
+          }
+
+        });
+      }
+
+      game.save( function (error) {
 
         if (error) {
 

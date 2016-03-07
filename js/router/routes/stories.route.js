@@ -5,13 +5,17 @@ var express        = require('express'),
     router         = express.Router();
 
 router.route('/users/:userId/games/:gameId/stories')
-
+  /*********************************************************************************************************************
+   *
+   * POST '/users/:userId/games/:gameId/stories' - Create a new user.
+   *
+   * @param  {object} request  - The request containing user information.
+   * @param  {object} response - The response returned to the user.
+   *
+   ********************************************************************************************************************/
   .post(urlencode, function (request, response) {
 
-    console.log('createNewStory POST');
-
     var gameId = request.params.gameId;
-
     var result = gameController.createNewStory(gameId, request);
 
     if (result) {
