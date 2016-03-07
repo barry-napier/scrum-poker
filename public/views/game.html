@@ -10,6 +10,11 @@
       <div class="col-md-4">
         <ul class="list-inline pull-right">
           <li>
+            <a ng-href="#/users/{{dashboard.userId}}/dashboard">
+              Account
+            </a>
+          </li>
+          <li>
             <a ng-href="#/users/{{games.userId}}/dashboard">
               Dashboard
             </a>
@@ -50,7 +55,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
               <div class="form-group">
                 <label>Game Name</label>
                 <input type="text" class="form-control" placeholder="Design Studio - 16.1 " ng-model="games.gameData.name"/>
@@ -58,22 +63,33 @@
               <div class="form-group">
                 <label>Game Description</label>
                 <textarea class="form-control" rows="4" cols="50" placeholder="This game includes the stories for the Design Studio 16.1 release." ng-model="games.gameData.description"></textarea>
+                <br/>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
               <label>Stories</label>
+              <button type="button" ng-click="lol" class="btn btn-primary pull-right" style="background-color: #5E809E;border-color: #5E809E;" data-toggle="modal" data-target="#myModal">
+                Add Story
+              </button>
               <hr/>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-6">
+          <div class="row" ng-repeat="stories in game.stories" ng-if="game.stories.length">
+            <div class="col-md-8">
               <strong>CCDS-2700</strong>
               -
               <span>Keyboard Shortcuts</span>
               <hr style="border-top: 1px solid #eee;"/>
+              <br/><br/><br/>
             </div>
+          </div>
+          <div class="row" ng-if="!game.stories.length">
+            <div class="col-md-8">
+              You currently have no stories created. Please add a story by clicking "Add Story" above.
+            </div>
+            <br/><br/><br/>
           </div>
           <button type="button" ng-click="games.createGame()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C; margin-bottom:40px;">
             Create Game
@@ -82,6 +98,38 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            Add Story
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Story Name</label>
+            <input type="text" class="form-control" placeholder="Design Studio - 16.1 " ng-model="games.gameData.name"/>
+          </div>
+          <div class="form-group">
+            <label>Story Description</label>
+            <textarea class="form-control" rows="4" cols="50" placeholder="This game includes the stories for the Design Studio 16.1 release." ng-model="games.gameData.description"></textarea>
+            <br/>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" style="background-color: #5E809E;border-color: #5E809E;">Add Story</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <footer>
