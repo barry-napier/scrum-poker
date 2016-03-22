@@ -42,6 +42,19 @@ angular.module('dashboardCtrl', ['authService'])
 
   };
 
+  self.deleteGame = function (gameId) {
+
+    var userId = $window.localStorage.getItem('userId');
+
+    $http.delete('/api/users/' + userId + '/games/' + gameId)
+    .success(function(data) {
+
+      self.getGames();
+
+    });
+
+  }
+
   self.getGames();
 
 });

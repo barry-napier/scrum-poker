@@ -85,7 +85,7 @@ router.route('/users/authenticate')
    * @param  {object} response - The response returned to the user.
    *
    ********************************************************************************************************************/
-    .post(makeJSON, function (request, response) {
+  .post(makeJSON, function (request, response) {
 
     usersController.authenticate(request, function (result) {
       response.json(result);

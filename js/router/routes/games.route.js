@@ -52,6 +52,24 @@ router.route('/users/:userId/games/:gameId')
       response.json(result);
     });
 
+  })
+
+  /*********************************************************************************************************************
+   *
+   * DELETE '/users/:userId/games/:gameId' - Delete a game.
+   *
+   * @param  {object} request  - The request containing game information.
+   * @param  {object} response - The response returned to the user.
+   *
+   * Secured Route - User needs to authenticated before use.
+   *
+   ********************************************************************************************************************/
+  .delete(auth, function (request, response) {
+
+    gameController.deleteGame(request, function (result) {
+      response.json(result);
+    });
+
   });
 
 module.exports = router;

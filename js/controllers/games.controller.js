@@ -1,8 +1,6 @@
 var GameModel  = require('../models/game.model');
-var StoryModel = require('../models/story.model');
 var config     = require('../config/');
 var logger     = config.logger;
-
 
 /***********************************************************************************************************************
  *
@@ -130,6 +128,47 @@ GameController = function () {
           result.success = true;
           result.message = 'Game retrieved!';
           result.game    = game;
+
+        }
+
+        return callback(result);
+
+      });
+
+    }
+
+  };
+
+  /*********************************************************************************************************************
+   *
+   * Deletes an existing game.
+   *
+   * @param  {object}   request  - The request containing game information.
+   * @param  {function} callback - The callback function to execute when done processing.
+   *
+   * @return {object}   result   - The result of execution.
+   *
+   ********************************************************************************************************************/
+  self.deleteGame = function (request, callback) {
+
+    var result = {success : false, message : ''};
+    var gameId = request.params.gameId;
+
+    if (gameId) {
+
+      GameModel.findByIdAndRemove(gameId, {}, function(error) {
+
+        if (error) {
+
+          result.message = 'An error occurred while trying to delete a game.';
+          result.error = error.message;
+
+          logger.error(error.message);
+
+        } else {
+
+          result.success = true;
+          result.message = 'Game successfully deleted!';
 
         }
 
