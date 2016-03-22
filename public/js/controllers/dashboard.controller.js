@@ -1,14 +1,12 @@
 angular.module('dashboardCtrl', ['authService'])
 
-.controller('dashboardController', function(Auth, $location, $http, $routeParams) {
+.controller('dashboardController', function(Auth, $location, $http, $routeParams, $window) {
 
   var self = this;
 
   self.error;
 
   self.games;
-
-  self.userId = $routeParams.userId;
 
   self.logoutUser = function () {
 
@@ -22,12 +20,25 @@ angular.module('dashboardCtrl', ['authService'])
 
   self.getGames = function () {
 
-    $http.get('/api/users/' + self.userId + '/games')
+    var userId = $window.localStorage.getItem('userId');
+
+    $http.get('/api/users/' + userId + '/games')
     .success(function(data) {
 
       self.games = data.games;
 
     });
+
+  };
+
+  self.loadGame = function (gameId) {
+
+    var url = '/games/' + gameId;
+
+    console.log('Opening game: ' + url);
+
+    $location.path(url);
+    return false;
 
   };
 

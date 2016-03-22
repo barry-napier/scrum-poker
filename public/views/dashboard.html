@@ -10,12 +10,12 @@
       <div class="col-md-4">
         <ul class="list-inline pull-right">
           <li>
-            <a ng-href="#/users/{{dashboard.userId}}/dashboard">
+            <a ng-href="#/dashboard">
               Account
             </a>
           </li>
           <li>
-            <a ng-href="#/users/{{dashboard.userId}}/dashboard">
+            <a ng-href="#/dashboard">
               Dashboard
             </a>
           </li>
@@ -42,7 +42,7 @@
               </h4>
             </div>
             <div class="col-md-2">
-              <a type="button" ng-href="#/users/{{dashboard.userId}}/games/create" class="btn btn-lg btn-primary  pull-right" style="background-color:#76AB8C; border-color:#76AB8C;">
+              <a type="button" ng-href="#/games/create" class="btn btn-lg btn-primary  pull-right" style="background-color:#76AB8C; border-color:#76AB8C;">
                 Create Game
               </a>
             </div>
@@ -59,7 +59,7 @@
                   <h3 style="margin-top: 0; margin-bottom: 0; color:#5E809E; font-weight: 900;">{{game.name}}</h3>
                 </div>
                 <div class="col-md-4">
-                  <button type="button" ng-click="" class="btn btn-primary  pull-right" style="background-color:#795E9E; border-color:#795E9E;">
+                  <button type="button" ng-click="dashboard.loadGame(game._id)" class="btn btn-primary  pull-right" style="background-color:#795E9E; border-color:#795E9E;">
                     Load Game
                   </button>
                 </div>
@@ -106,9 +106,8 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <iframe src="https://ghbtns.com/github-btn.html?user=barry-napier&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
-        <div class="copyright pull-right">
-          <p>Copyright (c) 2016 Barry Napier</p>
+        <div class="copyright text-center">
+          <p>Copyright (c) 2016 Scrum-Poker</p>
         </div>
       </div>
     </div>

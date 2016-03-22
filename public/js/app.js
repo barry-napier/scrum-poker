@@ -17,6 +17,7 @@ angular.module('scrumPoker',
     'userCtrl',
     'dashboardCtrl',
     'gameCtrl',
+    'playCtrl',
     'userService'
   ])
 

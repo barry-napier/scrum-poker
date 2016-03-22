@@ -1,13 +1,11 @@
 angular.module('gameCtrl', ['authService'])
 
-.controller('gameController', function(Auth, $location, $http, $routeParams) {
+.controller('gameController', function(Auth, $location, $http, $window) {
 
   var self = this;
 
   self.error;
   self.stories = [];
-
-  self.userId = $routeParams.userId;
 
   self.logoutUser = function () {
 
@@ -22,12 +20,14 @@ angular.module('gameCtrl', ['authService'])
 
   self.createGame = function () {
 
-    $http.post('/api/users/' + self.userId + '/games', self)
+    var userId = $window.localStorage.getItem('userId');
+
+    $http.post('/api/users/' + userId + '/games', self)
     .success(function(data) {
 
       if (data.success) {
 
-        var url = '/users/' + self.userId + '/dashboard';
+        var url = '/dashboard';
         $location.path(url);
 
       } else {

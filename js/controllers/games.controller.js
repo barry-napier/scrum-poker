@@ -71,36 +71,7 @@ GameController = function () {
       game.name        = request.body.name;
       game.description = request.body.description;
       game.creator     = request.params.userId;
-      game.stories     = [];
-
-      var stories = request.body.stories;
-
-      for (var i=0; i > stories.length; i++) {
-
-        var story = new StoryModel();
-
-        story.name        = stories[i].name;
-        story.description = stories[i].description;
-
-        story.save( function (error, story) {
-
-          if (error) {
-
-            result.message = 'An error occurred while trying to create new story.';
-            result.error = error.message;
-
-            logger.error(error.message);
-
-            return callback(result);
-
-          } else {
-
-            game.stories.push(story);
-
-          }
-
-        });
-      }
+      game.stories     = request.body.stories;
 
       game.save( function (error) {
 
@@ -129,6 +100,45 @@ GameController = function () {
       return callback(result);
 
     }
+  };
+
+  /*********************************************************************************************************************
+   *
+   * Gets data associated to an existing game.
+   *
+   * @param  {object}   request  - The request containing game information.
+   * @param  {function} callback - The callback function to execute when done processing.
+   *
+   * @return {object}   result   - The result of execution.
+   *
+   ********************************************************************************************************************/
+  self.getGameById = function (request, callback) {
+
+    var result = {success : false, message : ''};
+    var gameId = request.params.gameId;
+
+    if (gameId) {
+
+      GameModel.findById(gameId, function (error, game) {
+
+        if (!game) {
+
+          result.message = 'Game to retrieve not found.';
+
+        } else {
+
+          result.success = true;
+          result.message = 'Game retrieved!';
+          result.game    = game;
+
+        }
+
+        return callback(result);
+
+      });
+
+    }
+
   };
 
 };

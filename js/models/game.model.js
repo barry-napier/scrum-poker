@@ -19,10 +19,7 @@ GameSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  stories: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Story'
-  }],
+  stories: [],
   created : {
     type : Date,
     default : Date.now,

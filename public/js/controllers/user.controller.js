@@ -1,6 +1,6 @@
 angular.module('userCtrl', ['userService', 'authService'])
 
-.controller('userController', function(User, Auth, $location) {
+.controller('userController', function(User, Auth, $location, $window) {
 
   var self = this;
 
@@ -15,7 +15,7 @@ angular.module('userCtrl', ['userService', 'authService'])
 
         self.userData = {};
 
-        var url    = '/login';
+        var url = '/login';
 
         $location.path(url);
 
@@ -39,9 +39,14 @@ angular.module('userCtrl', ['userService', 'authService'])
         self.userData = {};
 
         var userId = data.userId;
-        var url    = '/users/' + userId + '/dashboard';
 
-        $location.path(url);
+        if (userId) {
+          $window.localStorage.setItem('userId', userId);
+
+          var url    = '/dashboard';
+
+          $location.path(url);
+        }
 
       } else {
 

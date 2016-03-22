@@ -24,17 +24,24 @@ angular.module('scrumPoker.routes', ['ngRoute'])
     })
 
     // dashboard page
-    .when('/users/:userId/dashboard', {
+    .when('/dashboard', {
       templateUrl : 'views/dashboard.html',
       controller  : 'dashboardController',
       controllerAs: 'dashboard'
     })
 
     // game page
-    .when('/users/:userId/games/create', {
+    .when('/games/create', {
       templateUrl : 'views/game.html',
       controller  : 'gameController',
       controllerAs: 'game'
+    })
+
+    // play page
+    .when('/games/:gameId', {
+      templateUrl : 'views/play.html',
+      controller  : 'playController',
+      controllerAs: 'play'
     });
 
 });
