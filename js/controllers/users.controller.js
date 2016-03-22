@@ -197,7 +197,7 @@ UserController = function () {
 
       UserModel.findOne({email: email})
 
-          .select('email fullName password')
+          .select('email fullName password playerName')
 
           .exec( function(error, user) {
 
@@ -217,10 +217,11 @@ UserController = function () {
 
                 var token = jwt.sign({ email : user.email, fullName : user.fullName}, secret);
 
-                result.success = true;
-                result.message = 'Authenticated!';
-                result.token   = token;
-                result.userId = user._id;
+                result.success    = true;
+                result.message    = 'Authenticated!';
+                result.token      = token;
+                result.userId     = user._id;
+                result.playerName = user.playerName;
 
               }
 

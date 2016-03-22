@@ -8,14 +8,14 @@
         </a>
       </div>
       <div class="col-md-4">
-        <ul class="list-inline pull-right" ng-if="Auth.isLoggedIn">
+        <ul class="list-inline pull-right" ng-if="play.isAdmin">
           <li>
-            <a ng-href="#/users/{{play.userId}}/dashboard">
+            <a ng-href="#/dashboard">
               Account
             </a>
           </li>
           <li>
-            <a ng-href="#/users/{{play.userId}}/dashboard">
+            <a ng-href="#/dashboard">
               Dashboard
             </a>
           </li>
@@ -30,14 +30,15 @@
   </div>
 </header>
 
-<main>
+<main style="padding-bottom:200px">
   <div class="sub-header">
     <div class="container">
       <div class="row">
         <div class="col-md-8 story-heading">
-          <strong>CCSF-2436 - Separate productTypes from category and product page endpoint respond</strong>
+          <strong>{{play.game.stories[play.currentStory].name}}</strong> -
+          <strong>{{play.game.stories[play.currentStory].description}}</strong>
         </div>
-        <div class="col-md-4 start-story">
+        <div class="col-md-4 start-story" ng-if="play.isAdmin">
           <button class="btn start-pointing">
             Start Pointing
           </button>
@@ -54,6 +55,10 @@
   <div class="results-section">
     <div class="container">
       <div class="row">
+        <div class="col-md-12">
+          Welcome {{play.playerName}}
+          <br/><br/>
+        </div>
         <div class="col-md-9">
           <div class="row">
             <div class="col-md-12 cards">
@@ -202,8 +207,8 @@
               </svg>
             </div>
           </div>
-          <div class="users">
-            <div class="user-heading">Users</div>
+          <div class="users" ng-if="play.isAdmin">
+            <div class="user-heading">Players</div>
             <table>
               <thead>
                 <tr>
@@ -466,88 +471,86 @@
     </div>
   </div>
 
-  <div class="selection-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h4>Make your selection below:</h4>
-          <hr/>
-        </div>
+</main>
+<div class="selection-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Make your selection below:</h4>
+        <hr/>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <a href="#">
-            <div class="card">
-              <span>0</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>1/2</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>1</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>2</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>3</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>5</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>8</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>13</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>20</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>40</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>100</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>?</span>
-            </div>
-          </a>
-          <a href="#">
-            <div class="card">
-              <span>Break</span>
-            </div>
-          </a>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <a href="#">
+          <div class="card">
+            <span>0</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>1/2</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>1</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>2</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>3</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>5</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>8</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>13</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>20</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>40</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>100</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>?</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="card">
+            <span>Break</span>
+          </div>
+        </a>
       </div>
     </div>
   </div>
-
-</main>
-
+</div>
 <footer>
   <div class="container">
     <div class="row">

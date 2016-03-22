@@ -407,24 +407,29 @@ main div.results-section div.container div.row div div.results div.results-headi
   font-weight: bold;
 }
 
-main div.selection-section {
+div.selection-section {
   background-color: #FFF;
   border-top: 1px solid #DCDCDC;
   height: 215px;
   padding-top: 20px;
+  position: fixed;
+  left: 0px;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
 }
 
-main div.selection-section div.container div.row {
+div.selection-section div.container div.row {
   margin-bottom: 10px;
 }
 
-main div.selection-section div.container div.row div h4 {
+div.selection-section div.container div.row div h4 {
   color: #7C8197;
   font-size: 16px;
   font-weight: bold;
 }
 
-main div.selection-section div.container div.row div div.card {
+div.selection-section div.container div.row div div.card {
   background-color: #FFF;
   border: 3px solid #99ACBE;
   border-radius: 4px;
@@ -436,7 +441,7 @@ main div.selection-section div.container div.row div div.card {
   margin-bottom: 20px;
 }
 
-main div.selection-section div.container div.row div div.card span {
+div.selection-section div.container div.row div div.card span {
   color: #4C4F5D;
   font-size: 21px;
   font-weight: bold;

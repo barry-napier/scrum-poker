@@ -39,9 +39,11 @@ angular.module('userCtrl', ['userService', 'authService'])
         self.userData = {};
 
         var userId = data.userId;
+        var playerName = data.playerName;
 
         if (userId) {
           $window.localStorage.setItem('userId', userId);
+          $window.localStorage.setItem('playerName', playerName);
 
           var url    = '/dashboard';
 

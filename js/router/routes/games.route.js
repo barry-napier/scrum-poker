@@ -40,22 +40,6 @@ router.route('/users/:userId/games')
 router.route('/users/:userId/games/:gameId')
   /*********************************************************************************************************************
    *
-   * GET '/users/:userId/games/:gameId' - Get all information for associated game.
-   *
-   * @param  {object} request  - The request containing game information.
-   * @param  {object} response - The response returned to the user.
-   *
-   ********************************************************************************************************************/
-  .get(function (request, response) {
-
-    gameController.getGameById(request, function (result) {
-      response.json(result);
-    });
-
-  })
-
-  /*********************************************************************************************************************
-   *
    * DELETE '/users/:userId/games/:gameId' - Delete a game.
    *
    * @param  {object} request  - The request containing game information.
@@ -71,5 +55,22 @@ router.route('/users/:userId/games/:gameId')
     });
 
   });
+
+router.route('/games/:gameId')
+  /*********************************************************************************************************************
+   *
+   * GET '/games/:gameId' - Get all information for associated game.
+   *
+   * @param  {object} request  - The request containing game information.
+   * @param  {object} response - The response returned to the user.
+   *
+   ********************************************************************************************************************/
+  .get(function (request, response) {
+
+    gameController.getGameById(request, function (result) {
+      response.json(result);
+    });
+
+  })
 
 module.exports = router;

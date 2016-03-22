@@ -1,25 +1,28 @@
 angular.module('playCtrl', ['authService'])
 
-.controller('playController', function(Auth, $location, $http, $routeParams) {
+.controller('playController', function(Auth, $location, $http, $routeParams, $window) {
 
   var self = this;
 
   self.error;
-  self.games;
+  self.game;
 
-  self.userId = $routeParams.userId;
   self.gameId = $routeParams.gameId;
+  self.isAdmin = Auth.isLoggedIn();
 
-  self.isAdmin = Auth.isLoggedIn;
+  self.currentStory = 0;
+
+  self.players = [];
 
   self.getGame = function () {
 
-    $http.get('/api/users/' + self.userId + '/games/' + self.gameId, self)
+    $http.get('/api/games/' + self.gameId)
     .success(function(data) {
 
       if (data.success) {
 
-        console.log(data);
+        self.game = data.game;
+        self.setupPlayer();
 
       } else {
 
@@ -28,6 +31,16 @@ angular.module('playCtrl', ['authService'])
       }
 
     });
+
+  };
+
+  self.setupPlayer = function () {
+
+    self.playerName = $window.localStorage.getItem('playerName');
+
+    if (!self.playerName) {
+      // Show player Modal
+    }
 
   };
 
