@@ -330,11 +330,11 @@ main div.results-section div.container div.row div.cards div.card {
   padding-left: 18px;
   float: left;
   margin-right: 15px;
+  margin-bottom: 40px;
 }
 
 main div.results-section div.container div.row div.cards div.card img.card-logo {
   height: 37px;
-  width: 67;
 }
 
 main div.results-section div.container div.row div.card-submissions {
@@ -371,8 +371,7 @@ main div.results-section div.container div.row div div.timer div.timer-heading {
 main div.results-section div.container div.row div div.users {
   background-color: #FFF;
   border: 1px solid #DCDCDC;
-  padding-top: 10px;
-  padding-left: 10px;
+  padding: 10px;
   margin-bottom: 10px;
 }
 

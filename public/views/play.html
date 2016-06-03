@@ -8,7 +8,7 @@
         </a>
       </div>
       <div class="col-md-4">
-        <ul class="list-inline pull-right" ng-if="play.isAdmin">
+        <ul class="list-inline pull-right" ng-if="isAdmin">
           <li>
             <a ng-href="#/dashboard">
               Account
@@ -20,7 +20,7 @@
             </a>
           </li>
           <li>
-            <a href="/" ng-click="play.logoutUser()">
+            <a href="/" ng-click="logoutUser()">
               Logout
             </a>
           </li>
@@ -34,18 +34,21 @@
   <div class="sub-header">
     <div class="container">
       <div class="row">
-        <div class="col-md-8 story-heading">
-          <strong>{{play.game.stories[play.currentStory].name}}</strong> -
-          <strong>{{play.game.stories[play.currentStory].description}}</strong>
+        <div class="col-md-1 story-heading">
+          Story #
         </div>
-        <div class="col-md-4 start-story" ng-if="play.isAdmin">
+        <div class="col-md-7 story-heading">
+          <strong>{{game.stories[game.currentStory].name}}</strong> -
+          <strong>{{game.stories[game.currentStory].description}}</strong>
+        </div>
+        <div class="col-md-4 start-story" ng-if="isAdmin">
           <button class="btn start-pointing">
             Start Pointing
           </button>
           <button class="btn show-votes" style="display:none">
             Show Votes
           </button>
-          <button class="btn invite-team">
+          <button class="btn invite-team" ng-click="inviteTeam()">
             Invite Team
           </button>
         </div>
@@ -56,145 +59,22 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          Welcome {{play.playerName}}
+          Welcome {{playerName}}
           <br/><br/>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
           <div class="row">
-            <div class="col-md-12 cards">
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 card-submissions">
-              <div class="card-submitter">
-                Keith
-              </div>
-              <div class="card-submitter">
-                Ciaran
-              </div>
-              <div class="card-submitter">
-                Nev
-              </div>
-              <div class="card-submitter">
-                Stephen
-              </div>
-              <div class="card-submitter">
-                Barry
-              </div>
-              <div class="card-submitter">
-                Neil
-              </div>
-              <div class="card-submitter">
-                Paul
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 cards">
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 card-submissions">
-              <div class="card-submitter">
-                Stuart
-              </div>
-              <div class="card-submitter">
-                Brian
-              </div>
-              <div class="card-submitter">
-                Kevin
-              </div>
-              <div class="card-submitter">
-                James
-              </div>
-              <div class="card-submitter">
-                Jonny
-              </div>
-              <div class="card-submitter">
-                Bartek
-              </div>
-              <div class="card-submitter">
-                Graeme
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 cards">
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-              <div class="card">
-                <img alt="logo" src="img/card-logo.png" class="card-logo" />
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 card-submissions">
-              <div class="card-submitter">
-                Elaine
-              </div>
-              <div class="card-submitter">
-                Ben
-              </div>
-              <div class="card-submitter">
-                Keith S
-              </div>
-              <div class="card-submitter">
-                Colin
+            <div class="col-md-12">
+              <div class="cards" ng-repeat="vote in game.votes">
+                <div class="card">
+                  <img alt="logo" src="img/card-logo.png" class="card-logo" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="timer">
+        <div style="position: fixed; top: 150px; right: 30px;">
+          <div class="timer" hidden>
             <div class="timer-heading">Timer</div>
             <div class="item html">
               <h2>0</h2>
@@ -207,227 +87,28 @@
               </svg>
             </div>
           </div>
-          <div class="users" ng-if="play.isAdmin">
+          <div class="users">
             <div class="user-heading">Players</div>
             <table>
               <thead>
                 <tr>
                   <th>Username</th>
                   <th>Voted</th>
-                  <th>Action</th>
+                  <th ng-show="isAdmin">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Keith</td>
+                <tr ng-repeat="player in game.players">
+                  <td>{{player.username}}</td>
                   <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
+                    <div ng-show="player.voted">
+                      <i class="fa fa-check" aria-hidden="true"></i>
+                    </div>
+                    <div ng-show="!player.voted">
+                      <i class="fa fa-times" aria-hidden="true"></i>
                     </div>
                   </td>
-                </tr>
-                <tr>
-                  <td>Ciaran</td>
-                  <td>
-                    <i class="fa fa-times"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Nev</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Stephen</td>
-                  <td>
-                    <i class="fa fa-times"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Barry</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Neil</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Paul</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Stuart</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Brian</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Kevin</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>James</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Jonny</td>
-                  <td>
-                    <i class="fa fa-times"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Bartek</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Graeme</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Elaine</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Ben</td>
-                  <td>
-                    <i class="fa fa-times"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Keith S</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Colin</td>
-                  <td>
-                    <i class="fa fa-check"></i>
-                  </td>
-                  <td>
+                  <td ng-if="isAdmin">
                     <div class="btn-group" role="group">
                       <button type="button" class="btn btn-sm">Nudge</button>
                       <button type="button" class="btn btn-sm">Kick</button>
@@ -482,71 +163,63 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <a href="#">
+        
           <div class="card">
             <span>0</span>
           </div>
-        </a>
-        <a href="#">
+
+        
           <div class="card">
             <span>1/2</span>
           </div>
-        </a>
-        <a href="#">
+
+
           <div class="card">
             <span>1</span>
           </div>
-        </a>
-        <a href="#">
+
+
           <div class="card">
             <span>2</span>
           </div>
-        </a>
-        <a href="#">
+
+
           <div class="card">
             <span>3</span>
           </div>
-        </a>
-        <a href="#">
+
           <div class="card">
             <span>5</span>
           </div>
-        </a>
-        <a href="#">
+
           <div class="card">
             <span>8</span>
           </div>
-        </a>
-        <a href="#">
+
           <div class="card">
             <span>13</span>
           </div>
-        </a>
-        <a href="#">
+
           <div class="card">
             <span>20</span>
           </div>
-        </a>
-        <a href="#">
+
           <div class="card">
             <span>40</span>
           </div>
-        </a>
-        <a href="#">
+
           <div class="card">
             <span>100</span>
           </div>
-        </a>
-        <a href="#">
+
           <div class="card">
             <span>?</span>
           </div>
-        </a>
-        <a href="#">
+
           <div class="card">
             <span>Break</span>
           </div>
-        </a>
+
       </div>
     </div>
   </div>
@@ -562,4 +235,55 @@
     </div>
   </div>
 </footer>
+
+<!-- Player Name selection Modal -->
+<div class="modal fade" id="playerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">
+          Enter your Player Name
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Player Name</label>
+          <input type="text" id="player-name" class="form-control" placeholder="Player Name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  ng-click="addPlayer()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
+          Add Player
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Invite Team Modal -->
+<div class="modal fade" id="inviteTeamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">
+          Invite Team
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Copy and paste link and share to add players:</label>
+          <input type="text" id="player-name" class="form-control" placeholder="Player Name" ng-model="game.URL">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
+          Done
+        </button>
+
+        <a href="{{mailto}}" class="btn btn-lg btn-primary" style="background-color:#CC325A; border-color:#CC325A;">Email Team</a>
+
+      </div>
+    </div>
+  </div>
+</div>
 

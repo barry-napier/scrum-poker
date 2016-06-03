@@ -16,7 +16,7 @@ angular.module('scrumPoker.routes', ['ngRoute'])
       controllerAs: 'user'
     })
 
-    // signup page
+    // login page
     .when('/login', {
       templateUrl : 'views/login.html',
       controller  : 'userController',
