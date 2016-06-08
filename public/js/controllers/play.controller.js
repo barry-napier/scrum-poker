@@ -104,7 +104,7 @@ angular.module('playCtrl', ['authService'])
   /**
    * Vote on current story.
    */
-  $scope.vote = function (data) {
+  $scope.vote = function ($event, data) {
 
     var vote = {
       playerName : $scope.playerName,
@@ -112,9 +112,13 @@ angular.module('playCtrl', ['authService'])
       value      : data.value
     };
 
+    $scope.game.players[$scope.playerName].voted = true;
+
     $scope.game.stories[$scope.game.currentStory].votes.push(vote);
 
     $scope.updateGame();
+
+    $($event.currentTarget).addClass('magictime slideUp');
 
   };
 
@@ -124,7 +128,7 @@ angular.module('playCtrl', ['authService'])
    */
   $scope.join = function () {
 
-    var playerName = $window.localStorage.getItem('username');
+    var playerName = $window.localStorage.getItem('playerName');
 
     if (playerName) {
 
@@ -144,27 +148,42 @@ angular.module('playCtrl', ['authService'])
    */
   $scope.addPlayer = function () {
 
-    var username = $('#player-name').val();
+    var playerName = $('#player-name').val();
 
-    console.log("Player Name: " + username);
+    console.log("Player Name: " + playerName);
 
-    $scope.game.players.push(username);
-    $scope.game.username = $window.localStorage.setItem('username', username);
+    $window.localStorage.setItem('playerName', playerName);
 
-    $scope.game.username = username;
 
     $('#playerModal').modal('hide');
 
-    socket.emit('join', { gameId : $scope.gameId, username : username});
-    $scope.playerName = username;
+    socket.emit('join', { gameId : $scope.gameId, playerName : playerName});
+    $scope.playerName = playerName;
+
+  };
+
+  /**
+   * Starts the game.
+   */
+  $scope.startGame = function () {
+
+    socket.emit('start game');
+    return false;
+
+  };
+
+  $scope.kickPlayer = function (player) {
+
+    console.log('Kick player :' + player.playerName + player.socketId);
+    socket.emit('kick player', {socketId : player.socketId});
 
   };
 
   // Socket Events
   socket.on('user joined', function (data) {
 
-    var username = data.playerName;
-    console.log('user Joined : ' + username);
+    var playerName = data.playerName;
+    console.log('user Joined : ' + playerName);
 
     $scope.game = data.game;
 
@@ -172,8 +191,8 @@ angular.module('playCtrl', ['authService'])
 
   socket.on('user left', function (data) {
 
-    var username = data.username;
-    console.log('user left : ' + username);
+    var playerName = data.playerName;
+    console.log('user left : ' + playerName);
 
     $scope.game = data.game;
 

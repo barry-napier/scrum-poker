@@ -29,7 +29,7 @@ var createGame = function (gameId) {
   var game = games[gameId] = {};
 
   game.id           = gameId;
-  game.URL          = '';
+  game.started      = false;
   game.players      = {};
   game.stories      = {};
   game.currentStory = "CCDS-221";
@@ -80,6 +80,8 @@ io.on('connection', function (socket) {
     var gameId     = data.gameId;
     var playerName = data.playerName;
 
+    socket.join(gameId);
+
     console.log('Game Id: '  + gameId);
     console.log('playerName: ' + playerName);
 
@@ -89,12 +91,12 @@ io.on('connection', function (socket) {
     console.log('Socket playerName: ' + socket.playerName);
 
     getGame(gameId).numOfPlayers++;
-    getGame(gameId).players[playerName] = { playerName:playerName, voted: false, score:0 };
+    getGame(gameId).players[playerName] = { playerName:playerName, voted: false, score:0, socketId: socket.id };
 
     console.log('Number of Users: ' + getGame(gameId).numOfPlayers);
     console.log('Players: ' + getGame(gameId).players);
 
-    io.emit('user joined', {game: getGame(gameId), playerName: playerName});
+    io.to(gameId).emit('user joined', {game: getGame(gameId), playerName: playerName});
 
   });
 
@@ -109,7 +111,7 @@ io.on('connection', function (socket) {
     console.log('Username disconnected: ' + socket.playerName);
     console.log('Number of Users: ' + getGame(socket.gameId).numOfPlayers);
 
-    io.emit('user left', {game: getGame(socket.gameId), playerName: socket.playerName});
+    io.to(socket.gameId).emit('user left', {game: getGame(socket.gameId), playerName: socket.playerName});
 
   });
 
@@ -118,12 +120,25 @@ io.on('connection', function (socket) {
    */
   socket.on('update game', function (data) {
 
-    console.log(data);
-
     var gameId    = data.gameId;
     games[gameId] = data.game;
 
-    io.emit('game updated', {game: games[gameId]});
+    io.to(gameId).emit('game updated', {game: games[gameId]});
+
+  });
+
+  socket.on('start game', function () {
+
+    getGame(socket.gameId).started = true;
+    io.to(socket.gameId).emit('game updated', {game: games[socket.gameId]});
+
+  });
+
+  socket.on('kick player', function (data) {
+
+    var userIdToBeKicked = data.socketId
+
+    socket.clients[userIdToBeKicked].onDisconnect();
 
   });
 

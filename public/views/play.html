@@ -59,16 +59,26 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          Welcome {{playerName}}
+          <h3>Welcome {{playerName}}</h3>
           <br/><br/>
         </div>
+        <div class="col-md-12 text-center" ng-hide="game.started">
+          <img alt="banner" src="img/banner_bg.png" class="banner center-block" />
+          <a class="btn btn-xlg" ng-click="startGame()" ng-show="isAdmin">Start Game</a>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-12">
+              <div ng-repeat="player in game.players">
+                <div ng-show="game.started && !player.voted" style="background-color: transparent;border: 3px dotted #99ACBE;border-radius: 4px;height: 100px;width: 77px;padding-top: 29px;float: left;margin-right: 10px;margin-bottom: 20px;">
+                </div>
+              </div>
               <div class="cards" ng-repeat="vote in game.stories[game.currentStory].votes track by $index">
-                <div class="card">
+                <div class="card text-center">
                   <img alt="logo" src="img/card-logo.png" class="card-logo" />
-                  <span>{{vote.playerName}}</span>
+                  <div class="name">{{vote.playerName}}</div>
                 </div>
               </div>
             </div>
@@ -114,14 +124,14 @@
                   <td ng-if="isAdmin">
                     <div class="btn-group" role="group">
                       <button type="button" class="btn btn-sm">Nudge</button>
-                      <button type="button" class="btn btn-sm">Kick</button>
+                      <button type="button" class="btn btn-sm" ng-click="kickPlayer(player)">Kick</button>
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="results" ng-if="isAdmin">
+          <div class="results" ng-if="isAdmin" ng-show="game.stories[game.currentStory].votes.length">
             <div class="results-heading">
               Results
             </div>
@@ -146,7 +156,7 @@
   </div>
 
 </main>
-<div class="selection-section">
+<div class="selection-section" ng-show="game.started">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -155,13 +165,10 @@
       </div>
     </div>
     <div class="row">
-
       <div class="col-md-12">
-        
-          <div class="card" ng-repeat="card in cardSelections track by $index" ng-click="vote(card)">
+          <div class="card" ng-repeat="card in cardSelections track by $index" ng-click="vote($event, card)">
             <span>{{card.name}}</span>
           </div>
-
       </div>
     </div>
   </div>

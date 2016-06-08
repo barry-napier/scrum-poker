@@ -110,6 +110,16 @@ body {
   color: #4C4F5D;
 }
 
+a.btn-xlg {
+  background-color: #CC325A;
+  border-color: #CC325A;
+  padding:15px 25px;
+  font-size: 22px;
+  color:#FFF;
+  font-weight: 900;
+  margin-top:40px;
+}
+
 div.main {
   background: url(../img/bg.jpg) no-repeat top center fixed;
   /* Set rules to fill background */
@@ -127,7 +137,6 @@ div.main {
 }
 
 div.main div.overlay {
-  background: rgba(106, 140, 167, 0.5);
   /* Set rules to fill background */
   min-height: 100%;
   min-width: 1024px;
@@ -289,7 +298,6 @@ main div.sub-header div.container div.row div.start-story button.start-pointing 
   background-color: #76AB8C;
   color: #FFF;
   float: right;
-  ;
   margin-left: 20px;
 }
 
@@ -311,6 +319,11 @@ main div.sub-header div.container div.row div.start-story button:hover {
   color: #C8DCED;
 }
 
+.banner {
+  width: 500px;
+  opacity: 0.2;
+}
+
 main div.results-section {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -324,13 +337,18 @@ main div.results-section div.container div.row div.cards div.card {
   background-color: #AEBFCE;
   border: 3px solid #99ACBE;
   border-radius: 4px;
-  height: 130px;
-  width: 100px;
-  padding-top: 36px;
-  padding-left: 18px;
+  height: 100px;
+  width: 77px;
+  padding-top: 25px;
   float: left;
   margin-right: 15px;
   margin-bottom: 40px;
+}
+
+main div.results-section div.container div.row div.cards div.card div.name{
+  margin-top: 40px;
+  font-weight: bold;
+  width: 77px;
 }
 
 main div.results-section div.container div.row div.cards div.card img.card-logo {
