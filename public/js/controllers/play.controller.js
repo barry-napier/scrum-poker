@@ -2,24 +2,65 @@ angular.module('playCtrl', ['authService'])
 
 .controller('playController', function(Auth, $location, $http, $routeParams, $scope, $window, socket) {
 
+  $scope.cardSelections = [
+    {
+      name : '0',
+      value : 0
+    },
+    {
+      name : '1/2',
+      value : 0.5
+    },
+    {
+      name : '1',
+      value : 1
+    },
+    {
+      name : '2',
+      value : 2
+    },
+    {
+      name : '3',
+      value : 3
+    },
+    {
+      name : '5',
+      value : 5
+    },
+    {
+      name : '8',
+      value : 8
+    },
+    {
+      name : '13',
+      value : 13
+    },
+    {
+      name : '20',
+      value : 20
+    },
+    {
+      name : '40',
+      value : 40
+    },
+    {
+      name : '100',
+      value : 100
+    },
+    {
+      name : '?',
+      value : 0
+    },
+    {
+      name : 'Break',
+      value : 0
+    }
+  ];
+
+  $scope.URL               = $window.location.href;
   $scope.isAdmin           = Auth.isLoggedIn();
   $scope.gameId            = $routeParams.gameId;
   $scope.playerName        = '';
-  $scope.game              = {};
-  $scope.game.URL          = $window.location.href;
-  $scope.game.players      = [];
-  $scope.game.votes        = {};
-  $scope.game.stories      = {};
-  $scope.game.currentStory = "CCDS-221";
-
-  $scope.game.stories["CCDS-221"]  = {name : 'CCDS-221',  description : 'Keyboard Shortcuts', value: '', link:'http://google.com'};
-  $scope.game.stories["CCDS-2246"] = {name : 'CCDS-2246', description : 'Associate Layouts with B2B', value: '', link:'http://google.com'};
-
-  $('div.selection-section').find('div.card').click(function () {
-    $(this).toggleClass('magictime slideUp');
-    $scope.game.votes[$scope.playerName] = {username:$scope.playerName, value: $(this).find('span').val()}
-  });
-
 
   /**
    * Invite team members to game
@@ -28,16 +69,14 @@ angular.module('playCtrl', ['authService'])
 
     var storyList = '';
 
-    for (story in $scope.game.stories) {
+    for (var story in $scope.game.stories) {
 
-      var storyStr = $scope.game.stories[story].name +
-                     ' - ' +
-                     $scope.game.stories[story].description +
-                     ' - ' +
-                     $scope.game.stories[story].link +
-                     '%0D%0A%0D%0A';
-
-      storyList += storyStr;
+      storyList += $scope.game.stories[story].name +
+                   ' - ' +
+                   $scope.game.stories[story].description +
+                   ' - ' +
+                   $scope.game.stories[story].link +
+                   '%0D%0A%0D%0A';;
 
     }
 
@@ -50,11 +89,34 @@ angular.module('playCtrl', ['authService'])
                      $scope.playerName +
                     '%0D%0A%0D%0A' +
                     'Join the game at : ' +
-                     $scope.game.URL;
+                     $scope.URL;
 
     $('#inviteTeamModal').modal('show');
 
-  }
+  };
+
+  $scope.updateGame = function () {
+
+    socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
+
+  };
+
+  /**
+   * Vote on current story.
+   */
+  $scope.vote = function (data) {
+
+    var vote = {
+      playerName : $scope.playerName,
+      name       : data.name,
+      value      : data.value
+    };
+
+    $scope.game.stories[$scope.game.currentStory].votes.push(vote);
+
+    $scope.updateGame();
+
+  };
 
 
   /**
@@ -62,12 +124,12 @@ angular.module('playCtrl', ['authService'])
    */
   $scope.join = function () {
 
-    var username = $window.localStorage.getItem('username');
+    var playerName = $window.localStorage.getItem('username');
 
-    if (username) {
+    if (playerName) {
 
-      socket.emit('join', { gameId : $scope.gameId, username : username});
-      $scope.playerName = username;
+      socket.emit('join', { gameId : $scope.gameId, playerName : playerName});
+      $scope.playerName = playerName;
 
     } else {
 
@@ -95,16 +157,16 @@ angular.module('playCtrl', ['authService'])
 
     socket.emit('join', { gameId : $scope.gameId, username : username});
     $scope.playerName = username;
+
   };
 
   // Socket Events
   socket.on('user joined', function (data) {
 
-    var username = data.username;
+    var username = data.playerName;
     console.log('user Joined : ' + username);
 
-    $scope.game.id = $routeParams.gameId;
-    $scope.game.players = data.game.users;
+    $scope.game = data.game;
 
   });
 
@@ -113,8 +175,15 @@ angular.module('playCtrl', ['authService'])
     var username = data.username;
     console.log('user left : ' + username);
 
-    $scope.game.id = $routeParams.gameId;
-    $scope.game.players = data.game.users;
+    $scope.game = data.game;
+
+  });
+
+  socket.on('game updated', function (data) {
+
+    console.log('Game Updated!');
+
+    $scope.game = data.game;
 
   });
 

@@ -65,9 +65,10 @@
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-12">
-              <div class="cards" ng-repeat="vote in game.votes">
+              <div class="cards" ng-repeat="vote in game.stories[game.currentStory].votes track by $index">
                 <div class="card">
                   <img alt="logo" src="img/card-logo.png" class="card-logo" />
+                  <span>{{vote.playerName}}</span>
                 </div>
               </div>
             </div>
@@ -88,7 +89,9 @@
             </div>
           </div>
           <div class="users">
-            <div class="user-heading">Players</div>
+            <div class="user-heading">
+              Players
+            </div>
             <table>
               <thead>
                 <tr>
@@ -99,7 +102,7 @@
               </thead>
               <tbody>
                 <tr ng-repeat="player in game.players">
-                  <td>{{player.username}}</td>
+                  <td>{{player.playerName}}</td>
                   <td>
                     <div ng-show="player.voted">
                       <i class="fa fa-check" aria-hidden="true"></i>
@@ -118,8 +121,10 @@
               </tbody>
             </table>
           </div>
-          <div class="results" style="display: none">
-            <div class="results-heading">Results</div>
+          <div class="results" ng-if="isAdmin">
+            <div class="results-heading">
+              Results
+            </div>
             <table>
               <thead>
                 <tr>
@@ -128,21 +133,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>data</td>
-                  <td>data</td>
-                </tr>
-                <tr>
-                  <td>data</td>
-                  <td>data</td>
-                </tr>
-                <tr>
-                  <td>data</td>
-                  <td>data</td>
-                </tr>
-                <tr>
-                  <td>data</td>
-                  <td>data</td>
+                <tr ng-repeat="vote in game.stories[game.currentStory].votes">
+                  <td>{{vote.playerName}}</td>
+                  <td>{{vote.name}}</td>
                 </tr>
               </tbody>
             </table>
@@ -162,62 +155,11 @@
       </div>
     </div>
     <div class="row">
+
       <div class="col-md-12">
         
-          <div class="card">
-            <span>0</span>
-          </div>
-
-        
-          <div class="card">
-            <span>1/2</span>
-          </div>
-
-
-          <div class="card">
-            <span>1</span>
-          </div>
-
-
-          <div class="card">
-            <span>2</span>
-          </div>
-
-
-          <div class="card">
-            <span>3</span>
-          </div>
-
-          <div class="card">
-            <span>5</span>
-          </div>
-
-          <div class="card">
-            <span>8</span>
-          </div>
-
-          <div class="card">
-            <span>13</span>
-          </div>
-
-          <div class="card">
-            <span>20</span>
-          </div>
-
-          <div class="card">
-            <span>40</span>
-          </div>
-
-          <div class="card">
-            <span>100</span>
-          </div>
-
-          <div class="card">
-            <span>?</span>
-          </div>
-
-          <div class="card">
-            <span>Break</span>
+          <div class="card" ng-repeat="card in cardSelections track by $index" ng-click="vote(card)">
+            <span>{{card.name}}</span>
           </div>
 
       </div>
@@ -272,7 +214,7 @@
       <div class="modal-body">
         <div class="form-group">
           <label>Copy and paste link and share to add players:</label>
-          <input type="text" id="player-name" class="form-control" placeholder="Player Name" ng-model="game.URL">
+          <input type="text" id="player-name" class="form-control" placeholder="Player Name" ng-model="URL">
         </div>
       </div>
       <div class="modal-footer">

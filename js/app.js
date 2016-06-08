@@ -28,11 +28,29 @@ var createGame = function (gameId) {
 
   var game = games[gameId] = {};
 
-  game.id            = gameId;
-  game.users         = {};
-  game.numberOfUsers = 0;
-  game.subject       = null;
-  game.displayVotes  = false;
+  game.id           = gameId;
+  game.URL          = '';
+  game.players      = {};
+  game.stories      = {};
+  game.currentStory = "CCDS-221";
+
+  game.stories["CCDS-221"] = {
+    name        : 'CCDS-221',
+    description : 'Keyboard Shortcuts',
+    value       : '',
+    link        : 'https://jira-oracom.us.oracle.com/jira/browse/CCDS-221',
+    votes       : []
+  };
+
+  game.stories["CCDS-2246"] = {
+    name        : 'CCDS-2246',
+    description : 'Associate Layouts with B2B',
+    value       : '',
+    link        :'https://jira-oracom.us.oracle.com/jira/browse/CCDS-2246',
+    votes       : []
+  };
+
+  game.numOfPlayers = 0;
 
   return game;
 };
@@ -59,24 +77,24 @@ io.on('connection', function (socket) {
    */
   socket.on('join', function (data) {
 
-    var gameId   = data.gameId;
-    var username = data.username;
+    var gameId     = data.gameId;
+    var playerName = data.playerName;
 
     console.log('Game Id: '  + gameId);
-    console.log('Username: ' + username);
+    console.log('playerName: ' + playerName);
 
-    socket.username = username;
+    socket.playerName = playerName;
     socket.gameId   = gameId;
 
-    console.log('Socket Username: ' + socket.username);
+    console.log('Socket playerName: ' + socket.playerName);
 
-    getGame(gameId).numberOfUsers++;
-    getGame(gameId).users[username] = {username:username, voted: false, score:0};
+    getGame(gameId).numOfPlayers++;
+    getGame(gameId).players[playerName] = { playerName:playerName, voted: false, score:0 };
 
-    console.log('Number of Users: ' + getGame(gameId).numberOfUsers);
-    console.log('Users: ' + getGame(gameId).users);
+    console.log('Number of Users: ' + getGame(gameId).numOfPlayers);
+    console.log('Players: ' + getGame(gameId).players);
 
-    io.emit('user joined', {game: getGame(gameId), username: username});
+    io.emit('user joined', {game: getGame(gameId), playerName: playerName});
 
   });
 
@@ -85,13 +103,27 @@ io.on('connection', function (socket) {
    */
   socket.on('disconnect', function () {
 
-    getGame(socket.gameId).numberOfUsers--;
-    delete getGame(socket.gameId).users[socket.username];
+    getGame(socket.gameId).numOfPlayers--;
+    delete getGame(socket.gameId).players[socket.playerName];
 
-    console.log('Username disconnected: ' + socket.username);
-    console.log('Number of Users: ' + getGame(socket.gameId).numberOfUsers);
+    console.log('Username disconnected: ' + socket.playerName);
+    console.log('Number of Users: ' + getGame(socket.gameId).numOfPlayers);
 
-    io.emit('user left', {game: getGame(socket.gameId), username: socket.username});
+    io.emit('user left', {game: getGame(socket.gameId), playerName: socket.playerName});
+
+  });
+
+  /**
+   * Update the game.
+   */
+  socket.on('update game', function (data) {
+
+    console.log(data);
+
+    var gameId    = data.gameId;
+    games[gameId] = data.game;
+
+    io.emit('game updated', {game: games[gameId]});
 
   });
 
