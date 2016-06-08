@@ -127,6 +127,9 @@ io.on('connection', function (socket) {
 
   });
 
+  /**
+   * Start the game.
+   */
   socket.on('start game', function () {
 
     getGame(socket.gameId).started = true;
