@@ -26,7 +26,7 @@ router.route('/users')
 router.route('/users/:userId')
   /*********************************************************************************************************************
    *
-   * GET '/users/:userId' - Get user by id.
+   * GET '/users/:userId' -  Get user by id.
    *
    * @param  {object} request  - The request containing user information.
    * @param  {object} response - The response returned to the user.
