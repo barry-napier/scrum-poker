@@ -172,6 +172,11 @@ angular.module('playCtrl', ['authService'])
 
   };
 
+  /**
+   * Removes the player from the game.
+   *
+   * @param player
+   */
   $scope.kickPlayer = function (player) {
 
     console.log('Kick player :' + player.playerName + player.socketId);

@@ -458,6 +458,11 @@ div.selection-section div.container div.row div div.card {
   margin-bottom: 20px;
 }
 
+div.selection-section div.container div.row div div.card.disabled {
+  background-color: #FFF;
+  border: 3px solid #dedede;
+}
+
 div.selection-section div.container div.row div div.card span {
   color: #4C4F5D;
   font-size: 21px;

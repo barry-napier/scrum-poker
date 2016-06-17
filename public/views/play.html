@@ -166,7 +166,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-          <div class="card" ng-repeat="card in cardSelections track by $index" ng-click="vote($event, card)">
+          <div class="card" ng-class="{ disabled: game.players[playerName].voted}" ng-repeat="card in cardSelections track by $index" ng-click="game.players[playerName].voted || vote($event, card)">
             <span>{{card.name}}</span>
           </div>
       </div>
@@ -190,7 +190,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">
+        <h4 class="modal-title">
           Enter your Player Name
         </h4>
       </div>
@@ -214,14 +214,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">
+        <h4 class="modal-title">
           Invite Team
         </h4>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label>Copy and paste link and share to add players:</label>
-          <input type="text" id="player-name" class="form-control" placeholder="Player Name" ng-model="URL">
+          <input type="text" id="game-id" class="form-control" placeholder="Player Name" ng-model="URL">
         </div>
       </div>
       <div class="modal-footer">
