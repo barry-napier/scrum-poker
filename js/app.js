@@ -6,7 +6,6 @@ var router  = require('./router/')(app);
 var db      = require('./database/');
 var logger  = config.logger;
 var io      = require('socket.io')(server);
-var game    = require('./game');
 
 server.listen(config.port, config.ip, function () {
   logger.info('Server listening at port %d', config.port);
@@ -28,18 +27,19 @@ var createGame = function (gameId) {
 
   var game = games[gameId] = {};
 
-  game.id           = gameId;
-  game.started      = false;
-  game.players      = {};
-  game.stories      = {};
-  game.currentStory = "CCDS-221";
+  game.id                = gameId;
+  game.started           = false;
+  game.players           = {};
+  game.stories           = {};
+  game.currentStory      = "CCDS-221";
 
   game.stories["CCDS-221"] = {
     name        : 'CCDS-221',
     description : 'Keyboard Shortcuts',
     value       : '',
     link        : 'https://jira-oracom.us.oracle.com/jira/browse/CCDS-221',
-    votes       : []
+    votes       : {},
+    flipped     : false
   };
 
   game.stories["CCDS-2246"] = {
@@ -47,10 +47,13 @@ var createGame = function (gameId) {
     description : 'Associate Layouts with B2B',
     value       : '',
     link        :'https://jira-oracom.us.oracle.com/jira/browse/CCDS-2246',
-    votes       : []
+    votes       : {},
+    flipped     : false
   };
 
+  game.currentStoryIndex = 1;
   game.numOfPlayers = 0;
+
 
   return game;
 };
@@ -85,13 +88,19 @@ io.on('connection', function (socket) {
     console.log('Game Id: '  + gameId);
     console.log('playerName: ' + playerName);
 
+    socket.gameId     = gameId;
     socket.playerName = playerName;
-    socket.gameId   = gameId;
 
     console.log('Socket playerName: ' + socket.playerName);
 
-    getGame(gameId).numOfPlayers++;
-    getGame(gameId).players[playerName] = { playerName:playerName, voted: false, score:0, socketId: socket.id };
+    var player = getGame(gameId).players[playerName];
+
+    if (!player) {
+
+      getGame(gameId).numOfPlayers++;
+      getGame(gameId).players[playerName] = { playerName:playerName, voted: false, score:0, socketId: socket.id };
+
+    }
 
     console.log('Number of Users: ' + getGame(gameId).numOfPlayers);
     console.log('Players: ' + getGame(gameId).players);
@@ -105,13 +114,7 @@ io.on('connection', function (socket) {
    */
   socket.on('disconnect', function () {
 
-    getGame(socket.gameId).numOfPlayers--;
-    delete getGame(socket.gameId).players[socket.playerName];
-
-    console.log('Username disconnected: ' + socket.playerName);
-    console.log('Number of Users: ' + getGame(socket.gameId).numOfPlayers);
-
-    io.to(socket.gameId).emit('user left', {game: getGame(socket.gameId), playerName: socket.playerName});
+    var gameId = socket.gameId;
 
   });
 
@@ -133,7 +136,7 @@ io.on('connection', function (socket) {
   socket.on('start game', function () {
 
     getGame(socket.gameId).started = true;
-    io.to(socket.gameId).emit('game updated', {game: games[socket.gameId]});
+    io.to(socket.gameId).emit('game started', {game: games[socket.gameId]});
 
   });
 

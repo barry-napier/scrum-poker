@@ -294,29 +294,22 @@ main div.sub-header div.container div.row div.start-story {
   margin-top: 12px;
 }
 
-main div.sub-header div.container div.row div.start-story button.start-pointing {
+main div.sub-header div.container div.row div.start-story button.green {
   background-color: #76AB8C;
+  border-color: #76AB8C;
   color: #FFF;
-  float: right;
-  margin-left: 20px;
 }
 
-main div.sub-header div.container div.row div.start-story button.show-votes {
+main div.sub-header div.container div.row div.start-story button.red {
   background-color: #CC325A;
+  border-color: #CC325A;
   color: #FFF;
-  float: right;
-  margin-left: 20px;
 }
 
-main div.sub-header div.container div.row div.start-story button.invite-team {
+main div.sub-header div.container div.row div.start-story button.blue {
   background-color: #5E809E;
+  border-color: #5E809E;
   color: #FFF;
-  float: right;
-  margin-left: 20px;
-}
-
-main div.sub-header div.container div.row div.start-story button:hover {
-  color: #C8DCED;
 }
 
 .banner {
@@ -343,6 +336,28 @@ main div.results-section div.container div.row div.cards div.card {
   float: left;
   margin-right: 15px;
   margin-bottom: 40px;
+}
+
+main div.results-section div.container div.row div.flipped-cards div.cards div.card {
+  background-color: #FFF;
+  border: 3px solid #99ACBE;
+  border-radius: 4px;
+  height: 100px;
+  width: 77px;
+  padding-top: 29px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+main div.results-section div.container div.row div.flipped-cards div.cards div.card span {
+  color: #4C4F5D;
+  font-size: 21px;
+  font-weight: bold;
+  margin-bottom:43px;
+  text-align: center;
+  width: 70px;
+  float: left;
 }
 
 main div.results-section div.container div.row div.cards div.card div.name{

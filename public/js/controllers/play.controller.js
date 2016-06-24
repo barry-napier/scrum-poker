@@ -95,6 +95,9 @@ angular.module('playCtrl', ['authService'])
 
   };
 
+  /**
+   * Updates the game on the client.
+   */
   $scope.updateGame = function () {
 
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
@@ -114,7 +117,7 @@ angular.module('playCtrl', ['authService'])
 
     $scope.game.players[$scope.playerName].voted = true;
 
-    $scope.game.stories[$scope.game.currentStory].votes.push(vote);
+    $scope.game.stories[$scope.game.currentStory].votes[$scope.playerName] = vote;
 
     $scope.updateGame();
 
@@ -168,7 +171,6 @@ angular.module('playCtrl', ['authService'])
   $scope.startGame = function () {
 
     socket.emit('start game');
-    return false;
 
   };
 
@@ -183,6 +185,13 @@ angular.module('playCtrl', ['authService'])
     socket.emit('kick player', {socketId : player.socketId});
 
   };
+
+  $scope.flipCards = function () {
+
+    $scope.game.stories[$scope.game.currentStory].flipped = true;
+    socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
+
+  }
 
   // Socket Events
   socket.on('user joined', function (data) {
@@ -200,6 +209,36 @@ angular.module('playCtrl', ['authService'])
     console.log('user left : ' + playerName);
 
     $scope.game = data.game;
+
+  });
+
+  socket.on('game started', function (data) {
+
+    console.log('Game Started!');
+
+    $scope.game = data.game;
+
+    var initialOffset = 440;
+    var duration      = 60 * 60;
+    var timer         = duration, minutes, seconds;
+
+    setInterval(function () {
+
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      $('.circle_animation').css('stroke-dashoffset', initialOffset-(timer*(initialOffset/duration)));
+
+      $('h2').text(minutes + ":" + seconds);
+
+      if (--timer < 0) {
+        timer = duration;
+      }
+
+    }, 1000);
 
   });
 

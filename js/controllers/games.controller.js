@@ -180,6 +180,42 @@ GameController = function () {
 
   };
 
+  /*********************************************************************************************************************
+   *
+   * Gets the stories associated with existing game.
+   *
+   * @param  {String}   gameId   - The game id.
+   * @param  {function} callback - The callback function to execute when done processing.
+   *
+   * @return {object}   result   - The result of execution.
+   *
+   ********************************************************************************************************************/
+  self.getStories = function (gameId, callback) {
+
+    var stories = [];
+
+    if (gameId) {
+
+      GameModel.findById(gameId, function (error, game) {
+
+        if (!game) {
+
+          logger.error('No game found.');
+
+        } else {
+
+          stories = game.stories;
+
+          callback(stories);
+
+        }
+
+      });
+
+    }
+
+  };
+
 };
 
 module.exports = new GameController();

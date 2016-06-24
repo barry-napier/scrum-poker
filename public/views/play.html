@@ -37,19 +37,34 @@
         <div class="col-md-1 story-heading">
           Story #
         </div>
-        <div class="col-md-7 story-heading">
+        <div class="col-md-4 story-heading">
           <strong>{{game.stories[game.currentStory].name}}</strong> -
           <strong>{{game.stories[game.currentStory].description}}</strong>
         </div>
-        <div class="col-md-4 start-story" ng-if="isAdmin">
-          <button class="btn start-pointing">
-            Start Pointing
-          </button>
-          <button class="btn show-votes" style="display:none">
-            Show Votes
-          </button>
-          <button class="btn invite-team" ng-click="inviteTeam()">
+        <div class="col-md-7 start-story text-right" ng-if="isAdmin">
+          <button class="btn btn-default green" ng-click="inviteTeam()">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
             Invite Team
+          </button>
+          <button class="btn btn-default blue" ng-click="flipCards()">
+            <i class="fa fa-gavel" aria-hidden="true"></i>
+            Flip
+          </button>
+          <button class="btn btn-default blue">
+            <i class="fa fa-eject" aria-hidden="true"></i>
+            Reset
+          </button>
+          <button class="btn btn-default blue">
+            <i class="fa fa-backward" aria-hidden="true"></i>
+            Previous
+          </button>
+          <button class="btn btn-default blue">
+            <i class="fa fa-forward" aria-hidden="true"></i>
+            Next
+          </button>
+          <button class="btn btn-default red">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            View Results
           </button>
         </div>
       </div>
@@ -71,21 +86,33 @@
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-12">
-              <div ng-repeat="player in game.players">
-                <div ng-show="game.started && !player.voted" style="background-color: transparent;border: 3px dotted #99ACBE;border-radius: 4px;height: 100px;width: 77px;padding-top: 29px;float: left;margin-right: 10px;margin-bottom: 20px;">
+              <div class="unsubmitted-cards" ng-show="!game.stories[game.currentStory].flipped">
+                <div ng-repeat="player in game.players">
+                  <div ng-show="game.started && !player.voted" style="background-color: transparent;border: 3px dotted #99ACBE;border-radius: 4px;height: 100px;width: 77px;padding-top: 29px;float: left;margin-right: 10px;margin-bottom: 20px;">
+                  </div>
                 </div>
               </div>
-              <div class="cards" ng-repeat="vote in game.stories[game.currentStory].votes track by $index">
-                <div class="card text-center">
-                  <img alt="logo" src="img/card-logo.png" class="card-logo" />
-                  <div class="name">{{vote.playerName}}</div>
+              <div class="submitted-cards" ng-show="!game.stories[game.currentStory].flipped">
+                <div class="cards" ng-repeat="vote in game.stories[game.currentStory].votes">
+                  <div class="card text-center">
+                    <img alt="logo" src="img/card-logo.png" class="card-logo" />
+                    <div class="name">{{vote.playerName}}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flipped-cards" ng-show="game.stories[game.currentStory].flipped">
+                <div class="cards" ng-repeat="vote in game.stories[game.currentStory].votes">
+                  <div class="card text-center">
+                    <span class="vote">{{vote.name}}</span>
+                    <div class="name">{{vote.playerName}}</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div style="position: fixed; top: 150px; right: 30px;">
-          <div class="timer" hidden>
+          <div class="timer" ng-hide="game.stories[game.currentStory].flipped">
             <div class="timer-heading">Timer</div>
             <div class="item html">
               <h2>0</h2>
@@ -98,7 +125,7 @@
               </svg>
             </div>
           </div>
-          <div class="users">
+          <div class="users" ng-hide="game.stories[game.currentStory].flipped">
             <div class="user-heading">
               Players
             </div>
@@ -131,7 +158,7 @@
               </tbody>
             </table>
           </div>
-          <div class="results" ng-if="isAdmin" ng-show="game.stories[game.currentStory].votes.length">
+          <div class="results" ng-show="game.stories[game.currentStory].flipped">
             <div class="results-heading">
               Results
             </div>
@@ -166,7 +193,9 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-          <div class="card" ng-class="{ disabled: game.players[playerName].voted}" ng-repeat="card in cardSelections track by $index" ng-click="game.players[playerName].voted || vote($event, card)">
+          <div class="card magictime" ng-class="{ disabled : game.players[playerName].voted, slideUp : game.stories[game.currentStory].votes[playerName].value === card.value }"
+                                      ng-repeat="card in cardSelections track by $index"
+                                      ng-click="game.players[playerName].voted || vote($event, card)">
             <span>{{card.name}}</span>
           </div>
       </div>
