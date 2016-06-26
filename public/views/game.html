@@ -20,7 +20,7 @@
             </a>
           </li>
           <li>
-            <a href="/" ng-click="game.logoutUser()">
+            <a href="/" ng-click="logoutUser()">
               Logout
             </a>
           </li>
@@ -33,12 +33,12 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-md-12" ng-if="game.error">
+      <div class="col-md-12" ng-if="error">
         <div class="alert alert-danger" style="margin-top: 10px; margin-bottom: 0;">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          {{ game.error }}
+          {{ error }}
         </div>
       </div>
     </div>
@@ -61,11 +61,11 @@
             <div class="col-md-8">
               <div class="form-group">
                 <label>Game Name</label>
-                <input type="text" class="form-control" placeholder="Design Studio - 16.1 " ng-model="game.name"/>
+                <input type="text" class="form-control" placeholder="Design Studio - 16.1 " ng-model="name"/>
               </div>
               <div class="form-group">
                 <label>Game Description</label>
-                <textarea class="form-control" rows="4" cols="50" placeholder="This game includes the stories for the Design Studio 16.1 release." ng-model="game.description"></textarea>
+                <textarea class="form-control" rows="4" cols="50" placeholder="This game includes the stories for the Design Studio 16.1 release." ng-model="description"></textarea>
                 <br/>
               </div>
             </div>
@@ -79,7 +79,7 @@
               <hr/>
             </div>
           </div>
-          <div class="row" ng-repeat="story in game.stories" ng-if="game.stories.length">
+          <div class="row" ng-repeat="story in stories" ng-if="stories.length">
             <div class="col-md-8">
               <strong>{{story.name}}</strong>
               -
@@ -87,13 +87,13 @@
               <hr style="border-top: 1px solid #eee;"/>
             </div>
           </div>
-          <div class="row" ng-if="!game.stories.length">
+          <div class="row" ng-if="!stories.length">
             <div class="col-md-8">
               You currently have no stories created. Please add a story by clicking "Add Story" above.
             </div>
           </div>
           <br/><br/>
-          <button type="button" ng-click="game.createGame()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
+          <button type="button" ng-click="createGame()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
             Create Game
           </button>
         </section>
@@ -116,17 +116,17 @@
         <div class="modal-body">
           <div class="form-group">
             <label>Story Name</label>
-            <input type="text" class="form-control" placeholder="CCDS-221 " ng-model="game.storyData.name"/>
+            <input type="text" class="form-control" placeholder="CCDS-221 " ng-model="storyData.name"/>
           </div>
           <div class="form-group">
             <label>Story Description</label>
-            <textarea class="form-control" rows="4" cols="50" placeholder="Story description." ng-model="game.storyData.description"></textarea>
+            <textarea class="form-control" rows="4" cols="50" placeholder="Story description." ng-model="storyData.description"></textarea>
             <br/>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" ng-click="game.addStory()" class="btn btn-primary" style="background-color: #5E809E;border-color: #5E809E;">Add Story</button>
+          <button type="button" ng-click="addStory()" class="btn btn-primary" style="background-color: #5E809E;border-color: #5E809E;">Add Story</button>
         </div>
       </div>
     </div>

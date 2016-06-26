@@ -1,37 +1,25 @@
 angular.module('dashboardCtrl', ['authService'])
 
-.controller('dashboardController', function(Auth, $location, $http, $routeParams, $window) {
+.controller('dashboardController', function(Auth, $scope, $location, $http, $routeParams, $window) {
 
-  var self = this;
+  $scope.games;
+  $scope.logoutUser = function () { Auth.logout(); };
 
-  self.error;
 
-  self.games;
-
-  self.logoutUser = function () {
-
-    Auth.logout();
-
-    var url    = '/';
-    $location.hash(url);
-    return false;
-
-  };
-
-  self.getGames = function () {
+  $scope.getGames = function () {
 
     var userId = $window.localStorage.getItem('userId');
 
     $http.get('/api/users/' + userId + '/games')
     .success(function(data) {
 
-      self.games = data.games;
+      $scope.games = data.games;
 
     });
 
   };
 
-  self.loadGame = function (gameId) {
+  $scope.loadGame = function (gameId) {
 
     var url = '/games/' + gameId;
 
@@ -42,19 +30,19 @@ angular.module('dashboardCtrl', ['authService'])
 
   };
 
-  self.deleteGame = function (gameId) {
+  $scope.deleteGame = function (gameId) {
 
     var userId = $window.localStorage.getItem('userId');
 
     $http.delete('/api/users/' + userId + '/games/' + gameId)
     .success(function(data) {
 
-      self.getGames();
+      $scope.getGames();
 
     });
 
   }
 
-  self.getGames();
+  $scope.getGames();
 
 });

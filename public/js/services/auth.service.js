@@ -1,6 +1,6 @@
 angular.module('authService', [])
 
-.factory('Auth', function($http, $q, AuthToken) {
+.factory('Auth', function($http, $q, AuthToken, $window) {
 
   var authFactory = {};
 
@@ -24,6 +24,7 @@ angular.module('authService', [])
   authFactory.logout = function() {
 
     AuthToken.setToken();
+    $window.location.href = '/';
 
   };
 

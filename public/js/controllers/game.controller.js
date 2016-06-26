@@ -1,24 +1,12 @@
 angular.module('gameCtrl', ['authService'])
 
-.controller('gameController', function(Auth, $location, $http, $window) {
+.controller('gameController', function(Auth, $scope, $location, $http, $window) {
 
-  var self = this;
+  $scope.error;
+  $scope.stories = [];
+  $scope.logoutUser = function () { Auth.logout(); };
 
-  self.error;
-  self.stories = [];
-
-  self.logoutUser = function () {
-
-    Auth.logout();
-
-    var url = '/';
-    $location.hash(url);
-
-    return false;
-
-  };
-
-  self.createGame = function () {
+  $scope.createGame = function () {
 
     var userId = $window.localStorage.getItem('userId');
 
@@ -32,7 +20,7 @@ angular.module('gameCtrl', ['authService'])
 
       } else {
 
-        self.error = data.message;
+        $scope.error = data.message;
 
       }
 
@@ -42,11 +30,11 @@ angular.module('gameCtrl', ['authService'])
 
   };
 
-  self.addStory = function () {
+  $scope.addStory = function () {
 
-    self.stories.push(self.storyData);
+    $scope.stories.push($scope.storyData);
     $('#myModal').modal('hide');
-    self.storyData = {};
+    $scope.storyData = {};
 
     return false;
 

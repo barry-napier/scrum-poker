@@ -2,6 +2,8 @@ angular.module('playCtrl', ['authService'])
 
 .controller('playController', function(Auth, $location, $http, $routeParams, $scope, $window, socket) {
 
+  $scope.logoutUser = function () { Auth.logout(); };
+
   $scope.cardSelections = [
     {
       name : '0',
