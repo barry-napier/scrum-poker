@@ -121,7 +121,7 @@ a.btn-xlg {
 }
 
 div.main {
-  background: url(../img/bg.jpg) no-repeat top center fixed;
+  background: url(../img/bg-min.jpg) no-repeat top center fixed;
   /* Set rules to fill background */
   min-height: 100%;
   min-width: 1024px;
