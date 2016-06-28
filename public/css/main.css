@@ -136,44 +136,29 @@ div.main {
   left: 0;
 }
 
-div.main div.overlay {
-  /* Set rules to fill background */
-  min-height: 100%;
-  min-width: 1024px;
-
-  /* Set up proportionate scaling */
-  width: 100%;
-  height: auto;
-
-  /* Set up positioning */
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
-div.main div.overlay img.main-logo {
+div.main img.main-logo {
   height: 50px;
   margin-top: 20px;
   margin-left: 40px;
 }
-div.main div.overlay a {
+div.main a {
   color: #D1E0F7;
   font-size: 17px;
   margin-top: 30px;
   padding-right: 40px;
 }
 
-div.main div.overlay a:hover {
+div.main a:hover {
   color: #FFF;
   text-decoration: none;
 }
 
-div.main div.overlay img.cards {
+div.main img.cards {
   margin-top:50px;
   height: 125px;
 }
 
-div.main div.overlay h1.meet {
+div.main h1.meet {
   color: #fff;
   font-size: 60px;
   font-weight: 900;
@@ -181,14 +166,14 @@ div.main div.overlay h1.meet {
   margin-top:60px;
 }
 
-div.main div.overlay h3.tagline {
+div.main h3.tagline {
   color: #D1E0F7;
   font-size: 30px;
   letter-spacing: -2px;
   margin-top:30px;
 }
 
-div.main div.overlay a.btn-xlg {
+div.main a.btn-xlg {
   background-color: #CC325A;
   border-color: #CC325A;
   padding:15px 25px;
@@ -198,12 +183,12 @@ div.main div.overlay a.btn-xlg {
   margin-top:60px;
 }
 
-div.main div.overlay footer {
+div.main footer {
   background-color: transparent;
   padding-left: 20px;
 }
 
-div.main div.overlay footer div.copyright {
+div.main footer div.copyright {
   color: #D1E0F7;
   padding-right: 20px;
 }
