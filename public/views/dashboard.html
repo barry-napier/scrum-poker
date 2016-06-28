@@ -11,11 +11,6 @@
         <ul class="list-inline pull-right">
           <li>
             <a ng-href="#/dashboard">
-              Account
-            </a>
-          </li>
-          <li>
-            <a ng-href="#/dashboard">
               Dashboard
             </a>
           </li>
@@ -42,7 +37,7 @@
               </h4>
             </div>
             <div class="col-md-2">
-              <a type="button" ng-href="#/games/create" class="btn btn-lg btn-primary  pull-right" style="background-color:#76AB8C; border-color:#76AB8C;">
+              <a type="button" ng-href="#/games/create" class="btn btn-lg btn-primary  pull-right" style="background-color:#CC325A; border-color:#CC325A;">
                 Create Game
               </a>
             </div>
@@ -55,12 +50,16 @@
           <div class="row" ng-repeat="game in games" ng-if="games.length">
             <div class="col-md-12">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                   <h3 style="margin-top: 0; margin-bottom: 0; color:#5E809E; font-weight: 900;">{{game.name}}</h3>
                 </div>
-                <div class="col-md-4">
-                  <button type="button" ng-click="loadGame(game._id)" class="btn btn-primary  pull-right" style="background-color: #5E809E;border-color: #5E809E;margin-top: 10px; width:100px;">
+                <div class="col-md-5">
+                  <button type="button" ng-click="loadGame(game._id)" class="btn btn-primary  pull-right" style="background-color: #5E809E; border-color: #5E809E;margin-top: 10px; width:100px;">
                     Load Game
+                  </button>
+                  <button ng-click="inviteTeam()" class="btn btn-primary pull-right" style="background-color: #76AB8C;border-color: #76AB8C; margin-top: 10px;margin-right: 10px; width:150px;">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                    Invite Team
                   </button>
                 </div>
               </div>
@@ -69,9 +68,15 @@
                   <span style="color:#999;">{{game.description}}</span>
                 </div>
                 <div class="col-md-4">
-                  <button type="button" ng-click="deleteGame(game._id)" class="btn btn-primary  pull-right" style="background-color: #CC325A;border-color: #CC325A;margin-top: 10px; width:100px;">
+
+                  <a ng-click="editGame(game._id)" class="pull-right" style="margin-top: 10px;">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                     Delete
-                  </button>
+                  </a>
+                  <a ng-click="deleteGame(game._id)" class="pull-right" style="margin-top: 10px; margin-right:10px;">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Edit
+                  </a>
                 </div>
               </div>
               <div class="row">
