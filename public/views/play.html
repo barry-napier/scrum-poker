@@ -42,6 +42,10 @@
           <strong>{{game.stories[game.currentStory].description}}</strong>
         </div>
         <div class="col-md-7 start-story text-right" ng-if="isAdmin">
+          <button class="btn btn-default green" ng-click="inviteTeam()">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+            Invite Team
+          </button>
           <button class="btn btn-default blue" ng-click="flipCards()">
             <i class="fa fa-gavel" aria-hidden="true"></i>
             Flip
