@@ -64,12 +64,12 @@ GameController = function () {
     var result = { success: false, message: '' };
     var game   = new GameModel();
 
-    if (request.body.name && request.body.description && request.params.userId) {
+    if (request.body.name && request.body.duration && request.params.userId) {
 
-      game.name        = request.body.name;
-      game.description = request.body.description;
-      game.creator     = request.params.userId;
-      game.stories     = request.body.stories;
+      game.name     = request.body.name;
+      game.duration = request.body.duration;
+      game.creator  = request.params.userId;
+      game.stories  = request.body.stories;
 
       game.save( function (error) {
 

@@ -129,7 +129,7 @@ describe('Games', function () {
       .set('x-access-token', userToken)
       .send({
         name        : 'Game 4',
-        description : 'This is game 4.',
+        duration    : 15,
         stories     : [
           {
             name        : 'Story 1',
@@ -191,8 +191,8 @@ describe('Games', function () {
       .set('Content-Type', 'application/json')
       .set('x-access-token', userToken)
       .send({
-        name : '12',
-        description : '123',
+        name        : '12',
+        duration    : 15,
         stories     : [
           {
             name        : 'Story 1',

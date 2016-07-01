@@ -10,10 +10,10 @@ GameSchema = new Schema({
     trim : true,
     validate : validators.isLength(3, 250)
   },
-  description : {
-    type : String,
-    default : '',
-    trim : true
+  duration : {
+    type: Number,
+    min: 5,
+    max: 120
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,

@@ -57,7 +57,7 @@
                   <button type="button" ng-click="loadGame(game._id)" class="btn btn-primary  pull-right" style="background-color: #5E809E; border-color: #5E809E;margin-top: 10px; width:100px;">
                     Load Game
                   </button>
-                  <button ng-click="inviteTeam()" class="btn btn-primary pull-right" style="background-color: #76AB8C;border-color: #76AB8C; margin-top: 10px;margin-right: 10px; width:150px;">
+                  <button ng-click="inviteTeam(game._id, game.stories)" class="btn btn-primary pull-right" style="background-color: #76AB8C;border-color: #76AB8C; margin-top: 10px;margin-right: 10px; width:150px;">
                     <i class="fa fa-user-plus" aria-hidden="true"></i>
                     Invite Team
                   </button>
@@ -69,11 +69,11 @@
                 </div>
                 <div class="col-md-4">
 
-                  <a ng-click="editGame(game._id)" class="pull-right" style="margin-top: 10px;">
+                  <a href="#/dashboard" ng-click="deleteGame(game._id)" class="pull-right" style="margin-top: 10px;">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                     Delete
                   </a>
-                  <a ng-click="deleteGame(game._id)" class="pull-right" style="margin-top: 10px; margin-right:10px;">
+                  <a href="#/dashboard" ng-click="editGame(game._id)" class="pull-right" style="margin-top: 10px; margin-right:10px;">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     Edit
                   </a>
@@ -115,3 +115,30 @@
     </div>
   </div>
 </footer>
+
+<!-- Invite Team Modal -->
+<div class="modal fade" id="inviteTeamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Invite Team
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Copy and paste link and share to add players:</label>
+          <input type="text" id="game-id" class="form-control" placeholder="Player Name" ng-model="URL">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
+          Done
+        </button>
+
+        <a href="{{mailto}}" class="btn btn-lg btn-primary" style="background-color:#CC325A; border-color:#CC325A;">Email Team</a>
+
+      </div>
+    </div>
+  </div>
+</div>

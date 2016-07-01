@@ -1,16 +1,30 @@
 angular.module('gameCtrl', ['authService'])
 
-.controller('gameController', function(Auth, $scope, $location, $http, $window) {
+.controller('gameController', function(Auth, $location, $http, $window, $scope) {
+
 
   $scope.error;
+  $scope.game = {};
   $scope.stories = [];
-  $scope.logoutUser = function () { Auth.logout(); };
+
+  $scope.logoutUser = function () {
+
+    Auth.logout();
+
+    var url = '/';
+    $location.hash(url);
+
+    return false;
+
+  };
 
   $scope.createGame = function () {
 
     var userId = $window.localStorage.getItem('userId');
 
-    $http.post('/api/users/' + userId + '/games', self)
+    $scope.game.stories = $scope.stories;
+
+    $http.post('/api/users/' + userId + '/games', $scope.game)
     .success(function(data) {
 
       if (data.success) {

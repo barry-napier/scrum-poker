@@ -59,43 +59,9 @@ angular.module('playCtrl', ['authService'])
     }
   ];
 
-  $scope.URL               = $window.location.href;
   $scope.isAdmin           = Auth.isLoggedIn();
   $scope.gameId            = $routeParams.gameId;
   $scope.playerName        = '';
-
-  /**
-   * Invite team members to game
-   */
-  $scope.inviteTeam = function () {
-
-    var storyList = '';
-
-    for (var story in $scope.game.stories) {
-
-      storyList += $scope.game.stories[story].name +
-                   ' - ' +
-                   $scope.game.stories[story].description +
-                   ' - ' +
-                   $scope.game.stories[story].link +
-                   '%0D%0A%0D%0A';;
-
-    }
-
-    $scope.mailto = 'mailto:?' +
-                    'subject=Scrum-Poker Game Invite' +
-                    '&body=Hi,%0D%0A%0D%0AHere are the stories we will be reviewing:%0D%0A%0D%0A' +
-                     storyList +
-                    'Thanks' +
-                    '%0D%0A%0D%0A' +
-                     $scope.playerName +
-                    '%0D%0A%0D%0A' +
-                    'Join the game at : ' +
-                     $scope.URL;
-
-    $('#inviteTeamModal').modal('show');
-
-  };
 
   /**
    * Updates the game on the client.
