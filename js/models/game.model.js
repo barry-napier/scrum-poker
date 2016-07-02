@@ -11,9 +11,9 @@ GameSchema = new Schema({
     validate : validators.isLength(3, 250)
   },
   duration : {
-    type: Number,
-    min: 5,
-    max: 120
+    type : String,
+    default : '60',
+    trim : true
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,

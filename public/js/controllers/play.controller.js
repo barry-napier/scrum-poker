@@ -59,9 +59,9 @@ angular.module('playCtrl', ['authService'])
     }
   ];
 
-  $scope.isAdmin           = Auth.isLoggedIn();
-  $scope.gameId            = $routeParams.gameId;
-  $scope.playerName        = '';
+  $scope.isAdmin    = Auth.isLoggedIn();
+  $scope.gameId     = $routeParams.gameId;
+  $scope.playerName = '';
 
   /**
    * Updates the game on the client.

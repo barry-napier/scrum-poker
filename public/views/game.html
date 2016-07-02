@@ -11,11 +11,6 @@
         <ul class="list-inline pull-right">
           <li>
             <a ng-href="#/dashboard">
-              Account
-            </a>
-          </li>
-          <li>
-            <a ng-href="#/dashboard">
               Dashboard
             </a>
           </li>
@@ -48,7 +43,7 @@
           <div class="row">
             <div class="col-md-12">
               <h4 style="font-size:20px; font-weight: 900;">
-                Create Game
+                {{action}} Game
               </h4>
             </div>
           </div>
@@ -61,14 +56,15 @@
             <div class="col-md-8">
               <div class="form-group">
                 <label>Game Name</label>
-                <input type="text" class="form-control" placeholder="Design Studio - 16.1 " ng-model="game.name"/>
+                <input type="text" class="form-control" ng-model="game.name"/>
               </div>
               <div class="form-group">
                 <label>Game Duration (Minutes)</label>
                 <select class="form-control" ng-model="game.duration">
-                  <option>5</option>
-                  <option>10</option>
-                  <option>15</option>
+                  <option value="">---Please select---</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
                   <option>30</option>
                   <option>45</option>
                   <option>60</option>
@@ -83,60 +79,32 @@
             <div class="col-md-8">
               <label>Stories</label>
               <button type="button" class="btn btn-primary pull-right" style="background-color: #5E809E;border-color: #5E809E;" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
                 Add Story
               </button>
               <hr/>
             </div>
           </div>
-          <div class="row" ng-repeat="story in stories" ng-if="stories.length">
+          <div class="row" ng-repeat="story in game.stories" ng-if="game.stories.length">
             <div class="col-md-8">
-              <strong>{{story.name}}</strong>
-              -
-              <span>{{story.description}}</span>
+              <a target="_blank" href="{{story.link}}">{{story.name}}</a>
+              <a href="" ng-click="deleteStory($index)" class="pull-right">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                Delete
+              </a>
               <hr style="border-top: 1px solid #eee;"/>
             </div>
           </div>
-          <div class="row" ng-if="!stories.length">
+          <div class="row" ng-if="!game.stories.length">
             <div class="col-md-8">
               You currently have no stories created. Please add a story by clicking "Add Story" above.
             </div>
           </div>
           <br/><br/>
-          <button type="button" ng-click="createGame()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
-            Create Game
+          <button type="button" ng-click="createUpdateGame()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
+            {{action}} Game
           </button>
         </section>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title" id="myModalLabel">
-            Add Story
-          </h4>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label>Story Name</label>
-            <input type="text" class="form-control" placeholder="CCDS-221 " ng-model="storyData.name"/>
-          </div>
-          <div class="form-group">
-            <label>Story Description</label>
-            <textarea class="form-control" rows="4" cols="50" placeholder="Story description." ng-model="storyData.description"></textarea>
-            <br/>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" ng-click="addStory()" class="btn btn-primary" style="background-color: #5E809E;border-color: #5E809E;">Add Story</button>
-        </div>
       </div>
     </div>
   </div>
@@ -154,3 +122,34 @@
     </div>
   </div>
 </footer>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          Add Story
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Story Name</label>
+          <input type="text" class="form-control" ng-model="storyData.name"/>
+        </div>
+        <div class="form-group">
+          <label>Story Link</label>
+          <input type="text" class="form-control" ng-model="storyData.link"></textarea>
+          <br/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" ng-click="addStory()" class="btn btn-primary" style="background-color: #5E809E;border-color: #5E809E;">Add Story</button>
+      </div>
+    </div>
+  </div>
+</div>

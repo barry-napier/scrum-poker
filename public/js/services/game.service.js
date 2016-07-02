@@ -1,36 +1,36 @@
-angular.module('userService', [])
+angular.module('gameService', [])
 
-.factory('User', function($http) {
+.factory('Game', function($http) {
 
   // create a new object
-  var userFactory = {};
+  var gameFactory = {};
 
-  // get a single user
-  userFactory.get = function(id) {
-    return $http.get('/api/users/' + id);
+  // get a single game
+  gameFactory.get = function(userId, gameId) {
+    return $http.get('/api/users/' + userId + '/games/' + gameId);
   };
 
-  // get all users
-  userFactory.all = function() {
-    return $http.get('/api/users/');
+  // get all games
+  gameFactory.all = function(userId) {
+    return $http.get('/api/users/' + userId + '/games');
   };
 
-  // create a user
-  userFactory.create = function(userData) {
-    return $http.post('/api/users/', userData);
+  // create a game
+  gameFactory.create = function(userId, gameData) {
+    return $http.post('/api/users/' + userId + '/games', gameData);
   };
 
-  // update a user
-  userFactory.update = function(id, userData) {
-    return $http.put('/api/users/' + id, userData);
+  // update a game
+  gameFactory.update = function(userId, gameId, gameData) {
+    return $http.put('/api/users/' + userId + '/games/' + gameId, gameData);
   };
 
-  // delete a user
-  userFactory.delete = function(id) {
-    return $http.delete('/api/users/' + id);
+  // delete a game
+  gameFactory.delete = function(userId, gameId) {
+    return $http.delete('/api/users/' + userId + '/games/' + gameId);
   };
 
   // return our entire userFactory object
-  return userFactory;
+  return gameFactory;
 
 });

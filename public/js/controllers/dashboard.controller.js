@@ -1,17 +1,17 @@
-angular.module('dashboardCtrl', ['authService'])
+angular.module('dashboardCtrl', ['gameService', 'authService'])
 
-.controller('dashboardController', function(Auth, $scope, $location, $http, $routeParams, $window) {
+.controller('dashboardController', function(Game, Auth, $scope, $location, $http, $routeParams, $window) {
+
+  $scope.logoutUser = function () { Auth.logout(); };
 
   $scope.games;
-  $scope.logoutUser = function () { Auth.logout(); };
+  $scope.playerName = $window.localStorage.getItem('playerName');
+  $scope.userId     = $window.localStorage.getItem('userId');
 
 
   $scope.getGames = function () {
 
-    var userId = $window.localStorage.getItem('userId');
-
-    $http.get('/api/users/' + userId + '/games')
-    .success(function(data) {
+    Game.all($scope.userId).success(function(data) {
 
       $scope.games = data.games;
 
@@ -23,19 +23,15 @@ angular.module('dashboardCtrl', ['authService'])
 
     var url = '/games/' + gameId;
 
-    console.log('Opening game: ' + url);
-
     $location.path(url);
+
     return false;
 
   };
 
   $scope.deleteGame = function (gameId) {
 
-    var userId = $window.localStorage.getItem('userId');
-
-    $http.delete('/api/users/' + userId + '/games/' + gameId)
-    .success(function(data) {
+    Game.delete($scope.userId, gameId).success(function() {
 
       $scope.getGames();
 
@@ -50,8 +46,6 @@ angular.module('dashboardCtrl', ['authService'])
 
     var url = '/#/games/' + gameId;
 
-    console.log('Opening game: ' + url);
-
     $scope.URL = window.location.origin + url;
 
     var storyList = '';
@@ -59,8 +53,6 @@ angular.module('dashboardCtrl', ['authService'])
     for (var i=0; i < stories.length; i++) {
 
       storyList += stories[i].name +
-      ' - ' +
-      stories[i].description +
       ' - ' +
       stories[i].link +
       '%0D%0A%0D%0A';

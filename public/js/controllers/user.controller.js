@@ -8,8 +8,7 @@ angular.module('userCtrl', ['userService', 'authService'])
 
   self.createUser = function () {
 
-    User.create(self.userData)
-    .success(function(data) {
+    User.create(self.userData).success(function(data) {
 
       if (data.success) {
 

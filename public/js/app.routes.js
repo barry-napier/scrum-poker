@@ -37,6 +37,13 @@ angular.module('scrumPoker.routes', ['ngRoute'])
       controllerAs: 'game'
     })
 
+    // game page
+    .when('/games/:gameId/edit', {
+      templateUrl : 'views/game.html',
+      controller  : 'editGameController',
+      controllerAs: 'game'
+    })
+
     // play page
     .when('/games/:gameId', {
       templateUrl : 'views/play.html',

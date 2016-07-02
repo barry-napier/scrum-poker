@@ -32,9 +32,9 @@
         <section>
           <div class="row">
             <div class="col-md-10">
-              <h4 style="font-size:20px; font-weight: 900;">
+              <h1 style="margin: 0;">
                 Dashboard
-              </h4>
+              </h1>
             </div>
             <div class="col-md-2">
               <a type="button" ng-href="#/games/create" class="btn btn-lg btn-primary  pull-right" style="background-color:#CC325A; border-color:#CC325A;">
@@ -51,39 +51,38 @@
             <div class="col-md-12">
               <div class="row">
                 <div class="col-md-7">
-                  <h3 style="margin-top: 0; margin-bottom: 0; color:#5E809E; font-weight: 900;">{{game.name}}</h3>
+                  <h4 style="margin-top: 0; margin-bottom: 0; color:#4C4F5D; font-weight: 900;">{{game.name}}</h4>
                 </div>
                 <div class="col-md-5">
-                  <button type="button" ng-click="loadGame(game._id)" class="btn btn-primary  pull-right" style="background-color: #5E809E; border-color: #5E809E;margin-top: 10px; width:100px;">
-                    Load Game
+                  <button type="button" ng-click="loadGame(game._id)" class="btn btn-primary pull-right" style="background-color: #5E809E; border-color: #5E809E;">
+                    <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                    Play Game
                   </button>
-                  <button ng-click="inviteTeam(game._id, game.stories)" class="btn btn-primary pull-right" style="background-color: #76AB8C;border-color: #76AB8C; margin-top: 10px;margin-right: 10px; width:150px;">
+                  <button ng-click="inviteTeam(game._id, game.stories)" class="btn btn-primary pull-right" style="background-color: #76AB8C;border-color: #76AB8C; margin-right: 10px;">
                     <i class="fa fa-user-plus" aria-hidden="true"></i>
                     Invite Team
                   </button>
+                  <small class="pull-right" style="color: #8e8e8e; margin-top:10px; margin-right: 10px;">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    {{game.duration}} Minutes
+                  </small>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-8">
-                  <span style="color:#999;">{{game.description}}</span>
+                  <div ng-repeat="story in game.stories">
+                    <a target="_blank" href="{{story.link}}">{{story.name}}</a>
+                  </div>
                 </div>
                 <div class="col-md-4">
-
                   <a href="#/dashboard" ng-click="deleteGame(game._id)" class="pull-right" style="margin-top: 10px;">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                     Delete
                   </a>
-                  <a href="#/dashboard" ng-click="editGame(game._id)" class="pull-right" style="margin-top: 10px; margin-right:10px;">
+                  <a ng-href="#/games/{{game._id}}/edit" class="pull-right" style="margin-top: 10px; margin-right:10px;">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     Edit
                   </a>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-8">
-                  <span>Stories : {{game.stories.length}}</span>
-                </div>
-                <div class="col-md-4">
                 </div>
               </div>
               <div class="row">

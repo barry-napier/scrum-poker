@@ -17,7 +17,6 @@ router.route('/users')
     .post(makeJSON, function (request, response) {
 
     usersController.createUser(request, function (result) {
-
       response.json(result);
     });
 
@@ -51,7 +50,7 @@ router.route('/users/:userId')
    * Secured Route - User needs to authenticated before use.
    *
    ********************************************************************************************************************/
-    .put(makeJSON, auth, function (request, response) {
+  .put(makeJSON, auth, function (request, response) {
 
     usersController.updateUser(request, function (result) {
       response.json(result);

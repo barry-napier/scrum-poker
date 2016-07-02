@@ -1,31 +1,18 @@
-angular.module('gameCtrl', ['authService'])
+angular.module('gameCtrl', ['gameService', 'authService'])
 
-.controller('gameController', function(Auth, $location, $http, $window, $scope) {
+.controller('gameController', function(Game, Auth, $location, $http, $window, $scope) {
 
+  $scope.logoutUser = function () { Auth.logout(); };
 
   $scope.error;
-  $scope.game = {};
-  $scope.stories = [];
 
-  $scope.logoutUser = function () {
+  $scope.action = 'Create';
 
-    Auth.logout();
-
-    var url = '/';
-    $location.hash(url);
-
-    return false;
-
-  };
-
-  $scope.createGame = function () {
+  $scope.createUpdateGame = function () {
 
     var userId = $window.localStorage.getItem('userId');
 
-    $scope.game.stories = $scope.stories;
-
-    $http.post('/api/users/' + userId + '/games', $scope.game)
-    .success(function(data) {
+    Game.create(userId, $scope.game).success(function(data) {
 
       if (data.success) {
 
@@ -46,11 +33,19 @@ angular.module('gameCtrl', ['authService'])
 
   $scope.addStory = function () {
 
-    $scope.stories.push($scope.storyData);
+    $scope.game.stories = $scope.game.stories || [];
+
+    $scope.game.stories.push($scope.storyData);
     $('#myModal').modal('hide');
     $scope.storyData = {};
 
     return false;
+
+  };
+
+  $scope.deleteStory = function (index) {
+
+    $scope.game.stories.splice(index, 1);
 
   };
 

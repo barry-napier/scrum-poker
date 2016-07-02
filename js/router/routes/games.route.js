@@ -56,10 +56,10 @@ router.route('/users/:userId/games/:gameId')
 
   });
 
-router.route('/games/:gameId')
+router.route('/users/:userId/games/:gameId')
   /*********************************************************************************************************************
    *
-   * GET '/games/:gameId' - Get all information for associated game.
+   * GET '/users/:userId/games/:gameId' - Get all information for associated game.
    *
    * @param  {object} request  - The request containing game information.
    * @param  {object} response - The response returned to the user.
@@ -72,5 +72,20 @@ router.route('/games/:gameId')
     });
 
   })
+  /*********************************************************************************************************************
+   *
+   * PUT '/users/:userId/games/:gameId' - Update all information for associated game.
+   *
+   * @param  {object} request  - The request containing game information.
+   * @param  {object} response - The response returned to the user.
+   *
+   ********************************************************************************************************************/
+  .put(makeJSON, auth, function (request, response) {
+
+    gameController.updateGame(request, function (result) {
+      response.json(result);
+    });
+
+  });
 
 module.exports = router;

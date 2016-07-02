@@ -17,8 +17,10 @@ angular.module('scrumPoker',
     'userCtrl',
     'dashboardCtrl',
     'gameCtrl',
+    'editGameCtrl',
     'playCtrl',
     'userService',
+    'gameService',
     'btford.socket-io'
   ])
 

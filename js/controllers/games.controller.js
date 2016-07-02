@@ -216,6 +216,65 @@ GameController = function () {
 
   };
 
+  /*********************************************************************************************************************
+   *
+   * Updates data associated to an existing game.
+   *
+   * @param  {object}   request  - The request containing game information.
+   * @param  {function} callback - The callback function to execute when done processing.
+   *
+   * @return {object}   result   - The result of execution.
+   *
+   ********************************************************************************************************************/
+  self.updateGame = function (request, callback) {
+
+    var result = {success : false, message : ''};
+    var gameId = request.params.gameId;
+
+    if (gameId) {
+
+      GameModel.findById(gameId, function (error, game) {
+
+        if (!game) {
+
+          result.message = 'Game to update not found.';
+
+          return callback(result);
+
+        } else {
+
+          if (request.body.name)     { game.name     = request.body.name;     }
+          if (request.body.duration) { game.duration = request.body.duration; }
+          if (request.body.stories)  { game.stories  = request.body.stories;  }
+
+          game.save( function (error) {
+
+            if (error) {
+
+              result.message = 'An error occurred while trying to save the updated game.';
+              result.error = error.message;
+
+              logger.error(error.message);
+
+            } else {
+
+              result.success = true;
+              result.message = 'Game updated!';
+
+            }
+
+            return callback(result);
+
+          });
+
+        }
+
+      });
+
+    }
+
+  };
+
 };
 
 module.exports = new GameController();
