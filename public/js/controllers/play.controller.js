@@ -1,6 +1,6 @@
-angular.module('playCtrl', ['authService'])
+angular.module('playCtrl', ['gameService', 'authService'])
 
-.controller('playController', function(Auth, $location, $http, $routeParams, $scope, $window, socket) {
+.controller('playController', function(Game, Auth, $location, $http, $routeParams, $scope, $window, socket) {
 
   $scope.logoutUser = function () { Auth.logout(); };
 
@@ -59,9 +59,31 @@ angular.module('playCtrl', ['authService'])
     }
   ];
 
-  $scope.isAdmin    = Auth.isLoggedIn();
   $scope.gameId     = $routeParams.gameId;
   $scope.playerName = '';
+
+  $scope.loadGame = function () {
+
+    var userId = $window.localStorage.getItem('userId');
+
+    Game.get($scope.userId, $scope.gameId, $scope.game).success(function(data) {
+
+      if (data.success) {
+
+        $scope.gameData = data.game;
+        $scope.isAdmin  = Auth.isLoggedIn() && $scope.gameData.creator === userId;
+
+      } else {
+
+        $scope.error = data.message;
+
+      }
+
+    });
+
+    return false;
+
+  };
 
   /**
    * Updates the game on the client.
@@ -83,9 +105,8 @@ angular.module('playCtrl', ['authService'])
       value      : data.value
     };
 
-    $scope.game.players[$scope.playerName].voted = true;
-
-    $scope.game.stories[$scope.game.currentStory].votes[$scope.playerName] = vote;
+    var storyName = $scope.gameData.stories[$scope.game.currentStoryIndex].name;
+    $scope.game.stories[storyName].votes[$scope.playerName] = vote;
 
     $scope.updateGame();
 
@@ -159,7 +180,25 @@ angular.module('playCtrl', ['authService'])
     $scope.game.stories[$scope.game.currentStory].flipped = true;
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
 
-  }
+  };
+
+  $scope.previousStory = function () {
+
+    $scope.game.currentStoryIndex--;
+    $scope.game.currentStory = $scope.gameData.stories[$scope.game.currentStoryIndex].name;
+
+    socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
+
+  };
+
+  $scope.nextStory = function () {
+
+    $scope.game.currentStoryIndex++;
+    $scope.game.currentStory = $scope.gameData.stories[$scope.game.currentStoryIndex].name;
+
+    socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
+
+  };
 
   // Socket Events
   socket.on('user joined', function (data) {
@@ -185,6 +224,22 @@ angular.module('playCtrl', ['authService'])
     console.log('Game Started!');
 
     $scope.game = data.game;
+
+    for (var i =0; i < $scope.gameData.stories.length; i++) {
+
+      var story = $scope.gameData.stories[i];
+
+      $scope.game.stories[story.name] = {
+        name        : story.name,
+        value       : '',
+        link        : story.link,
+        votes       : {},
+        flipped     : false
+      };
+
+    }
+
+    $scope.game.currentStory = $scope.gameData.stories[0].name;
 
     var initialOffset = 440;
     var duration      = 60 * 60;
@@ -218,6 +273,7 @@ angular.module('playCtrl', ['authService'])
 
   });
 
+  $scope.loadGame();
   $scope.join();
 
 });

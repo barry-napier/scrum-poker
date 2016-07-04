@@ -31,27 +31,8 @@ var createGame = function (gameId) {
   game.started           = false;
   game.players           = {};
   game.stories           = {};
-  game.currentStory      = "CCDS-221";
-
-  game.stories["CCDS-221"] = {
-    name        : 'CCDS-221',
-    description : 'Keyboard Shortcuts',
-    value       : '',
-    link        : 'https://jira-oracom.us.oracle.com/jira/browse/CCDS-221',
-    votes       : {},
-    flipped     : false
-  };
-
-  game.stories["CCDS-2246"] = {
-    name        : 'CCDS-2246',
-    description : 'Associate Layouts with B2B',
-    value       : '',
-    link        :'https://jira-oracom.us.oracle.com/jira/browse/CCDS-2246',
-    votes       : {},
-    flipped     : false
-  };
-
-  game.currentStoryIndex = 1;
+  game.currentStory      = "";
+  game.currentStoryIndex = 0;
   game.numOfPlayers = 0;
 
 
