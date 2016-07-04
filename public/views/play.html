@@ -34,33 +34,26 @@
   <div class="sub-header">
     <div class="container">
       <div class="row">
-        <div class="col-md-1 story-heading">
-          Story #
+        <div class="col-md-1 story-count">
+          <strong>Story #{{game.currentStoryIndex+1}}/8</strong>
         </div>
-        <div class="col-md-4 story-heading">
-          <strong>{{game.stories[game.currentStory].name}}</strong> -
-          <strong>{{game.stories[game.currentStory].description}}</strong>
+        <div class="col-md-7 story-heading">
+          <strong>{{game.storyList[game.currentStoryIndex].name}}</strong>
         </div>
-        <div class="col-md-7 start-story text-right" ng-if="isAdmin">
-          <button class="btn btn-default green" ng-click="inviteTeam()">
-            <i class="fa fa-user-plus" aria-hidden="true"></i>
-            Invite Team
-          </button>
-          <button class="btn btn-default blue" ng-click="flipCards()">
+        <div class="col-md-4 start-story text-right" ng-if="isAdmin">
+          <button class="btn btn-default blue" ng-click="flipCards()" ng-show="game.started && !game.stories[game.currentStory].flipped">
             <i class="fa fa-gavel" aria-hidden="true"></i>
             Flip
           </button>
-          <button class="btn btn-default blue">
+          <button class="btn btn-default blue"  ng-show="game.started && game.stories[game.currentStory].flipped">
             <i class="fa fa-refresh" aria-hidden="true"></i>
             Replay
           </button>
           <button class="btn btn-default blue">
             <i class="fa fa-backward" aria-hidden="true"></i>
-            Previous
           </button>
           <button class="btn btn-default blue">
             <i class="fa fa-forward" aria-hidden="true"></i>
-            Next
           </button>
           <button class="btn btn-default red">
             <i class="fa fa-eye" aria-hidden="true"></i>
@@ -112,7 +105,7 @@
           </div>
         </div>
         <div style="position: fixed; top: 150px; right: 30px;">
-          <div class="timer" ng-hide="game.stories[game.currentStory].flipped">
+          <div class="timer" ng-hide="!game.started && game.stories[game.currentStory].flipped">
             <div class="timer-heading">Timer</div>
             <div class="item html">
               <h2>0</h2>

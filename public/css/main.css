@@ -271,6 +271,10 @@ main div.sub-header div.container {}
 
 main div.sub-header div.container div.row {}
 
+main div.sub-header div.container div.row div.story-count {
+  margin-top: 10px;
+}
+
 main div.sub-header div.container div.row div.story-heading {
   margin-top: 20px;
 }

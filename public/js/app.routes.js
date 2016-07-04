@@ -48,7 +48,7 @@ angular.module('scrumPoker.routes', ['ngRoute'])
     .when('/games/:gameId', {
       templateUrl : 'views/play.html',
       controller  : 'playController',
-      controllerAs: 'play'
+      controllerAs: 'game'
     });
 
 });
