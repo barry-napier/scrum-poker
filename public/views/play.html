@@ -185,7 +185,7 @@
       <div class="col-md-12">
           <div class="card magictime" ng-class="{ disabled : game.stories[game.currentStory].votes[playerName], slideUp : game.stories[game.currentStory].votes[playerName].value === card.value }"
                                       ng-repeat="card in cardSelections track by $index"
-                                      ng-click="game.players[playerName].voted || vote($event, card)">
+                                      ng-click="game.stories[game.currentStory].votes[playerName] || vote($event, card)">
             <span>{{card.name}}</span>
           </div>
       </div>
