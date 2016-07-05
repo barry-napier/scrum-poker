@@ -37,19 +37,19 @@
             <a target="_blank" href="{{gameData.stories[game.currentStoryIndex].link}}">{{gameData.stories[game.currentStoryIndex].name}}</a>
           </strong>
         </div>
-        <div class="col-md-4 start-story text-right" ng-if="isAdmin">
-          <button class="btn btn-default blue" ng-click="flipCards()" ng-show="game.started && !game.stories[game.currentStory].flipped">
+        <div class="col-md-4 start-story text-right">
+          <button class="btn btn-default blue" ng-click="flipCards()" ng-show="game.started && !game.stories[game.currentStory].flipped" ng-if="isAdmin">
             <i class="fa fa-gavel" aria-hidden="true"></i>
             Flip
           </button>
-          <button class="btn btn-default blue"  ng-show="game.started && game.stories[game.currentStory].flipped">
+          <button class="btn btn-default blue"  ng-show="game.started && game.stories[game.currentStory].flipped" ng-if="isAdmin">
             <i class="fa fa-refresh" aria-hidden="true"></i>
             Replay
           </button>
-          <button class="btn btn-default blue" ng-show="game.started" ng-disabled="game.currentStoryIndex === 0" ng-click="previousStory();">
+          <button class="btn btn-default blue" ng-show="game.started" ng-disabled="game.currentStoryIndex === 0" ng-click="previousStory();" ng-if="isAdmin">
             <i class="fa fa-backward" aria-hidden="true"></i>
           </button>
-          <button class="btn btn-default blue" ng-show="game.started" ng-disabled="game.currentStoryIndex === gameData.stories.length-1" ng-click="nextStory();">
+          <button class="btn btn-default blue" ng-show="game.started" ng-disabled="game.currentStoryIndex === gameData.stories.length-1" ng-click="nextStory();" ng-if="isAdmin">
             <i class="fa fa-forward" aria-hidden="true"></i>
           </button>
           <button class="btn btn-default red">
@@ -79,7 +79,6 @@
               <div class="unsubmitted-cards" ng-show="!game.stories[game.currentStory].flipped">
                 <div ng-repeat="player in game.players">
                   <div ng-show="game.started && !game.stories[game.currentStory].votes[player.playerName]" style="background-color: transparent;border: 3px dotted #99ACBE;border-radius: 4px;height: 100px;width: 77px;padding-top: 29px;float: left;margin-right: 10px;margin-bottom: 20px;">
-                    {{player.playerName}}
                   </div>
                 </div>
               </div>
@@ -132,10 +131,10 @@
                 <tr ng-repeat="player in game.players">
                   <td>{{player.playerName}}</td>
                   <td>
-                    <div ng-show="player.voted">
+                    <div ng-show="game.stories[game.currentStory].votes[player.playerName]">
                       <i class="fa fa-check" aria-hidden="true"></i>
                     </div>
-                    <div ng-show="!player.voted">
+                    <div ng-show="!game.stories[game.currentStory].votes[player.playerName]">
                       <i class="fa fa-times" aria-hidden="true"></i>
                     </div>
                   </td>
