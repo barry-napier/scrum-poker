@@ -25,7 +25,8 @@ var createGame = function (gameId) {
   game.stories           = {};
   game.currentStory      = "";
   game.currentStoryIndex = 0;
-  game.numOfPlayers = 0;
+  game.numOfPlayers      = 0;
+  game.results           = [];
 
 
   return game;

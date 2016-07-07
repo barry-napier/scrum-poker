@@ -108,6 +108,8 @@ angular.module('playCtrl', ['gameService', 'authService'])
     var storyName = $scope.gameData.stories[$scope.game.currentStoryIndex].name;
     $scope.game.stories[storyName].votes[$scope.playerName] = vote;
 
+    $scope.game.results.push(data.value);
+
     $scope.updateGame();
 
     $($event.currentTarget).addClass('magictime slideUp');
@@ -177,6 +179,12 @@ angular.module('playCtrl', ['gameService', 'authService'])
 
   $scope.flipCards = function () {
 
+    delete $scope.count;
+    $scope.game.stories[$scope.game.currentStory].count = {};
+
+    $scope.game.results.forEach(function(i) {  $scope.game.stories[$scope.game.currentStory].count[i] = ( $scope.game.stories[$scope.game.currentStory].count[i]||0)+1;  });
+
+    $scope.game.results = [];
     $scope.game.stories[$scope.game.currentStory].flipped = true;
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
 
@@ -230,11 +238,14 @@ angular.module('playCtrl', ['gameService', 'authService'])
       var story = $scope.gameData.stories[i];
 
       $scope.game.stories[story.name] = {
-        name        : story.name,
-        value       : '',
-        link        : story.link,
-        votes       : {},
-        flipped     : false
+
+        name    : story.name,
+        value   : '',
+        link    : story.link,
+        votes   : {},
+        flipped : false,
+        count   : []
+
       };
 
     }
