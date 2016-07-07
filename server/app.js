@@ -14,14 +14,6 @@ server.listen(config.port, config.ip, function () {
 var clients = {};
 var games   = {};
 
-var remove = function (arr, what) {
-  var found = arr.indexOf(what);
-
-  while (found !== -1) {
-    arr.splice(found, 1);
-    found = arr.indexOf(what);
-  }
-}
 
 var createGame = function (gameId) {
 
@@ -123,7 +115,7 @@ io.on('connection', function (socket) {
 
   socket.on('kick player', function (data) {
 
-    var userIdToBeKicked = data.socketId
+    var userIdToBeKicked = data.socketId;
 
     socket.clients[userIdToBeKicked].onDisconnect();
 

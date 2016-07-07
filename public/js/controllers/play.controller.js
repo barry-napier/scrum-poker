@@ -64,14 +64,14 @@ angular.module('playCtrl', ['gameService', 'authService'])
 
   $scope.loadGame = function () {
 
-    var userId = $window.localStorage.getItem('userId');
+    $scope.userId = $window.localStorage.getItem('userId');
 
     Game.get($scope.userId, $scope.gameId, $scope.game).success(function(data) {
 
       if (data.success) {
 
         $scope.gameData = data.game;
-        $scope.isAdmin  = Auth.isLoggedIn() && $scope.gameData.creator === userId;
+        $scope.isAdmin  = Auth.isLoggedIn() && $scope.gameData.creator === $scope.userId;
 
       } else {
 

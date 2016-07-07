@@ -2,7 +2,7 @@ var mongoose   = require('mongoose');
 var validators = require('mongoose-validators');
 var Schema     = mongoose.Schema;
 
-GameSchema = new Schema({
+var GameSchema = new Schema({
 
   name : {
     type : String,

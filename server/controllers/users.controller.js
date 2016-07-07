@@ -10,7 +10,7 @@ var jwt       = require('jsonwebtoken');
  * @constructor
  *
  **********************************************************************************************************************/
-UserController = function () {
+var UserController = function () {
 
   var self   = this,
       secret = config.secret;
@@ -41,7 +41,7 @@ UserController = function () {
 
         if (error) {
 
-          if (error.code == 11000) {
+          if (error.code === 11000) {
 
             result.message = 'A user with that email already exists.';
 

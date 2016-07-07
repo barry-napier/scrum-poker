@@ -9,7 +9,7 @@ var logger     = config.logger;
  * @constructor
  *
  **********************************************************************************************************************/
-GameController = function () {
+var GameController = function () {
 
   var self = this;
 

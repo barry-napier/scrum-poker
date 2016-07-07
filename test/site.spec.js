@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 var request   = require("supertest");
 var should    = require("should");
-var app       = require("../js/app");
+var app       = require("../server/app");
 
 describe('Site', function () {
 

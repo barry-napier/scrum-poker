@@ -3,8 +3,7 @@ var bcrypt   = require('bcrypt-nodejs');
 var validators = require('mongoose-validators');
 
 var Schema   = mongoose.Schema;
-
-UserSchema = new Schema({
+var UserSchema = new Schema({
 
   fullName : {
     type : String,

@@ -36,7 +36,13 @@
     "nodemon": "1.8.1",
     "should": "8.2.2",
     "sinon": "1.17.3",
-    "supertest": "1.2.0"
+    "supertest": "1.2.0",
+    "gulp": "3.9.1",
+    "gulp-jshint": "2.0.1",
+    "gulp-nodemon": "2.1.0",
+    "jshint": "2.9.2",
+    "jshint-stylish": "2.2.0",
+    "browser-sync": "2.13.0"
   },
   "engines": {
     "node": "4.2"

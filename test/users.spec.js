@@ -2,10 +2,10 @@ process.env.NODE_ENV = 'test';
 
 var request   = require("supertest");
 var should    = require("should");
-var app       = require("../js/app");
-var UserModel = require('../js/models/user.model');
-var config    = require('../js/config/');
-var db        = require('../js/database/');
+var app       = require("../server/app");
+var UserModel = require('../server/models/user.model');
+var config    = require('../server/config/');
+var db        = require('../server/database/');
 var jwt       = require('jsonwebtoken');
 var mongoose  = require('mongoose');
 
