@@ -30,11 +30,11 @@
     <div class="container">
       <div class="row">
         <div class="col-md-1 story-count">
-          <strong>Story #{{game.currentStoryIndex+1}}/{{gameData.stories.length}}</strong>
+          <strong>Story #{{game.currentStoryIndex+1}}/{{game.numOfStories}}</strong>
         </div>
         <div class="col-md-7 story-heading">
           <strong>
-            <a target="_blank" href="{{gameData.stories[game.currentStoryIndex].link}}">{{gameData.stories[game.currentStoryIndex].name}}</a>
+            <a target="_blank" href="{{game.stories[game.currentStory].link}}">{{game.stories[game.currentStory].name}}</a>
           </strong>
         </div>
         <div class="col-md-4 start-story text-right">
@@ -42,17 +42,17 @@
             <i class="fa fa-gavel" aria-hidden="true"></i>
             Flip
           </button>
-          <button class="btn btn-default blue"  ng-show="game.started && game.stories[game.currentStory].flipped" ng-if="isAdmin">
+          <button class="btn btn-default blue" ng-click="replay()" ng-show="game.started && game.stories[game.currentStory].flipped" ng-if="isAdmin">
             <i class="fa fa-refresh" aria-hidden="true"></i>
             Replay
           </button>
           <button class="btn btn-default blue" ng-show="game.started" ng-disabled="game.currentStoryIndex === 0" ng-click="previousStory();" ng-if="isAdmin">
             <i class="fa fa-backward" aria-hidden="true"></i>
           </button>
-          <button class="btn btn-default blue" ng-show="game.started" ng-disabled="game.currentStoryIndex === gameData.stories.length-1" ng-click="nextStory();" ng-if="isAdmin">
+          <button class="btn btn-default blue" ng-show="game.started" ng-disabled="game.currentStoryIndex === game.numOfStories-1" ng-click="nextStory();" ng-if="isAdmin">
             <i class="fa fa-forward" aria-hidden="true"></i>
           </button>
-          <button class="btn btn-default red">
+          <button class="btn btn-default red" data-toggle="modal" data-target="#resultsModal">
             <i class="fa fa-eye" aria-hidden="true"></i>
             View Results
           </button>
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
           <div class="row">
             <div class="col-md-12">
               <div class="unsubmitted-cards" ng-show="!game.stories[game.currentStory].flipped">
@@ -101,8 +101,8 @@
             </div>
           </div>
         </div>
-        <div style="position: fixed; top: 150px; right: 30px;">
-          <div class="timer" ng-show="game.started && !game.stories[game.currentStory].flipped">
+        <div style="position: absolute; top: 150px; right: 30px; margin-bottom: 220px;">
+          <div class="timer" ng-show="game.started && !game.stories[game.currentStory].flipped" hidden>
             <div class="timer-heading">Timer</div>
             <div class="item html">
               <h2>0</h2>
@@ -152,6 +152,16 @@
             <div class="results-heading">
               Results
             </div>
+            <br/>
+            <div>
+              The winner with <strong>{{game.stories[game.currentStory].chain[0].value}} votes</strong> is:
+            </div>
+            <div style="font-size: 60px; color: #76AB8C; font-weight: bolder; text-align: center">
+              {{game.stories[game.currentStory].chain[0].key}}
+            </div>
+            <div>
+
+            </div>
             <table>
               <thead>
                 <tr>
@@ -160,9 +170,9 @@
                 </tr>
               </thead>
               <tbody>
-              <tr ng-repeat="(key,value) in game.stories[game.currentStory].count">
-                <td>{{key}}</td>
-                <td>{{value}}</td>
+              <tr ng-repeat="result in game.stories[game.currentStory].chain">
+                <td>{{result.key}}</td>
+                <td>{{result.value}}</td>
               </tr>
               </tbody>
             </table>
@@ -228,3 +238,32 @@
   </div>
 </div>
 
+<!-- Game Results Modal -->
+<div class="modal fade" id="resultsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          Game Results
+        </h4>
+      </div>
+      <div class="modal-body">
+
+        <div ng-repeat="story in game.stories">
+
+          <span style="line-height: 40px;">{{story.name}}</span>
+          <span class="pull-right" style="line-height: 40px;">{{story.finalResult}}</span>
+
+        </div>
+        <br/>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

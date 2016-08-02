@@ -1,11 +1,12 @@
-var express = require('express');
-var app     = express();
-var server  = require('http').createServer(app);
-var config  = require('./config/');
-var router  = require('./router/')(app);
-var db      = require('./database/');
-var logger  = config.logger;
-var io      = require('socket.io')(server);
+var express   = require('express');
+var app       = express();
+var server    = require('http').createServer(app);
+var config    = require('./config/');
+var router    = require('./router/')(app);
+var db        = require('./database/');
+var logger    = config.logger;
+var io        = require('socket.io')(server);
+var GameModel = require('./models/game.model');
 
 server.listen(config.port, config.ip, function () {
   logger.info('Server listening at port %d', config.port);
@@ -14,43 +15,36 @@ server.listen(config.port, config.ip, function () {
 var clients = {};
 var games   = {};
 
-
-var createGame = function (gameId) {
-
-  var game = games[gameId] = {};
-
-  game.id                = gameId;
-  game.started           = false;
-  game.players           = {};
-  game.stories           = {};
-  game.currentStory      = "";
-  game.currentStoryIndex = 0;
-  game.numOfPlayers      = 0;
-  game.results           = [];
-
-
-  return game;
-};
-
-var getGame = function (gameId) {
-
-  var game = games[gameId];
-
-  if (!game) {
-
-    return createGame(gameId);
-
-  }
-
-  return game;
-};
-
 io.on('connection', function (socket) {
 
   clients[socket.id] = socket;
 
   /**
-   * Join function will create a game and add users to game.
+   * Initialise the game.
+   */
+  socket.on('initialise game', function (data) {
+
+    var gameId = data.gameId;
+    var game = games[gameId];
+
+    if (!game) {
+
+      GameModel.findById(gameId).populate('creator').lean().exec(function (error, savedGame) {
+
+        games[gameId] = savedGame;
+
+        games[gameId].currentStory = Object.keys(games[gameId].stories)[games[gameId].currentStoryIndex];
+
+        io.to(gameId).emit('game updated', {game: games[gameId]});
+
+      });
+
+    }
+
+  });
+
+  /**
+   * Join function will add users to game.
    */
   socket.on('join', function (data) {
 
@@ -58,28 +52,35 @@ io.on('connection', function (socket) {
     var playerName = data.playerName;
 
     socket.join(gameId);
-
-    console.log('Game Id: '  + gameId);
-    console.log('playerName: ' + playerName);
-
     socket.gameId     = gameId;
     socket.playerName = playerName;
 
-    console.log('Socket playerName: ' + socket.playerName);
-
-    var player = getGame(gameId).players[playerName];
+    var player = games[gameId].players[playerName];
 
     if (!player) {
 
-      getGame(gameId).numOfPlayers++;
-      getGame(gameId).players[playerName] = { playerName:playerName, voted: false, score:0, socketId: socket.id };
+      games[gameId].numOfPlayers++;
+      games[gameId].players[playerName] = {
+        playerName:playerName,
+        voted: false,
+        socketId: socket.id
+      };
 
     }
 
-    console.log('Number of Users: ' + getGame(gameId).numOfPlayers);
-    console.log('Players: ' + getGame(gameId).players);
+    io.to(gameId).emit('user joined', {game: games[gameId], playerName: playerName});
 
-    io.to(gameId).emit('user joined', {game: getGame(gameId), playerName: playerName});
+  });
+
+  socket.on('admin authentication', function (data) {
+
+    var userId    = data.userId;
+    var gameId    = data.gameId;
+    var creator   = games[gameId].creator;
+    var creatorId = creator._id.toString();
+    var isAdmin = userId === creatorId;
+
+    socket.emit('isAdmin', {isAdmin : isAdmin});
 
   });
 
@@ -107,10 +108,13 @@ io.on('connection', function (socket) {
   /**
    * Start the game.
    */
-  socket.on('start game', function () {
+  socket.on('start game', function (data) {
 
-    getGame(socket.gameId).started = true;
-    io.to(socket.gameId).emit('game started', {game: games[socket.gameId]});
+    var gameId = data.gameId;
+
+    games[gameId].started = true;
+
+    io.to(socket.gameId).emit('game started', {game: games[gameId]});
 
   });
 

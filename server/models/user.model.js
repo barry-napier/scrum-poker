@@ -51,6 +51,20 @@ UserSchema.pre('save', function(next) {
 
 });
 
+// Duplicate the ID field.
+UserSchema.virtual('id').get(function () {
+
+  return this._id.toHexString();
+
+});
+
+// Ensure virtual fields are serialised.
+UserSchema.set('toJSON', {
+
+  virtuals: true
+
+});
+
 // method to compare a given password with the database hash
 UserSchema.methods.comparePassword = function(password) {
 

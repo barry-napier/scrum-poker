@@ -66,10 +66,26 @@ var GameController = function () {
 
     if (request.body.name && request.body.duration && request.params.userId) {
 
+      var stories = request.body.stories;
+
       game.name     = request.body.name;
       game.duration = request.body.duration;
       game.creator  = request.params.userId;
-      game.stories  = request.body.stories;
+      game.players  = {};
+      game.stories  = {};
+      game.currentStory = '';
+      game.currentStoryIndex = 0;
+      game.numOfPlayers = 0;
+      game.numOfStories = stories.length;
+      game.timer = 0;
+
+      for (var i = 0; i < stories.length; i++) {
+
+        var story = self.createStory(stories[i]);
+
+        game.stories[story.name] = story;
+
+      }
 
       game.save( function (error) {
 
@@ -274,6 +290,23 @@ var GameController = function () {
     }
 
   };
+
+  self.createStory = function (data) {
+
+    var story = {
+
+      name    : data.name,
+      value   : '',
+      link    : data.link,
+      votes   : {},
+      flipped : false,
+      results : []
+
+    };
+
+    return story;
+
+  }
 
 };
 

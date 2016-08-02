@@ -2,8 +2,22 @@ angular.module('playCtrl', ['gameService', 'authService'])
 
 .controller('playController', function(Game, Auth, $location, $http, $routeParams, $scope, $window, socket) {
 
-  $scope.logoutUser = function () { Auth.logout(); };
+  /*********************************************************************************************************************
+   *
+   * Logout user.
+   *
+   ********************************************************************************************************************/
+  $scope.logoutUser = function () {
 
+    Auth.logout();
+
+  };
+
+  /*********************************************************************************************************************
+   *
+   * The card selections for the game.
+   *
+   ********************************************************************************************************************/
   $scope.cardSelections = [
     {
       name : '0',
@@ -51,75 +65,39 @@ angular.module('playCtrl', ['gameService', 'authService'])
     },
     {
       name : '?',
-      value : 0
+      value : -1
     },
     {
       name : 'Break',
-      value : 0
+      value : -2
     }
   ];
 
   $scope.gameId     = $routeParams.gameId;
+  $scope.userId     = $window.localStorage.getItem('userId');
   $scope.playerName = '';
+  $scope.isAdmin    = false;
 
-  $scope.loadGame = function () {
+  /*********************************************************************************************************************
+   *
+   * Initialise the Game
+   *
+   ********************************************************************************************************************/
+  $scope.initialiseGame = function () {
 
-    $scope.userId = $window.localStorage.getItem('userId');
+    if (!$scope.game) {
 
-    Game.get($scope.userId, $scope.gameId, $scope.game).success(function(data) {
+      socket.emit('initialise game', {gameId : $scope.gameId});
 
-      if (data.success) {
-
-        $scope.gameData = data.game;
-        $scope.isAdmin  = Auth.isLoggedIn() && $scope.gameData.creator === $scope.userId;
-
-      } else {
-
-        $scope.error = data.message;
-
-      }
-
-    });
-
-    return false;
+    }
 
   };
 
-  /**
-   * Updates the game on the client.
-   */
-  $scope.updateGame = function () {
-
-    socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
-
-  };
-
-  /**
-   * Vote on current story.
-   */
-  $scope.vote = function ($event, data) {
-
-    var vote = {
-      playerName : $scope.playerName,
-      name       : data.name,
-      value      : data.value
-    };
-
-    var storyName = $scope.gameData.stories[$scope.game.currentStoryIndex].name;
-    $scope.game.stories[storyName].votes[$scope.playerName] = vote;
-
-    $scope.game.results.push(data.value);
-
-    $scope.updateGame();
-
-    $($event.currentTarget).addClass('magictime slideUp');
-
-  };
-
-
-  /**
+  /*********************************************************************************************************************
+   *
    * Allows the user to join the game.
-   */
+   *
+   ********************************************************************************************************************/
   $scope.join = function () {
 
     var playerName = $window.localStorage.getItem('playerName');
@@ -137,17 +115,16 @@ angular.module('playCtrl', ['gameService', 'authService'])
 
   };
 
-  /**
+  /*********************************************************************************************************************
+   *
    * Allows a new player to enter their Username and join game.
-   */
+   *
+   ********************************************************************************************************************/
   $scope.addPlayer = function () {
 
     var playerName = $('#player-name').val();
 
-    console.log("Player Name: " + playerName);
-
     $window.localStorage.setItem('playerName', playerName);
-
 
     $('#playerModal').modal('hide');
 
@@ -156,33 +133,129 @@ angular.module('playCtrl', ['gameService', 'authService'])
 
   };
 
-  /**
-   * Starts the game.
-   */
-  $scope.startGame = function () {
+  /*********************************************************************************************************************
+   *
+   * Check if user is the Administrator.
+   *
+   ********************************************************************************************************************/
+  $scope.adminAuthentication = function () {
 
-    socket.emit('start game');
+    socket.emit('admin authentication', { userId : $scope.userId, gameId : $scope.gameId });
 
   };
 
-  /**
+  /*********************************************************************************************************************
+   *
+   * Starts the game.
+   *
+   ********************************************************************************************************************/
+  $scope.startGame = function () {
+
+    socket.emit('start game', {gameId: $scope.gameId});
+
+  };
+
+  /*********************************************************************************************************************
+   *
+   * Updates the game on the client.
+   *
+   ********************************************************************************************************************/
+  $scope.updateGame = function () {
+
+    socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
+
+  };
+
+  /*********************************************************************************************************************
+   *
+   * Vote on current story.
+   *
+   ********************************************************************************************************************/
+  $scope.vote = function ($event, data) {
+
+    var vote = {
+      playerName : $scope.playerName,
+      name       : data.name,
+      value      : data.value
+    };
+
+    $scope.game.stories[$scope.game.currentStory].votes[$scope.playerName] = vote;
+    $scope.game.stories[$scope.game.currentStory].results.push(data.value);
+
+    var votes = Object.keys($scope.game.stories[$scope.game.currentStory].votes);
+
+    if ($scope.game.numOfPlayers === votes.length) {
+
+      $scope.flipCards();
+
+    }
+
+    $($event.currentTarget).addClass('magictime slideUp');
+
+    $scope.updateGame();
+
+  };
+
+  /*********************************************************************************************************************
    * Removes the player from the game.
    *
    * @param player
-   */
+   ********************************************************************************************************************/
   $scope.kickPlayer = function (player) {
 
-    console.log('Kick player :' + player.playerName + player.socketId);
     socket.emit('kick player', {socketId : player.socketId});
 
   };
 
+  /*********************************************************************************************************************
+   *
+   * Flip the cards.
+   *
+   ********************************************************************************************************************/
   $scope.flipCards = function () {
 
-    delete $scope.count;
     $scope.game.stories[$scope.game.currentStory].count = {};
 
-    $scope.game.results.forEach(function(i) {  $scope.game.stories[$scope.game.currentStory].count[i] = ( $scope.game.stories[$scope.game.currentStory].count[i]||0)+1;  });
+    var playerList = Object.keys($scope.game.players);
+
+    playerList.forEach( function (i) {
+
+      var vote = {
+        playerName : $scope.game.players[i].playerName,
+        name       : '?',
+        value      : -2
+      };
+
+      if (!$scope.game.stories[$scope.game.currentStory].votes[$scope.game.players[i].playerName]) {
+
+        $scope.game.stories[$scope.game.currentStory].votes[$scope.game.players[i].playerName] = vote;
+
+      }
+
+    });
+
+    // Remove negative numbers from results list.
+    var filteredResults = _.filter($scope.game.stories[$scope.game.currentStory].results, function(num) {
+      return num > 0;
+    });
+
+    if (filteredResults) {
+
+      // Count the occurrences of each vote.
+      $scope.game.stories[$scope.game.currentStory].count = _.countBy(filteredResults);
+
+      // Create the sorted results map.
+      $scope.game.stories[$scope.game.currentStory].chain = _.chain($scope.game.stories[$scope.game.currentStory].count).map(function (value, key) {
+
+        return {key : key, value : value}
+
+      }).sortBy('value')
+      .value()
+      .reverse();
+
+      $scope.game.stories[$scope.game.currentStory].finalResult = $scope.game.stories[$scope.game.currentStory].chain[0].key;
+
+    }
 
     $scope.game.results = [];
     $scope.game.stories[$scope.game.currentStory].flipped = true;
@@ -190,29 +263,61 @@ angular.module('playCtrl', ['gameService', 'authService'])
 
   };
 
+  /*********************************************************************************************************************
+   *
+   * Move to Previous Story.
+   *
+   ********************************************************************************************************************/
   $scope.previousStory = function () {
 
     $scope.game.currentStoryIndex--;
-    $scope.game.currentStory = $scope.gameData.stories[$scope.game.currentStoryIndex].name;
+    $scope.game.currentStory = Object.keys($scope.game.stories)[$scope.game.currentStoryIndex];
 
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
 
   };
 
+  /*********************************************************************************************************************
+   *
+   * Move to Next Story.
+   *
+   ********************************************************************************************************************/
   $scope.nextStory = function () {
 
     $scope.game.currentStoryIndex++;
-    $scope.game.currentStory = $scope.gameData.stories[$scope.game.currentStoryIndex].name;
+    $scope.game.currentStory = Object.keys($scope.game.stories)[$scope.game.currentStoryIndex];
 
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
 
   };
 
-  // Socket Events
-  socket.on('user joined', function (data) {
+  /*********************************************************************************************************************
+   *
+   * Replay the game.
+   *
+   ********************************************************************************************************************/
+  $scope.replay = function () {
 
-    var playerName = data.playerName;
-    console.log('user Joined : ' + playerName);
+    $scope.game.stories[$scope.game.currentStory].votes = {};
+    $scope.game.stories[$scope.game.currentStory].count = {};
+    $scope.game.stories[$scope.game.currentStory].results = [];
+    $scope.game.stories[$scope.game.currentStory].flipped = false;
+
+    socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
+
+  };
+
+  $scope.initialiseGame();
+  $scope.join();
+  $scope.adminAuthentication();
+
+  /*********************************************************************************************************************
+   *
+   * Socket Events
+   *
+   ********************************************************************************************************************/
+
+  socket.on('user joined', function (data) {
 
     $scope.game = data.game;
 
@@ -220,71 +325,56 @@ angular.module('playCtrl', ['gameService', 'authService'])
 
   socket.on('user left', function (data) {
 
-    var playerName = data.playerName;
-    console.log('user left : ' + playerName);
-
     $scope.game = data.game;
+
+  });
+
+  socket.on('isAdmin', function (data) {
+
+    $scope.isAdmin = data.isAdmin;
 
   });
 
   socket.on('game started', function (data) {
 
-    console.log('Game Started!');
-
     $scope.game = data.game;
-
-    for (var i =0; i < $scope.gameData.stories.length; i++) {
-
-      var story = $scope.gameData.stories[i];
-
-      $scope.game.stories[story.name] = {
-
-        name    : story.name,
-        value   : '',
-        link    : story.link,
-        votes   : {},
-        flipped : false,
-        count   : []
-
-      };
-
-    }
-
-    $scope.game.currentStory = $scope.gameData.stories[0].name;
-
-    var initialOffset = 440;
-    var duration      = 60 * 60;
-    var timer         = duration, minutes, seconds;
-
-    setInterval(function () {
-
-      minutes = parseInt(timer / 60, 10);
-      seconds = parseInt(timer % 60, 10);
-
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      $('.circle_animation').css('stroke-dashoffset', initialOffset-(timer*(initialOffset/duration)));
-
-      $('h2').text(minutes + ":" + seconds);
-
-      if (--timer < 0) {
-        timer = duration;
-      }
-
-    }, 1000);
 
   });
 
   socket.on('game updated', function (data) {
 
-    console.log('Game Updated!');
-
     $scope.game = data.game;
 
   });
 
-  $scope.loadGame();
-  $scope.join();
+  /*********************************************************************************************************************
+   *
+   * Timer
+   *
+   ********************************************************************************************************************/
+  //var initialOffset = 440;
+  //var duration      = 60 * $scope.game.duration;
+  //var timer         = duration, minutes, seconds;
+  //
+  //$scope.game.timer = timer;
+  //
+  //setInterval(function () {
+  //
+  //  minutes = parseInt($scope.game.timer / 60, 10);
+  //  seconds = parseInt($scope.game.timer % 60, 10);
+  //
+  //  minutes = minutes < 10 ? "0" + minutes : minutes;
+  //  seconds = seconds < 10 ? "0" + seconds : seconds;
+  //
+  //  $('.circle_animation').css('stroke-dashoffset', initialOffset-($scope.game.timer*(initialOffset/duration)));
+  //
+  //  $('h2').text(minutes + ":" + seconds);
+  //
+  //  if (--$scope.game.timer < 0) {
+  //    $scope.game.timer = duration;
+  //  }
+  //
+  //}, 1000);
+
 
 });

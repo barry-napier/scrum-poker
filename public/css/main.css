@@ -103,6 +103,9 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+html{
+  overflow-y: scroll;
+}
 
 body {
   background-color: #EEF2F5;
@@ -258,6 +261,7 @@ main div.container section {
   margin-top:20px;
   margin-bottom:20px;
   padding:20px;
+  height:auto;
 }
 
 main div.sub-header {
@@ -382,6 +386,7 @@ main div.results-section div.container div.row div div.timer {
   padding-top: 10px;
   padding-left: 10px;
   margin-bottom: 10px;
+  width: 350px;
 }
 
 main div.results-section div.container div.row div div.timer div.timer-heading {
@@ -395,6 +400,11 @@ main div.results-section div.container div.row div div.users {
   border: 1px solid #DCDCDC;
   padding: 10px;
   margin-bottom: 10px;
+  width: 350px;
+}
+
+main div.results-section div.container div.row div div.users table {
+  width: 327px;
 }
 
 main div.results-section div.container div.row div div.users div.user-heading {
@@ -418,6 +428,12 @@ main div.results-section div.container div.row div div.results {
   border: 1px solid #DCDCDC;
   padding: 10px;
   margin-bottom: 10px;
+  width: 350px;
+}
+
+
+main div.results-section div.container div.row div div.results table {
+  width: 327px;
 }
 
 main div.results-section div.container div.row div div.results div.results-heading {
@@ -541,7 +557,8 @@ table tbody tr td i.fa-times {
 .item {
   position: relative;
   float: left;
-  padding-left: 40px
+  padding-left: 40px;
+  text-align: center;
 }
 
 .item h2 {
