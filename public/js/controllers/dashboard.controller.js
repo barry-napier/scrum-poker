@@ -50,11 +50,11 @@ angular.module('dashboardCtrl', ['gameService', 'authService'])
 
     var storyList = '';
 
-    for (var i=0; i < stories.length; i++) {
+    for (story in stories) {
 
-      storyList += stories[i].name +
+      storyList += stories[story].name +
       ' - ' +
-      stories[i].link +
+      stories[story].link +
       '%0D%0A%0D%0A';
 
     }
