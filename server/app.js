@@ -33,7 +33,7 @@ io.on('connection', function (socket) {
 
         games[gameId] = savedGame;
 
-        var storyNames = Object.keys(games[gameId].stories).reverse();
+        storyNames = Object.keys(games[gameId].stories);
 
         games[gameId].currentStory = storyNames[games[gameId].currentStoryIndex];
 

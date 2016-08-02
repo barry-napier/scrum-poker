@@ -85,7 +85,7 @@
               <hr/>
             </div>
           </div>
-          <div class="row" ng-repeat="story in game.stories" ng-if="game.stories.length">
+          <div class="row" ng-repeat="story in game.stories" ng-if="game.stories">
             <div class="col-md-8">
               <a target="_blank" href="{{story.link}}">{{story.name}}</a>
               <a href="" ng-click="deleteStory($index)" class="pull-right">
@@ -95,12 +95,12 @@
               <hr style="border-top: 1px solid #eee;"/>
             </div>
           </div>
-          <div class="row" ng-if="!game.stories.length">
+          <div class="row" ng-if="!game.stories">
             <div class="col-md-8">
               You currently have no stories created. Please add a story by clicking "Add Story" above.
             </div>
           </div>
-          <br/><br/>
+          <br/>
           <button type="button" ng-click="createUpdateGame()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
             {{action}} Game
           </button>

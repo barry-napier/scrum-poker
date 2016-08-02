@@ -153,29 +153,34 @@
               Results
             </div>
             <br/>
-            <div>
-              The winner with <strong>{{game.stories[game.currentStory].chain[0].value}} votes</strong> is:
-            </div>
-            <div style="font-size: 60px; color: #76AB8C; font-weight: bolder; text-align: center">
-              {{game.stories[game.currentStory].chain[0].key}}
-            </div>
-            <div>
+            <div ng-show="game.stories[game.currentStory].chain">
+              <div>
+                The winner with <strong>{{game.stories[game.currentStory].chain[0].value}} votes</strong> is:
+              </div>
+              <div style="font-size: 60px; color: #76AB8C; font-weight: bolder; text-align: center">
+                {{game.stories[game.currentStory].chain[0].key}}
+              </div>
+              <div>
 
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Value</th>
-                  <th>Votes</th>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Vote</th>
+                    <th>Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="result in game.stories[game.currentStory].chain">
+                  <td>{{result.key}}</td>
+                  <td>{{result.value}}</td>
                 </tr>
-              </thead>
-              <tbody>
-              <tr ng-repeat="result in game.stories[game.currentStory].chain">
-                <td>{{result.key}}</td>
-                <td>{{result.value}}</td>
-              </tr>
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
+            <div ng-show="!game.stories[game.currentStory].chain">
+              No winner found.
+            </div>
           </div>
         </div>
       </div>

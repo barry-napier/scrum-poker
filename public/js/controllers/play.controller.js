@@ -228,7 +228,7 @@ angular.module('playCtrl', ['gameService', 'authService'])
       return num > 0;
     });
 
-    if (filteredResults) {
+    if (filteredResults.length) {
 
       // Count the occurrences of each vote.
       $scope.game.stories[$scope.game.currentStory].count = _.countBy(filteredResults);
@@ -260,7 +260,7 @@ angular.module('playCtrl', ['gameService', 'authService'])
   $scope.previousStory = function () {
 
     $scope.game.currentStoryIndex--;
-    $scope.game.currentStory = Object.keys($scope.game.stories).reverse()[$scope.game.currentStoryIndex];
+    $scope.game.currentStory = Object.keys($scope.game.stories)[$scope.game.currentStoryIndex];
 
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
 
@@ -274,7 +274,7 @@ angular.module('playCtrl', ['gameService', 'authService'])
   $scope.nextStory = function () {
 
     $scope.game.currentStoryIndex++;
-    $scope.game.currentStory = Object.keys($scope.game.stories).reverse()[$scope.game.currentStoryIndex];
+    $scope.game.currentStory = Object.keys($scope.game.stories)[$scope.game.currentStoryIndex];
 
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
 

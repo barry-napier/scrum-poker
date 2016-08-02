@@ -83,7 +83,7 @@ var GameController = function () {
 
         var story = self.createStory(stories[i]);
 
-        game.stories[story.name] = story;
+        game.stories[i] = story;
 
       }
 
