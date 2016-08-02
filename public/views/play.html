@@ -140,7 +140,7 @@
                   </td>
                   <td ng-if="isAdmin">
                     <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-sm">Nudge</button>
+                      <button type="button" class="btn btn-sm" ng-click="nudgePlayer(player)">Nudge</button>
                       <button type="button" class="btn btn-sm" ng-click="kickPlayer(player)">Kick</button>
                     </div>
                   </td>
@@ -217,24 +217,26 @@
 <!-- Player Name selection Modal -->
 <div class="modal fade" id="playerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" >
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">
-          Enter your Player Name
-        </h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" id="player-name" class="form-control" placeholder="Player Name">
+    <form>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Enter your Player Name
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Player Name</label>
+            <input type="text" id="player-name" class="form-control" placeholder="Player Name">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit"  ng-click="addPlayer()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
+            Add Player
+          </button>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button"  ng-click="addPlayer()" class="btn btn-lg btn-primary" style="background-color:#76AB8C; border-color:#76AB8C;">
-          Add Player
-        </button>
-      </div>
-    </div>
+    </form>
   </div>
 </div>
 

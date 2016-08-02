@@ -33,7 +33,9 @@ io.on('connection', function (socket) {
 
         games[gameId] = savedGame;
 
-        games[gameId].currentStory = Object.keys(games[gameId].stories)[games[gameId].currentStoryIndex];
+        var storyNames = Object.keys(games[gameId].stories).reverse();
+
+        games[gameId].currentStory = storyNames[games[gameId].currentStoryIndex];
 
         io.to(gameId).emit('game updated', {game: games[gameId]});
 
@@ -89,7 +91,7 @@ io.on('connection', function (socket) {
    */
   socket.on('disconnect', function () {
 
-    var gameId = socket.gameId;
+    console.log("disconnect: ", socket.id);
 
   });
 
@@ -118,11 +120,16 @@ io.on('connection', function (socket) {
 
   });
 
+  socket.on('nudge player', function (data) {
+
+    io.to(data.socketId).emit('nudged');
+
+  });
+
   socket.on('kick player', function (data) {
 
-    var userIdToBeKicked = data.socketId;
-
-    socket.clients[userIdToBeKicked].onDisconnect();
+    console.log('Kick : ' + data.socketId);
+    io.to(data.socketId).emit('kicked');
 
   });
 

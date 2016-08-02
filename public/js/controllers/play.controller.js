@@ -197,17 +197,6 @@ angular.module('playCtrl', ['gameService', 'authService'])
   };
 
   /*********************************************************************************************************************
-   * Removes the player from the game.
-   *
-   * @param player
-   ********************************************************************************************************************/
-  $scope.kickPlayer = function (player) {
-
-    socket.emit('kick player', {socketId : player.socketId});
-
-  };
-
-  /*********************************************************************************************************************
    *
    * Flip the cards.
    *
@@ -271,7 +260,7 @@ angular.module('playCtrl', ['gameService', 'authService'])
   $scope.previousStory = function () {
 
     $scope.game.currentStoryIndex--;
-    $scope.game.currentStory = Object.keys($scope.game.stories)[$scope.game.currentStoryIndex];
+    $scope.game.currentStory = Object.keys($scope.game.stories).reverse()[$scope.game.currentStoryIndex];
 
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
 
@@ -285,7 +274,7 @@ angular.module('playCtrl', ['gameService', 'authService'])
   $scope.nextStory = function () {
 
     $scope.game.currentStoryIndex++;
-    $scope.game.currentStory = Object.keys($scope.game.stories)[$scope.game.currentStoryIndex];
+    $scope.game.currentStory = Object.keys($scope.game.stories).reverse()[$scope.game.currentStoryIndex];
 
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
 
@@ -304,6 +293,41 @@ angular.module('playCtrl', ['gameService', 'authService'])
     $scope.game.stories[$scope.game.currentStory].flipped = false;
 
     socket.emit('update game', { gameId : $scope.gameId, game : $scope.game });
+
+  };
+
+  /*********************************************************************************************************************
+   * Nudges a player from the game.
+   *
+   * @param player
+   ********************************************************************************************************************/
+  $scope.nudgePlayer = function (player) {
+
+    socket.emit('nudge player', {socketId : player.socketId});
+
+  };
+
+  /*********************************************************************************************************************
+   * Kicks a player from the game.
+   *
+   * @param player
+   ********************************************************************************************************************/
+  $scope.kickPlayer = function (player) {
+
+    $scope.game.numOfPlayers--;
+    delete $scope.game.players[player.playerName];
+    delete $scope.game.stories[$scope.game.currentStory].votes[player.playerName];
+
+    socket.emit('kick player', {socketId : player.socketId});
+    $scope.updateGame();
+
+    var votes = Object.keys($scope.game.stories[$scope.game.currentStory].votes);
+
+    if ($scope.game.numOfPlayers === votes.length) {
+
+      $scope.flipCards();
+
+    }
 
   };
 
@@ -338,6 +362,35 @@ angular.module('playCtrl', ['gameService', 'authService'])
   socket.on('game started', function (data) {
 
     $scope.game = data.game;
+
+  });
+
+  socket.on('nudged', function () {
+
+    alert('You have been nudged by the game administrator!');
+    $.titleAlert("Nudged!", {
+      requireBlur:false,
+      stopOnFocus:false,
+      duration:10000,
+      interval:700
+    });
+
+  });
+
+  socket.on('kicked', function () {
+
+    alert('You have been kicked by the game administrator!');
+    $.titleAlert("Kicked!", {
+      requireBlur:false,
+      stopOnFocus:false,
+      duration:10000,
+      interval:700
+    });
+
+    $window.localStorage.removeItem('userId');
+    $window.localStorage.removeItem('playerName');
+
+    $location.path('/');
 
   });
 
