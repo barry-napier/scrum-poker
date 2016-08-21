@@ -110,7 +110,7 @@ html{
 body {
   background-color: #EEF2F5;
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   color: #4C4F5D;
 }
 
@@ -208,16 +208,16 @@ header {
   background-color: #5E809E;
   color: #AEBFCE;
   font-weight: bold;
-  height: 59px;
+  height: 49px;
 }
 
 header img.logo {
-  height: 42px;
+  height: 35px;
   margin-top: 7px;
 }
 
 header img.logo-text {
-  height: 30px;
+  height: 24px;
   margin-left: 10px;
   margin-top: 5px;
 }
@@ -269,7 +269,7 @@ main div.sub-header {
   background-color: #FFF;
   border-bottom: 1px solid #DCDCDC;
   color: #4C4F5D;
-  height: 50px;
+  height: 42px;
 }
 
 main div.sub-header div.container {}
@@ -277,15 +277,15 @@ main div.sub-header div.container {}
 main div.sub-header div.container div.row {}
 
 main div.sub-header div.container div.row div.story-count {
-  margin-top: 5px;
+  margin-top: 12px;
 }
 
 main div.sub-header div.container div.row div.story-heading {
-  margin-top: 15px;
+  margin-top: 12px;
 }
 
 main div.sub-header div.container div.row div.start-story {
-  margin-top: 7px;
+  margin-top: 5px;
 }
 
 main div.sub-header div.container div.row div.start-story button.green {
@@ -401,16 +401,16 @@ main div.results-section div.container div.row div div.users {
   border: 1px solid #DCDCDC;
   padding: 10px;
   margin-bottom: 10px;
-  width: 350px;
+  width: 290px;
 }
 
 main div.results-section div.container div.row div div.users table {
-  width: 327px;
+  width: 269px;
 }
 
 main div.results-section div.container div.row div div.users div.user-heading {
   color: #7C8197;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: bold;
 }
 
@@ -516,6 +516,13 @@ footer {
   width:100%;
 }
 
+.btn {
+  font-size: 12px;
+}
+
+h3 {
+  font-size:16px;
+}
 
 /* ==========================================================================
    Helper classes
