@@ -60,7 +60,7 @@ angular.module('dashboardCtrl', ['gameService', 'authService'])
     }
 
     $scope.mailto = 'mailto:?' +
-    'subject=Scrum-Poker Game Invite' +
+    'subject=Scrum-Poker Game Invite - ' + $scope.games[gameId].name +
     '&body=Hi,%0D%0A%0D%0AHere are the stories we will be reviewing:%0D%0A%0D%0A' +
     storyList +
     'Thanks' +
