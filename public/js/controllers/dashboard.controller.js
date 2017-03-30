@@ -42,7 +42,7 @@ angular.module('dashboardCtrl', ['gameService', 'authService'])
   /**
    * Invite team members to game
    */
-  $scope.inviteTeam = function (gameId, stories) {
+  $scope.inviteTeam = function (gameId, stories, gameName) {
 
     var url = '/#/games/' + gameId;
 
@@ -59,8 +59,10 @@ angular.module('dashboardCtrl', ['gameService', 'authService'])
 
     }
 
+    var subject = 'Scrum-Poker Game Invite - ' + gameName;
+
     $scope.mailto = 'mailto:?' +
-    'subject=Scrum-Poker Game Invite - ' + $scope.games[gameId].name +
+    'subject=' + subject +
     '&body=Hi,%0D%0A%0D%0AHere are the stories we will be reviewing:%0D%0A%0D%0A' +
     storyList +
     'Thanks' +
